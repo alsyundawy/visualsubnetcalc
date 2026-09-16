@@ -10,6 +10,8 @@
 
 > **An interactive, accessible, visual IPv4 CIDR subnet planning engine for network engineers, cloud architects, and DevOps professionals.**
 > Optimized and maintained by **[@alsyundawy](https://github.com/alsyundawy)** — Built upon foundational work by **[@ckabalan](https://github.com/ckabalan)**, **[@bl4ckfir3](https://github.com/bl4ckfir3)**, and **[@davidc](https://github.com/davidc)**.
+>
+> 📖 **[Architecture & Integration Notes (DOCNOTE.md)](DOCNOTE.md)** &nbsp;|&nbsp; 📜 **[Full Release Changelog (CHANGELOG.md)](CHANGELOG.md)** &nbsp;|&nbsp; 🚀 **[Releases](https://github.com/alsyundawy/visualsubnetcalc/releases)**
 
 ---
 
@@ -21,6 +23,8 @@
 - [🛠️ Getting Started & Local Development](#️-getting-started--local-development)
 - [🐳 Running in Docker](#-running-in-docker)
 - [📊 Quality Assurance & Verification Gates](#-quality-assurance--verification-gates)
+- [📚 Documentation & Engineering Notes](#-documentation--engineering-notes)
+- [📜 Version History & Changelog](#-version-history--changelog)
 - [🤝 Credits & Original Authors](#-credits--original-authors)
 - [📄 License](#-license)
 
@@ -35,6 +39,8 @@ Visual Subnet Calculator eliminates academic subnet math and replaces it with in
 ---
 
 ## 🌟 Why This Modernized Edition?
+
+> 💡 _For deep architectural blueprints, dependency SRI hashes, and ecosystem integration details, see [DOCNOTE.md](DOCNOTE.md). For granular version-by-version release history, see [CHANGELOG.md](CHANGELOG.md)._
 
 This edition (**v1.4.1+**) represents a complete architectural, security, accessibility, and visual overhaul of the project:
 
@@ -186,6 +192,50 @@ Every release of this modernized edition undergoes rigorous verification across 
 | **Browser E2E Testing**    | [Playwright](https://playwright.dev) | Chromium & Firefox end-to-end user workflows              | **PASSED (36/36 tests)**                   |
 | **Security Scanning**      | GitHub CodeQL                        | DOM XSS and source-to-sink vulnerability analysis         | **PASSED (0 alerts)**                      |
 | **IaC & Container Policy** | `checkov` & `hadolint`               | Dockerfile & AWS CloudFormation best practices            | **PASSED (CIS & Best Practice Compliant)** |
+
+---
+
+## 📚 Documentation & Engineering Notes
+
+Comprehensive technical documentation, architectural specifications, security considerations, and ecosystem integration guides are maintained in **[DOCNOTE.md](DOCNOTE.md)**. Key topics covered include:
+
+- **Core Architecture Layers**: Detailed breakdown of Structure (`dist/index.html`), Presentation (`dist/css/main.css`), Logic (`dist/js/main.js`), and vendor-specific Cloud Subnet Profiles.
+- **Dependency Matrix & SRI Cryptographic Hashes**: Full verification table detailing Subresource Integrity SHA384 hashes for Bootstrap 5.3.8, jQuery 3.7.1, jQuery Validate 1.21.0, and vendored LZ-String 1.5.0.
+- **Upstream Evolution Lineage**: Technical chronology comparing the architecture across three generational eras:
+  1. _Upstream Base (`davidc/subnets`)_: Original Perl CGI and static nested table splitting concept.
+  2. _Upstream Modernization (`ckabalan/visualsubnetcalc`)_: Initial client-side rewrite in jQuery and Bootstrap with URL sharing and cloud modes.
+  3. _ALSYUNDAWY Production Edition (`alsyundawy/visualsubnetcalc`)_: Zero-defect security hardening, CodeQL XSS remediation, WCAG 2.2 AA accessibility, responsive scaling (VGA to 2K), SEO structured data, and release engineering.
+- **ALSYUNDAWY Infrastructure Integration**: Architectural documentation of how Visual Subnet Calculator serves as the foundational IP planning engine for adjacent production systems:
+  - **Netplan Generator**: Translating calculated subnets and gateways into Linux network interface configurations.
+  - **Network Diagnostics**: Correlating routing anomalies and hop boundaries across Ping, Traceroute, and MTR.
+  - **DNS Zone Configuration**: Exact CIDR boundaries for forward and reverse (`in-addr.arpa`) PTR zone records.
+  - **Security Discovery & Audit**: Defining precise target scopes for Nmap scans, IPERF3 throughput benchmarking, and TrustPositif/WHOIS compliance.
+  - **Zero-Trust Access Control**: Enforcing subnet-level IP access control lists (ACLs) and reverse proxy routing policies across Nginx and HAProxy.
+- **Security & Privacy Model**: Pure client-side execution guarantees, zero data leakage, and strict Content Security Policy (CSP) guidelines.
+
+👉 **Read the complete technical specification**: **[DOCNOTE.md](DOCNOTE.md)**
+
+---
+
+## 📜 Version History & Changelog
+
+Every notable release, security remediation, accessibility improvement, and framework upgrade is documented in **[CHANGELOG.md](CHANGELOG.md)** following the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+### Recent Release Highlights
+
+- **[v1.4.1 (Latest Release)](CHANGELOG.md#141---2026-09-16)**:
+  - 🛡️ **Security**: CodeQL Alert #5 (`js/xss-through-dom`) remediated via `.text()` text node insertion in boundary warning modal; context-aware HTML entity sanitization (`escapeHtml()`) across URL decoders and JSON imports.
+  - ♿ **Accessibility**: WCAG 2.2 Level AA compliance; unique `id` and `name` attributes across all form inputs for browser autofill; WCAG H32 `<button type="submit">` form trigger; screen-reader `<caption class="visually-hidden">` and semantic `<th scope="col">` column headers; full keyboard color palette navigation.
+  - 📱 **Responsive Design**: Modular CSS media queries scaling from VGA (640×480), mobile devices, and tablets up to 2K / Ultrawide displays (2560px).
+  - 🔍 **SEO & Web Standards**: Schema.org JSON-LD `WebApplication` structured data, Open Graph card definitions, and 100% `html-validate` compliance.
+  - ⚡ **Dependencies**: Upgraded to Bootstrap 5.3.8 (SRI verified) and Playwright 1.63.0 E2E testing framework.
+- **[v1.4.0](CHANGELOG.md#140---2026-09-15)**:
+  - ☁️ Multi-cloud usable IP calculations for AWS VPC, Azure VNet, and Oracle Cloud Infrastructure (OCI).
+  - 🔗 Compressed URL sharing with LZ-String state encoding; JSON configuration import/export.
+- **v1.3.x & Earlier**:
+  - Foundational visual subnetting table tree, interactive split/join engine, and Docker containerization.
+
+👉 **Browse the full release changelog**: **[CHANGELOG.md](CHANGELOG.md)**
 
 ---
 

@@ -1,0 +1,14 @@
+self-hosted-runner:
+  labels: []
+
+config-variables:
+  - DEPLOY_URL
+  - AWS_DEPLOY_REGION
+  - AWS_DEPLOY_ROLE_ARN
+  - AWS_DEPLOY_S3_BUCKET_NAME
+  - AWS_DEPLOY_CLOUDFRONT_DISTRIBUTION_ID
+
+paths:
+  .github/workflows/**/*.yml:
+    ignore:
+      - 'Context access might be invalid'

@@ -1,6 +1,6 @@
 # Documentation Notes
 
-Technical architecture, security specifications, and operational integration notes for Visual Subnet Calculator v1.4.2.
+Technical architecture, security specifications, and operational integration notes for Visual Subnet Calculator v1.4.3.
 
 ## Architecture Overview
 
@@ -11,7 +11,7 @@ Visual Subnet Calculator is a client-side visual IP subnet design and calculatio
 - Structure (`dist/index.html`): Semantic HTML5 markup structured with Bootstrap 5.3.8 grid layout, accessible segmented version switcher toolbar (`#ip_version_toolbar`), responsive table containers, accessible modal dialogs, and ARIA annotations conforming to WCAG 2.2 Level AA. Completely free of inline style attributes (`style="..."`).
 - Presentation (`dist/css/main.css`): Modern CSS utilizing custom scoped rules, responsive media queries spanning VGA (640x480) up to 2K (2560x1440), accessible `:focus-visible` focus rings, Safari `-webkit-user-select` prefixing, scoped IPv6 layout modes (`#calc.ipv6-mode`), and zero global selector leakage.
 - Logic (`dist/js/main.js`): Pure vanilla JavaScript with jQuery 3.7.1 DOM utilities and Bootstrap 5.3.8 components, implementing dual-stack 32-bit bitwise (IPv4) and native 128-bit `BigInt` bitwise (IPv6) mathematics, hierarchical subnet tree recursion, LZ-String state serialization, and context-aware XSS sanitization.
-- Cloud Profiles: Built-in vendor presets adapting usable IP calculations to standard RFC 1918/RFC 4632 rules or cloud-reserved allocations (AWS reserves 5 addresses, Azure reserves 5 addresses, OCI reserves 3 addresses).
+- Cloud Profiles: Built-in vendor presets adapting usable IP calculations to standard RFC 1918/RFC 4632 rules or cloud-reserved allocations (AWS reserves 5 addresses, Azure reserves 5 addresses, GCP reserves 4 addresses, OCI reserves 3 addresses).
 
 ## Dual-Stack IPv4 & IPv6 Subnetting Engine
 
@@ -100,28 +100,86 @@ According to RFC 4291 Section 2.5.4 and RFC 7421, all standard IPv6 unicast subn
 
 ### 3. ALSYUNDAWY Production Fork (`alsyundawy/visualsubnetcalc`)
 
-- **Dual-Stack IPv4/IPv6 Support (v1.4.2)**: Integrated interactive segmented switcher with 128-bit `BigInt` bitwise math, RFC 5952 canonical formatting, preset toolbar (/32, /48, /56, /60, /64, /127, /128), RFC 6164 point-to-point links, and RFC 7421 SLAAC protection.
-- **Interactive FAQ Accordion Architecture**: Overhauled the static in-app FAQ into an interactive, accessible Bootstrap Accordion (`#faqAccordion`) detailing 10 core architectural modules (Dual-Stack, Cloud profiles comparison matrix, BigInt precision, Split/Join mechanics, LZ-String state serialization, privacy & offline reliability). Features one-click Expand/Collapse All controls (`#faq_expand_all`, `#faq_collapse_all`) powered by Bootstrap Collapse API.
-- **Font Awesome Free v7 Iconography**: Modernized the entire interface icon ecosystem with Font Awesome Free v7.3.1 (`@fortawesome/fontawesome-free`), providing razor-sharp, accessible vector glyphs across headers, toolbars, color palettes, modal headers, and footer.
-- **Sticky Flexbox Maintainer Footer**: Built an elegant sticky footer (`#app_footer`) utilizing modern CSS flexbox layout (`min-height: 100dvh`, `margin-top: auto`), ensuring permanent anchoring at the viewport bottom across short pages and 404 views. Features official maintainer branding for HARRY DERTIN SUTISNA (`@alsyundawy`) and ALSYUNDAWY IT SOLUTION (`https://alsyundawy.com`), quick contact channels (X and Telegram), and PayPal sponsorship.
-- **Header Iconography**: Added official Font Awesome `fa-network-wired` brand mark to the main `<h1>` title "Visual Subnet Calculator".
-- **Framework & Library Modernization**: Upgraded to Bootstrap 5.3.8 and jQuery 3.7.1 with validated SRI hashes and zero external insecure dependencies.
-- **Accessibility Hardening (WCAG 2.2 AA)**: Semantic table captions (`.visually-hidden`), keyboard-navigable color palette swatches with `role="button"` and `tabindex="0"`, semantic `<th scope="col">` column headers, and screen reader-friendly modal descriptions.
-- **Security Hardening**: Context-aware HTML escaping (`escapeHtml()`) on dynamic note rendering to mitigate stored and reflected Cross-Site Scripting (XSS) via maliciously crafted shared URLs.
-- **CSS Scoping Resolution**: Elimination of global selector pollution (`#calc .note label, input`) and eradication of all inline `style="..."` attributes in HTML markup.
-- **Modal Lifecycle Stabilization**: Migration from raw `new bootstrap.Modal()` instantiations to `bootstrap.Modal.getOrCreateInstance()` to eradicate backdrop deadlocks and transition race conditions.
-- **Strict Linter and CI/CD Compliance**: End-to-end repository adherence to Trunk, MegaLinter, Prettier, Markdownlint, and automated Playwright browser test coverage across Chromium and Firefox engines (114 passing automated tests).
-- **Form Field Autofill & Standard Compliance**: All form fields (`#network`, `#netsize`, `#importExportArea`, and every dynamic `#note_*` element) possess unique `id` and `name` attributes with explicit label associations, meeting HTML autofill and WCAG accessibility standards.
-- **Cross-Browser Standards & Compatibility**: Removed deprecated `-webkit-overflow-scrolling` properties and non-standard HTML meta tags (`theme-color`), consolidating PWA theme attributes within `site.webmanifest` for flawless rendering across Firefox, Safari, Chrome, Edge, and Opera.
-- **Multi-Resolution Responsive Scaling**: Comprehensive CSS token system with responsive breakpoints covering mobile portrait/landscape, tablets, MacBooks, desktops, and 2K displays (VGA 640x480 to 2560x1440).
+#### v1.4.3 (Latest Release Architecture) — 2026-09-17
 
-## Multi-Format Import & Export Engine (v1.4.2)
+- **Google Cloud (GCP) Reservation Mode**: Added native GCP VPC cloud reservation profile reserving 4 addresses per subnet (`network + 0` Network ID, `network + 1` Default Gateway, `broadcast - 1` future use, `broadcast - 0` Broadcast) with an enforced `/29` minimum subnet size boundary, achieving complete hyperscaler parity across AWS, Azure, GCP, and OCI.
+- **Hierarchical IPv6 Tier Progression & Safety Bounds**: Refined and optimized `getNextIpv6Tier()` and `splitIpv6Network()` with strictly safe $O(1)$ memory usage, nibble-boundary splitting (+4 bits), SLAAC `/64` leaf boundary protection (RFC 4291 / RFC 7421), and point-to-point sub-delegation tiers (`/112 -> /120 -> /124 -> /127 -> /128`).
+- **IPv6 Capacity Arithmetic Bugfix**: Corrected the quadrillion (Q) unit divisor in `getIpv6Capacity()` from $10^{18}$ (quintillion) to the correct $10^{15}$ (quadrillion), restoring accurate large-block capacity display for `/0` through `/16` prefixes.
+- **CSS Injection Hardening**: Dynamically generated `style="background-color: ..."` attributes on subnet table rows are validated by `sanitizeColor()` using a CSS Color Level 4 compliant whitelist regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Non-standard lengths (5 or 7 hex digits) and CSS injection strings are blocked and never interpolated into DOM attributes.
+- **Type-Safe Sanitization**: Hardened `escapeHtml()` to return an empty string (`''`) on non-string inputs, preventing `undefined` or object stringification leaks into the DOM.
+- **Automated Test Suite Expansion**: Expanded Playwright E2E test suite to 118 passing tests across Chromium and Firefox engines with modal lifecycle synchronization and touch event support.
+
+#### v1.4.2 — 2026-09-16
+
+- **Dual-Stack IPv4/IPv6 Support**: Integrated interactive segmented switcher with 128-bit `BigInt` bitwise math, RFC 5952 canonical formatting, preset toolbar (/32, /48, /56, /60, /64, /127, /128), RFC 6164 point-to-point links, and RFC 7421 SLAAC protection.
+- **Interactive FAQ Accordion Architecture**: Overhauled the static in-app FAQ into an interactive, accessible Bootstrap Accordion (`#faqAccordion`) detailing 10 core architectural modules (Dual-Stack, Cloud profiles comparison matrix, BigInt precision, Split/Join mechanics, LZ-String state serialization, privacy & offline reliability). Features one-click Expand/Collapse All controls (`#faq_expand_all`, `#faq_collapse_all`) powered by Bootstrap Collapse API.
+- **Multi-Format Import & Export Engine**: Full data interchange supporting RFC 4180 CSV spreadsheets, aligned Plain Text ASCII tables, and hierarchical JSON configurations with 1-click format switcher buttons (`#btn_format_json`, `#btn_format_csv`, `#btn_format_txt`), in-memory `Blob` direct download (`#btn_download_export`), and local file upload (`#btn_upload_file`).
+- **$O(1)$ Constant-Time Bitwise Mask Optimization**: Foundational IPv4 network calculation `get_network()` optimized from an iterative loop to a constant-time bitwise mask (`(0xffffffff << (32 - netSize)) >>> 0`).
+- **Interactive IPv4 Preset Toolbar**: 17 one-click CIDR presets from `/16` up to `/32` with bidirectional real-time synchronization with `#netsize`.
+- **Font Awesome Free v7 Iconography**: Modernized the entire interface icon ecosystem with Font Awesome Free v7.3.1 (`@fortawesome/fontawesome-free`), providing razor-sharp, accessible vector glyphs across headers, toolbars, color palettes, modal headers, and footer.
+- **Sticky Flexbox Maintainer Footer**: Built an elegant sticky footer (`#app_footer`) utilizing modern CSS flexbox layout (`min-height: 100dvh`, `margin-top: auto`), ensuring permanent anchoring at the viewport bottom across short pages and 404 views.
+- **Header Iconography**: Added official Font Awesome `fa-network-wired` brand mark to the main `<h1>` title "Visual Subnet Calculator".
+
+#### v1.4.1 — 2026-09-16
+
+- **CodeQL Alert #5 Remediation (DOM XSS)**: Isolated network boundary correction into a dedicated `show_boundary_warning_modal()` function utilizing safe `.text()` node bindings, eliminating DOM value taint propagation into jQuery `.html()` sinks.
+- **WCAG 2.2 AA Accessibility Compliance**: Semantic table captions (`.visually-hidden`), keyboard-navigable color palette swatches with `role="button"` and `tabindex="0"`, semantic `<th scope="col">` column headers, and form action button `#btn_go` set to `type="submit"` with default prevention.
+- **Universal Multi-Resolution Responsive Design**: Modular CSS media queries scaling from VGA (640×480), mobile devices, and tablets up to 2K / Ultrawide displays (2560px).
+- **SEO & Web Standards**: Schema.org JSON-LD `WebApplication` structured data, canonical tags, Open Graph cards, Twitter Cards, and 100% `html-validate` compliance.
+- **Dependency Modernization**: Upgraded Bootstrap to `5.3.8` (SRI verified) and Playwright to `1.63.0`.
+
+#### v1.4.0 — 2026-09-15
+
+- **Multi-Cloud Usable IP Calculations**: Introduced dedicated calculation profiles for AWS VPC, Azure VNet, and Oracle Cloud Infrastructure (OCI), adjusting host ranges according to vendor IP reservations.
+- **Compressed URL Sharing**: Integrated LZ-String compression for serializing complex subnet tree state into compact query parameters (`?c=...`).
+- **Subnet Split & Join Engine**: Interactive client-side binary tree partitioning and merging.
+- **JSON Configuration Interchange**: Basic JSON configuration import and export workflows.
+
+### 4. Node.js Runtime Specifications & System Requirements
+
+Visual Subnet Calculator's build tools, testing framework, and local servers adhere to the following runtime matrix:
+
+- **Minimum Supported Version**: **Node.js `v18.0.0+ LTS`** (Hydrogen)
+  - _Technical Rationale_: The baseline LTS release providing stable native ECMAScript Modules (ESM), lossless 128-bit `BigInt` bitwise arithmetic, Web Crypto API (`crypto.getRandomValues`), and native Fetch API without external polyfills.
+- **Optimal / Recommended Version**: **Node.js `v20.x` / `v22.x Active LTS`** (Iron / Jod)
+  - _Technical Rationale_: Features cutting-edge V8 JIT compiler optimizations, fastest Playwright headless browser test execution, streamlined memory consumption during asset compilation, and long-term enterprise maintenance alignment.
+- **Package Manager**: **npm `10.x+`** (compatible with pnpm `9.x+` and yarn `4.x+`).
+
+### 5. Cloud Subnet Notes & Hyperscaler Reservation Matrix
+
+| Cloud Profile          | Smallest Subnet |     Reserved IPs     | Reserved IP Roles Breakdown                                                                 | Reference Documentation                                                                                                                                                         |
+| :--------------------- | :-------------: | :------------------: | :------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Standard**           |      `/32`      | **2** _(size ≤ /30)_ | Network Address (`.0`), Broadcast Address (`.last`)                                         | [`RFC 1918`](https://datatracker.ietf.org/doc/html/rfc1918) / [`RFC 4632`](https://datatracker.ietf.org/doc/html/rfc4632)                                                       |
+| **AWS VPC**            |      `/28`      |        **5**         | Network (`.0`), VPC Router (`.1`), VPC DNS (`.2`), Future Use (`.3`), Broadcast (`.last`)   | [`AWS VPC Subnet Sizing`](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)                                                                                  |
+| **Azure VNet**         |      `/29`      |        **5**         | Network (`.0`), Default Gateway (`.1`), Azure DNS Mapping (`.2`, `.3`), Broadcast (`.last`) | [`Azure VNet Restrictions`](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets) |
+| **Google Cloud (GCP)** |      `/29`      |        **4**         | Network (`.0`), Default Gateway (`.1`), Future Use (`.last - 1`), Broadcast (`.last`)       | [`Google Cloud VPC Subnets`](https://cloud.google.com/vpc/docs/subnets#reserved_ip_addresses_in_ipv4_subnets)                                                                   |
+| **Oracle Cloud (OCI)** |      `/30`      |        **3**         | Network (`.0`), Default Gateway (`.1`), Broadcast (`.last`)                                 | [`OCI Reserved IP Addresses`](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)                                               |
+
+- **Standard RFC 1918**: Reserves base `network + 0` and `broadcast` (`last_address`) for subnets $\le /30$. Usable range is `network + 1` to `last_address - 1`.
+- **AWS VPC**: Enforces minimum size `/28`. Reserves 5 addresses: `network + 0` (Network), `network + 1` (VPC Router), `network + 2` (VPC DNS), `network + 3` (Future Use), and `last_address` (Broadcast). Usable range is `network + 4` to `last_address - 1`.
+- **Azure VNet**: Enforces minimum size `/29`. Reserves 5 addresses: `network + 0` (Network), `network + 1` (Default Gateway), `network + 2` and `network + 3` (Azure DNS mappings), and `last_address` (Broadcast). Usable range is `network + 4` to `last_address - 1`.
+- **Google Cloud (GCP) VPC**: Enforces minimum size `/29`. Reserves 4 addresses: `network + 0` (Network), `network + 1` (Default Gateway), `last_address - 1` (Future Use reserved by Google), and `last_address` (Broadcast). Usable range is `network + 2` to `last_address - 2`.
+- **Oracle Cloud (OCI)**: Enforces minimum size `/30`. Reserves 3 addresses: `network + 0` (Network), `network + 1` (Default Gateway), and `last_address` (Broadcast). Usable range is `network + 2` to `last_address - 1`.
+
+### 6. Support, Sponsorship & QRIS Donation Integration
+
+Visual Subnet Calculator provides integrated, multi-channel sponsorship options across international and regional gateways:
+
+- **PayPal International**: [`https://www.paypal.me/alsyundawy`](https://www.paypal.me/alsyundawy)
+- **QRIS (Quick Response Code Indonesian Standard)**:
+  - Barcode Asset: `https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df`
+  - NMID: `ID1020021153676`
+  - Merchant Name: `ALSYUNDAWY`
+  - Compatibility: Compatible with all Indonesian mobile banking applications (BCA, Mandiri, BRI, BNI, BSI, CIMB Niaga, Permata) and e-wallets (GoPay, OVO, DANA, LinkAja, ShopeePay).
+  - WhatsApp Confirmation: [`https://wa.me/6285658515212`](https://wa.me/6285658515212) (`+62 856-5851-5212`)
+
+## Multi-Format Import & Export Engine (v1.4.2 – v1.4.3)
 
 Visual Subnet Calculator v1.4.2 introduces a comprehensive multi-format data interchange system accessible via `#importExportModal`, supporting RFC 4180-compliant CSV spreadsheets, human-readable Plain Text tables, and hierarchical JSON configurations:
 
 ### 1. Export Formats
 
-- **JSON (`exportConfig`)**: Serializes full hierarchical tree state including base network, operating mode (`Standard`, `AWS`, `Azure`, `OCI`), active IP version (`IPv4`, `IPv6`), custom notes (`_note`), and color swatch mappings (`_color`).
+- **JSON (`exportConfig`)**: Serializes full hierarchical tree state including base network, operating mode (`Standard`, `AWS`, `Azure`, `GCP`, `OCI`), active IP version (`IPv4`, `IPv6`), custom notes (`_note`), and color swatch mappings (`_color`).
 - **CSV (`exportCsv`)**: Emits RFC 4180-compliant comma-separated values with headers: `"Subnet Address","Range of Addresses","Usable IPs","Hosts","Note","Color"`. Proper quotation and double-quote escaping (`""`) ensure compatibility with Microsoft Excel, LibreOffice Calc, and Google Sheets.
 - **Plain Text (`exportPlainText`)**: Emits dynamically column-padded, aligned ASCII text tables with metadata comments (`# Visual Subnet Calculator Export`), making network plans easy to paste into documentation, Git pull requests, or terminal consoles.
 
@@ -153,7 +211,7 @@ Visual Subnet Calculator serves as the foundational IP planning engine within th
 - **TrustPositif Checker and WHOIS**: Public IP blocks, IPv6 prefix allocations, and ASN allocations are cross-referenced with internal subnetting plans to maintain regulatory compliance and verify edge routing.
 - **SSL/TLS and System Security**: IP access control lists (ACLs) and reverse proxy upstream configurations (Nginx/HAProxy) depend on verified CIDR network boundaries to enforce zero-trust isolation.
 
-## Performance Engineering & Modernization (v1.4.2)
+## Performance Engineering & Modernization (v1.4.2 – v1.4.3)
 
 - **Constant-Time Bitwise Masking ($O(1)$)**: The foundational IPv4 network address calculation routine `get_network(networkInput, netSize)` was optimized from an iterative loop down to an instant constant-time bitwise mask operation:
   ```javascript
@@ -168,5 +226,6 @@ Visual Subnet Calculator serves as the foundational IP planning engine within th
 - **Client-Side Isolation**: All calculations occur entirely in the browser runtime. No user data, IP schemas, or notes are transmitted to any backend server.
 - **XSS Prevention**: All dynamic text values inserted into the DOM (including note contents loaded from imported configurations or shared URLs) are strictly sanitized using character entity encoding before string interpolation.
 - **DOM XSS Prevention (CodeQL Alert #5)**: Boundary correction inputs from the DOM are strictly isolated in a dedicated `show_boundary_warning_modal()` function utilizing safe `.text()` node bindings, preventing DOM values from flowing into `.html()` or `innerHTML` interpretation sinks.
+- **CSS Injection Prevention (v1.4.3)**: Dynamically generated `style="background-color: ..."` attributes on subnet table rows are validated by `sanitizeColor()` using a CSS Color Level 4 compliant whitelist regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Only valid hex formats are permitted; 5- and 7-character invalid lengths are explicitly blocked. Invalid values are returned as empty string and never interpolated into DOM attributes — stronger than `escapeHtml()` in CSS attribute contexts because it prevents `url()`, `expression()`, and `\` escape injection patterns.
 - **Form Accessibility & Compliance**: Hidden file inputs (`#importFileInput`) are paired with dedicated semantic labels (`<label for="importFileInput" class="visually-hidden">`) and title attributes, satisfying both WCAG 2.2 AA screen-reader standards and HTML linter rules without redundant ARIA attributes.
 - **Content Security Policy (CSP)**: The application requires no external script origins beyond local distribution assets, allowing strict `script-src 'self'` policy enforcement in production reverse proxies.

@@ -1,6 +1,6 @@
 {
   "name": "visualsubnetcalc",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.3.1",
     "bootstrap": "^5.3.8",

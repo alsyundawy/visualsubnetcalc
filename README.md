@@ -1,42 +1,42 @@
 # Visual Subnet Calculator — Modernized & Hardened Edition
 
-[![Release](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.2)
+[![Release](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.3)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![CodeQL Security](https://img.shields.io/badge/CodeQL-0%20Alerts%20%7C%20Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/alsyundawy/visualsubnetcalc/security/code-scanning)
 [![Trunk Linters](https://img.shields.io/badge/Trunk%20Check-14%20Linters%20Clean-brightgreen?style=for-the-badge&logo=checkmarx)](https://trunk.io)
 [![WCAG](https://img.shields.io/badge/WCAG%202.2-Level%20AA%20Compliant-blue?style=for-the-badge&logo=w3c)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![Tests](https://img.shields.io/badge/Playwright%20E2E-114%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
+[![Tests](https://img.shields.io/badge/Playwright%20E2E-118%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Responsive](https://img.shields.io/badge/Responsive-VGA%20to%202K-purple?style=for-the-badge)](https://github.com/alsyundawy/visualsubnetcalc)
 [![Donate PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
 
 > **An interactive, accessible, visual IPv4 & IPv6 CIDR subnet planning engine for network engineers, cloud architects, and DevOps professionals.**
-> Optimized and maintained by **[HARRY DERTIN SUTISNA (@alsyundawy)](https://github.com/alsyundawy)** — Built upon foundational work by **[@ckabalan](https://github.com/ckabalan)**, **[@bl4ckfir3](https://github.com/bl4ckfir3)**, and **[@davidc](https://github.com/davidc)**.
+> Optimized and maintained by **[`HARRY DERTIN SUTISNA (@alsyundawy)`](https://github.com/alsyundawy)** — Built upon foundational work by **[`@ckabalan`](https://github.com/ckabalan)**, **[`@bl4ckfir3`](https://github.com/bl4ckfir3)**, and **[`@davidc`](https://github.com/davidc)**.
 >
-> 📖 **[Architecture & Integration Notes (DOCNOTE.md)](DOCNOTE.md)** &nbsp;|&nbsp; 📜 **[Full Release Changelog (CHANGELOG.md)](CHANGELOG.md)** &nbsp;|&nbsp; 💖 **[Support via PayPal](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[Releases](https://github.com/alsyundawy/visualsubnetcalc/releases)**
+> 📖 **[`Architecture & Integration Notes (DOCNOTE.md)`](DOCNOTE.md)** &nbsp;|&nbsp; 📜 **[`Full Release Changelog (CHANGELOG.md)`](CHANGELOG.md)** &nbsp;|&nbsp; 💖 **[`Support via PayPal`](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[`Releases`](https://github.com/alsyundawy/visualsubnetcalc/releases)**
 
 ---
 
 ## 🧭 Navigation
 
-- [📸 Interactive Preview](#-interactive-preview)
-- [🌟 Why This Modernized Edition?](#-why-this-modernized-edition)
-- [✨ Key Features](#-key-features)
-- [🌐 IPv6 Architecture & Allocation Tiers](#-ipv6-architecture--allocation-tiers)
-- [☁️ Cloud Provider Subnet Profiles](#️-cloud-provider-subnet-profiles)
-- [📦 Multi-Format Import & Export (JSON, CSV, Plain Text)](#-multi-format-import--export-json-csv-plain-text)
-- [🚀 Deployment & Installation Guide](#-deployment--installation-guide)
-  - [🐳 Running with Docker](#-running-with-docker)
-  - [🖥️ Running without Docker (Bare-Metal / Native Host)](#️-running-without-docker-bare-metal--native-host)
-  - [🔒 Production Deployment: Nginx + Certbot (SSL) + Custom Domain](#-production-deployment-nginx--certbot-ssl--custom-domain)
-- [🛠️ Local Development & Testing](#️-local-development--testing)
-- [📊 Quality Assurance & Verification Gates](#-quality-assurance--verification-gates)
-- [📋 Engineering Standards, Best Practices & RFC 2119 Rules](#-engineering-standards-best-practices--rfc-2119-rules)
-- [📚 Documentation & Engineering Notes](#-documentation--engineering-notes)
-- [📜 Version History & Changelog](#-version-history--changelog)
-- [🤝 Credits & Original Authors](#-credits--original-authors)
-- [📬 Maintainer & Contact](#-maintainer--contact)
-- [💖 Support & Donation](#-support--donation)
-- [📄 License](#-license)
+- [`📸 Interactive Preview`](#-interactive-preview)
+- [`🌟 Why This Modernized Edition?`](#-why-this-modernized-edition)
+- [`✨ Key Features`](#-key-features)
+- [`🌐 IPv6 Architecture & Allocation Tiers`](#-ipv6-architecture--allocation-tiers)
+- [`☁️ Cloud Provider Subnet Profiles & Cloud Subnet Notes`](#️-cloud-provider-subnet-profiles--cloud-subnet-notes)
+- [`📦 Multi-Format Import & Export (JSON, CSV, Plain Text)`](#-multi-format-import--export-json-csv-plain-text)
+- [`🚀 Deployment & Installation Guide`](#-deployment--installation-guide)
+  - [`🐳 Running with Docker`](#-running-with-docker)
+  - [`🖥️ Running without Docker (Bare-Metal / Native Host)`](#️-running-without-docker-bare-metal--native-host)
+  - [`🔒 Production Deployment: Nginx + Certbot (SSL) + Custom Domain`](#-production-deployment-nginx--certbot-ssl--custom-domain)
+- [`🛠️ Local Development & Testing`](#️-local-development--testing)
+- [`📊 Quality Assurance & Verification Gates`](#-quality-assurance--verification-gates)
+- [`📋 Engineering Standards, Best Practices & RFC 2119 Rules`](#-engineering-standards-best-practices--rfc-2119-rules)
+- [`📚 Documentation & Engineering Notes`](#-documentation--engineering-notes)
+- [`📜 Version History & Changelog`](#-version-history--changelog)
+- [`🤝 Credits & Original Authors`](#-credits--original-authors)
+- [`📬 Maintainer & Contact`](#-maintainer--contact)
+- [`💖 Support & Donation`](#-support--donation)
+- [`📄 License`](#-license)
 
 ---
 
@@ -50,9 +50,9 @@ Visual Subnet Calculator eliminates academic subnet math and replaces it with in
 
 ## 🌟 Why This Modernized Edition?
 
-> 💡 _For deep architectural blueprints, dependency SRI hashes, and ecosystem integration details, see [DOCNOTE.md](DOCNOTE.md). For granular version-by-version release history, see [CHANGELOG.md](CHANGELOG.md)._
+> 💡 _For deep architectural blueprints, dependency SRI hashes, and ecosystem integration details, see [`DOCNOTE.md`](DOCNOTE.md). For granular version-by-version release history, see [`CHANGELOG.md`](CHANGELOG.md)._
 
-This edition (**v1.4.2+**) represents a complete architectural, security, accessibility, and visual overhaul of the project:
+This edition (**v1.4.3+**) represents a complete architectural, security, accessibility, and visual overhaul of the project:
 
 ### 🛡️ 1. Zero-Defect Security & CodeQL Remediation
 
@@ -106,7 +106,7 @@ This edition (**v1.4.2+**) represents a complete architectural, security, access
 - **RFC 6164 Point-to-Point Router Inter-Links**: Direct support for `/127` subnets used in router-to-router point-to-point infrastructure to prevent ping-pong amplification attacks, with interactive splitting into two `/128` host IPs.
 - **SLAAC & Host Boundary Protection**: Strict adherence to RFC 4291 and RFC 7421, protecting `/64` and `/128` leaf subnets against invalid over-splitting with clear educational guidance modals.
 - **Visual Tree Splitting & Merging**: Subdivide any IPv4 or IPv6 CIDR block with a single click, or join adjacent sister subnets back into their parent block.
-- **Specialized Cloud Modes**: Built-in subnetting profiles for **Standard RFC 1918**, **AWS VPC**, **Azure VNet**, and **Oracle Cloud (OCI)** that automatically account for vendor-reserved IP addresses.
+- **Specialized Cloud Modes**: Built-in subnetting profiles for **Standard RFC 1918**, **AWS VPC**, **Azure VNet**, **Google Cloud (GCP) VPC**, and **Oracle Cloud (OCI)** that automatically account for vendor-reserved IP addresses.
 - **Accessible Color Coding**: Assign distinct pastel colors to subnets to visually segment tiers (e.g., DMZ, Web, Application, Database, Management).
 - **Overhauled Interactive FAQ Accordion**: Comprehensive in-app documentation featuring 10 collapsible guides with one-click Expand/Collapse All controls, cloud provider reservation matrices (Standard, AWS, Azure, OCI), IPv6 tier guides, split/join mechanics, color coding workflows, and privacy guarantees.
 - **Font Awesome Free v7.3.1 Icons**: Replaced all interface graphics with high-contrast, scalable Font Awesome icons across header, bottom navigation, modals, and sticky footer.
@@ -139,22 +139,74 @@ $$\text{/32 (ISP/LIR)} \longrightarrow \text{/48 (Enterprise Site)} \longrightar
 
 ---
 
-## ☁️ Cloud Provider Subnet Profiles
+## ☁️ Cloud Provider Subnet Profiles & Cloud Subnet Notes
 
-Different cloud infrastructure providers reserve specific addresses in each subnet for internal routing, DNS, and gateway infrastructure:
+Different cloud infrastructure providers reserve specific addresses in each subnet for internal routing, DNS, and gateway infrastructure. Visual Subnet Calculator natively accounts for these vendor reservations, adjusting usable host ranges and displaying clear breakdown tooltips.
 
-| Cloud Profile          | Smallest Subnet |     Reserved IPs     | Reserved IP Roles Breakdown                                                                 | Reference Documentation                                                                                                                                                       |
-| :--------------------- | :-------------: | :------------------: | :------------------------------------------------------------------------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Standard**           |      `/32`      | **2** _(size ≤ /30)_ | Network Address (`.0`), Broadcast Address (`.last`)                                         | [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918) / [RFC 4632](https://datatracker.ietf.org/doc/html/rfc4632)                                                         |
-| **AWS VPC**            |      `/28`      |        **5**         | Network (`.0`), VPC Router (`.1`), VPC DNS (`.2`), Future Use (`.3`), Broadcast (`.last`)   | [AWS VPC Subnet Sizing](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)                                                                                  |
-| **Azure VNet**         |      `/29`      |        **5**         | Network (`.0`), Default Gateway (`.1`), Azure DNS Mapping (`.2`, `.3`), Broadcast (`.last`) | [Azure VNet Restrictions](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets) |
-| **Oracle Cloud (OCI)** |      `/30`      |        **3**         | Network (`.0`), Default Gateway (`.1`), Broadcast (`.last`)                                 | [OCI Reserved IP Addresses](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)                                               |
+### 📊 Cloud Reservation Comparison Matrix
+
+| Cloud Profile          | Smallest Subnet |     Reserved IPs     | Reserved IP Roles Breakdown                                                                 | Reference Documentation                                                                                                                                                         |
+| :--------------------- | :-------------: | :------------------: | :------------------------------------------------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Standard**           |      `/32`      | **2** _(size ≤ /30)_ | Network Address (`.0`), Broadcast Address (`.last`)                                         | [`RFC 1918`](https://datatracker.ietf.org/doc/html/rfc1918) / [`RFC 4632`](https://datatracker.ietf.org/doc/html/rfc4632)                                                       |
+| **AWS VPC**            |      `/28`      |        **5**         | Network (`.0`), VPC Router (`.1`), VPC DNS (`.2`), Future Use (`.3`), Broadcast (`.last`)   | [`AWS VPC Subnet Sizing`](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)                                                                                  |
+| **Azure VNet**         |      `/29`      |        **5**         | Network (`.0`), Default Gateway (`.1`), Azure DNS Mapping (`.2`, `.3`), Broadcast (`.last`) | [`Azure VNet Restrictions`](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets) |
+| **Google Cloud (GCP)** |      `/29`      |        **4**         | Network (`.0`), Default Gateway (`.1`), Future Use (`.last - 1`), Broadcast (`.last`)       | [`Google Cloud VPC Subnets`](https://cloud.google.com/vpc/docs/subnets#reserved_ip_addresses_in_ipv4_subnets)                                                                   |
+| **Oracle Cloud (OCI)** |      `/30`      |        **3**         | Network (`.0`), Default Gateway (`.1`), Broadcast (`.last`)                                 | [`OCI Reserved IP Addresses`](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)                                               |
+
+### 🌐 Standard RFC 1918 / RFC 4632 Mode
+
+- **Smallest Subnet**: `/32` (Single host / loopback interface)
+- **Reserved Addresses (for size ≤ /30)**: 2 addresses
+  - **Network Address**: `network + 0` (Base network identifier)
+  - **Broadcast Address**: `last address` (`network + size - 1`)
+- **Usable Host Range**: `network + 1` to `last_address - 1` (for size ≤ /30). For `/31` point-to-point router links (RFC 3021), both addresses are usable without dedicated network or broadcast addresses. For `/32`, exactly 1 host address is available.
+
+### 🟧 Amazon Web Services (AWS) VPC Mode
+
+- **Smallest Subnet**: `/28` (16 total addresses, 11 usable)
+- **Reserved Addresses**: 5 addresses per subnet
+  - `network + 0`: **Network address** (Identifies the subnet CIDR block)
+  - `network + 1`: **VPC router** (Reserved by AWS for default gateway routing)
+  - `network + 2`: **VPC DNS** (Reserved by AWS for AmazonProvidedDNS / Route 53 Resolver)
+  - `network + 3`: **Future use** (Reserved by AWS for upcoming internal capabilities)
+  - `last address`: **Network broadcast** (AWS VPC does not support broadcast, but reserves this address)
+- **Usable Host Range**: `network + 4` to `last_address - 1`
+
+### 🟦 Microsoft Azure Virtual Network (VNet) Mode
+
+- **Smallest Subnet**: `/29` (8 total addresses, 3 usable)
+- **Reserved Addresses**: 5 addresses per subnet
+  - `network + 0`: **Network address** (Identifies the subnet CIDR block)
+  - `network + 1`: **Default gateway** (Reserved by Azure for routing out of the subnet)
+  - `network + 2`: **Azure DNS** (Maps Azure DNS IPs to the VNet address space)
+  - `network + 3`: **Azure DNS** (Secondary redundant mapping for Azure DNS resolution)
+  - `last address`: **Network broadcast** (Reserved by Azure)
+- **Usable Host Range**: `network + 4` to `last_address - 1`
+
+### 🟥 Google Cloud Platform (GCP) VPC Mode
+
+- **Smallest Subnet**: `/29` (8 total addresses, 4 usable)
+- **Reserved Addresses**: 4 addresses per subnet
+  - `network + 0`: **Network address** (Identifies the subnet CIDR block)
+  - `network + 1`: **Default gateway** (Used by Google Cloud to route traffic within the VPC network)
+  - `last_address - 1`: **Reserved for future use** (Second-to-last IP, reserved by Google for upcoming features)
+  - `last address`: **Network broadcast** (Google Cloud VPC does not support broadcast, but reserves this address)
+- **Usable Host Range**: `network + 2` to `last_address - 2` (Notice that unlike AWS and Azure which reserve `.2` and `.3` at the lower boundary, Google Cloud reserves `.1` at the beginning and `last - 1` at the upper boundary)
+
+### 🔴 Oracle Cloud Infrastructure (OCI) Mode
+
+- **Smallest Subnet**: `/30` (4 total addresses, 1 usable)
+- **Reserved Addresses**: 3 addresses per subnet
+  - `network + 0`: **Network address** (Identifies the subnet CIDR block)
+  - `network + 1`: **Default gateway** (Reserved by OCI for the subnet's virtual router IP)
+  - `last address`: **Network broadcast** (Reserved by OCI)
+- **Usable Host Range**: `network + 2` to `last_address - 1`
 
 ---
 
 ## 📦 Multi-Format Import & Export (JSON, CSV, Plain Text)
 
-Visual Subnet Calculator v1.4.2 provides a powerful multi-format data interchange engine accessible via the **Import / Export** modal (`#importExportModal`):
+Visual Subnet Calculator v1.4.3 provides a powerful multi-format data interchange engine accessible via the **Import / Export** modal (`#importExportModal`):
 
 ```text
                        ┌──────────────────────────────────────────────┐
@@ -234,14 +286,14 @@ git clone https://github.com/alsyundawy/visualsubnetcalc.git
 cd visualsubnetcalc
 
 # 2. Build the production Docker image using the multi-stage Dockerfile
-docker build -t visualsubnetcalc:1.4.2 .
+docker build -t visualsubnetcalc:1.4.3 .
 
 # 3. Run the hardened container
 docker run -d \
   --name visualsubnetcalc \
   --restart unless-stopped \
   -p 8080:8080 \
-  visualsubnetcalc:1.4.2
+  visualsubnetcalc:1.4.3
 ```
 
 #### Method 3: Production Docker Compose (`docker-compose.yml`)
@@ -315,9 +367,10 @@ If you prefer not to use Docker, Visual Subnet Calculator can run on any host wi
 
 **System Requirements**:
 
-- Linux: Ubuntu 22.04/24.04 LTS, Debian 11/12 (or macOS Sonoma/Sequoia, Windows WSL2)
-- Node.js: 20 LTS or 22 LTS
-- npm: 10+
+- **Operating System**: Linux (Ubuntu 22.04/24.04 LTS, Debian 11/12), macOS (Sonoma, Sequoia), or Windows 10/11 with WSL2
+- **Minimum Node.js Version**: **Node.js `v18.0.0+ LTS`** (Hydrogen) — Required for native ECMAScript Modules (ESM), lossless 128-bit `BigInt` bitwise math, and Web Crypto API.
+- **Optimal / Recommended Node.js Version**: **Node.js `v20.x` / `v22.x Active LTS`** (Iron / Jod) — Delivers peak performance through the latest V8 JIT engine, lowest memory footprint, and native speed for headless Playwright test suites.
+- **Package Manager**: **npm `10.x+`** (or pnpm `9.x+`, yarn `4.x+`)
 
 ```bash
 # 1. Clone repository
@@ -368,11 +421,11 @@ sudo chown -R www-data:www-data /var/www/visualsubnetcalc
 sudo chmod -R 755 /var/www/visualsubnetcalc
 ```
 
-See the [Nginx Configuration](#-production-deployment-nginx--certbot-ssl--custom-domain) section below for the complete virtual host configuration block.
+See the [`Nginx Configuration`](#-production-deployment-nginx--certbot-ssl--custom-domain) section below for the complete virtual host configuration block.
 
 #### Method 4: Caddy Server (Modern with Automatic HTTPS)
 
-If you use [Caddy](https://caddyserver.com/), creating a high-performance, automatic-HTTPS server takes just 3 lines in your `/etc/caddy/Caddyfile`:
+If you use [`Caddy`](https://caddyserver.com/), creating a high-performance, automatic-HTTPS server takes just 3 lines in your `/etc/caddy/Caddyfile`:
 
 ```caddyfile
 subnet.yourdomain.com {
@@ -616,13 +669,13 @@ npm run local-secure-start
 
 Every release of this modernized edition undergoes rigorous verification across multiple automated testing pipelines:
 
-| Quality Gate               | Tool / Engine                        | Target Scope                                              | Status                                     |
-| :------------------------- | :----------------------------------- | :-------------------------------------------------------- | :----------------------------------------- |
-| **Comprehensive Linting**  | [Trunk Check](https://trunk.io)      | 14 Linters (`prettier`, `yamllint`, `markdownlint`, etc.) | **PASSED (68/68 files clean)**             |
-| **HTML5 Validation**       | `html-validate`                      | Native HTML standards, accessibility & semantic tags      | **PASSED (0 errors, 0 warnings)**          |
-| **Browser E2E Testing**    | [Playwright](https://playwright.dev) | Chromium & Firefox end-to-end user workflows              | **PASSED (114/114 tests)**                 |
-| **Security Scanning**      | GitHub CodeQL                        | DOM XSS and source-to-sink vulnerability analysis         | **PASSED (0 alerts)**                      |
-| **IaC & Container Policy** | `checkov` & `hadolint`               | Dockerfile & AWS CloudFormation best practices            | **PASSED (CIS & Best Practice Compliant)** |
+| Quality Gate               | Tool / Engine                          | Target Scope                                              | Status                                     |
+| :------------------------- | :------------------------------------- | :-------------------------------------------------------- | :----------------------------------------- |
+| **Comprehensive Linting**  | [`Trunk Check`](https://trunk.io)      | 14 Linters (`prettier`, `yamllint`, `markdownlint`, etc.) | **PASSED (68/68 files clean)**             |
+| **HTML5 Validation**       | `html-validate`                        | Native HTML standards, accessibility & semantic tags      | **PASSED (0 errors, 0 warnings)**          |
+| **Browser E2E Testing**    | [`Playwright`](https://playwright.dev) | Chromium & Firefox end-to-end user workflows              | **PASSED (118/118 tests)**                 |
+| **Security Scanning**      | GitHub CodeQL                          | DOM XSS and source-to-sink vulnerability analysis         | **PASSED (0 alerts)**                      |
+| **IaC & Container Policy** | `checkov` & `hadolint`                 | Dockerfile & AWS CloudFormation best practices            | **PASSED (CIS & Best Practice Compliant)** |
 
 ---
 
@@ -634,7 +687,7 @@ Visual Subnet Calculator is an industrial-grade, client-side visual IP planning 
 
 ### 📐 RFC 2119 / RFC 8174 Engineering Criteria
 
-The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **AVOID** in this document are to be interpreted as described in [BCP 14](https://datatracker.ietf.org/doc/html/bcp14), [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119), and [RFC 8174](https://datatracker.ietf.org/doc/html/rfc8174).
+The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **AVOID** in this document are to be interpreted as described in [`BCP 14`](https://datatracker.ietf.org/doc/html/bcp14), [`RFC 2119`](https://datatracker.ietf.org/doc/html/rfc2119), and [`RFC 8174`](https://datatracker.ietf.org/doc/html/rfc8174).
 
 #### 🔴 MUST (Mandatory Invariants)
 
@@ -686,7 +739,7 @@ The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and *
 
 ## 📚 Documentation & Engineering Notes
 
-Comprehensive technical documentation, architectural specifications, security considerations, and ecosystem integration guides are maintained in **[DOCNOTE.md](DOCNOTE.md)**. Key topics covered include:
+Comprehensive technical documentation, architectural specifications, security considerations, and ecosystem integration guides are maintained in **[`DOCNOTE.md`](DOCNOTE.md)**. Key topics covered include:
 
 - **Core Architecture Layers**: Detailed breakdown of Structure (`dist/index.html`), Presentation (`dist/css/main.css`), Logic (`dist/js/main.js`), and vendor-specific Cloud Subnet Profiles.
 - **Dependency Matrix & SRI Cryptographic Hashes**: Full verification table detailing Subresource Integrity SHA384 hashes for Bootstrap 5.3.8, jQuery 3.7.1, jQuery Validate 1.21.0, and vendored LZ-String 1.5.0.
@@ -704,17 +757,23 @@ Comprehensive technical documentation, architectural specifications, security co
   - **Zero-Trust Access Control**: Enforcing subnet-level IP access control lists (ACLs) and reverse proxy routing policies across Nginx and HAProxy.
 - **Security & Privacy Model**: Pure client-side execution guarantees, zero data leakage, and strict Content Security Policy (CSP) guidelines.
 
-👉 **Read the complete technical specification**: **[DOCNOTE.md](DOCNOTE.md)**
+👉 **Read the complete technical specification**: **[`DOCNOTE.md`](DOCNOTE.md)**
 
 ---
 
 ## 📜 Version History & Changelog
 
-Every notable release, security remediation, accessibility improvement, and framework upgrade is documented in **[CHANGELOG.md](CHANGELOG.md)** following the [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) format and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Every notable release, security remediation, accessibility improvement, and framework upgrade is documented in **[`CHANGELOG.md`](CHANGELOG.md)** following the [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/) format and [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
 
 ### Recent Release Highlights
 
-- **[v1.4.2 (Latest Release)](CHANGELOG.md#142---2026-09-16)**:
+- **[`v1.4.3 (Latest Release)`](CHANGELOG.md#143---2026-09-17)**:
+  - ☁️ **Google Cloud (GCP) VPC Subnet Reservation Mode**: Integrated GCP cloud reservation profile in Tools dropdown (`#dropdown_gcp`) reserving 4 IP addresses per subnet (`network + 0` Network ID, `network + 1` Default Gateway, `broadcast - 1` reserved for future use, and `broadcast - 0` Broadcast). Enforces minimum `/29` subnet boundary and computes deterministic usable range (`network + 2` to `last_address - 2`).
+  - 🌐 **Hierarchical IPv6 Tier Progression & Safety Bounds**: Refined and optimized `getNextIpv6Tier()` and `splitIpv6Network()` to guarantee bounded $O(1)$ memory usage and strictly safe subnet splitting. Enforces clean nibble transitions (+4 bits) across enterprise, branch, and micro-segmentation tiers, preserves `/64` as an immutable SLAAC leaf boundary (RFC 4291 / RFC 7421), and enables granular point-to-point sub-delegation (`/112 -> /120 -> /124 -> /127 -> /128`).
+  - 🔢 **IPv6 Capacity Arithmetic Bugfix**: Corrected quadrillion divisor in `getIpv6Capacity()` from `10^18` to `10^15`.
+  - 🛡️ **CSS Injection & Type Hardening**: Strict regex validation on table row background colors via `sanitizeColor()`, and hardened type safety in `escapeHtml()`.
+  - 🧪 **E2E Test Suite Expansion**: 118 passing Playwright E2E tests across Chromium and Firefox.
+- **[`v1.4.2`](CHANGELOG.md#142---2026-09-16)**:
   - 📦 **Multi-Format Import & Export Engine**: Full data interchange supporting RFC 4180 CSV spreadsheets, aligned Plain Text ASCII tables, and hierarchical JSON configurations with 1-click format switcher buttons (`#btn_format_json`, `#btn_format_csv`, `#btn_format_txt`).
   - 💾 **Client-Side File Upload & Download**: In-memory `Blob` generation triggering direct file downloads (`#btn_download_export`) and HTML5 `FileReader` loading (`#btn_upload_file`, `#importFileInput`) for `.json`, `.csv`, and `.txt` files.
   - 📋 **Quick Clipboard Copy**: Copy button (`#btn_copy_export`) with transient "Copied!" visual feedback.
@@ -729,19 +788,19 @@ Every notable release, security remediation, accessibility improvement, and fram
   - 📖 **Interactive FAQ Accordion**: 10 comprehensive architectural guides with one-click Expand/Collapse All controls.
   - 📱 **Responsive Viewport Parity**: Scoped table styling (`#calc.ipv6-mode`) and synchronized mobile column header visibility under `< 576px`.
   - 🧪 **Comprehensive Automated Testing**: 114 passing Playwright E2E tests across Chromium and Firefox.
-- **[v1.4.1](CHANGELOG.md#141---2026-09-16)**:
+- **[`v1.4.1`](CHANGELOG.md#141---2026-09-16)**:
   - 🛡️ **Security**: CodeQL Alert #5 (`js/xss-through-dom`) remediated via `.text()` text node insertion in boundary warning modal; context-aware HTML entity sanitization (`escapeHtml()`) across URL decoders and JSON imports.
   - ♿ **Accessibility**: WCAG 2.2 Level AA compliance; unique `id` and `name` attributes across all form inputs for browser autofill; WCAG H32 `<button type="submit">` form trigger; screen-reader `<caption class="visually-hidden">` and semantic `<th scope="col">` column headers; full keyboard color palette navigation.
   - 📱 **Responsive Design**: Modular CSS media queries scaling from VGA (640×480), mobile devices, and tablets up to 2K / Ultrawide displays (2560px).
   - 🔍 **SEO & Web Standards**: Schema.org JSON-LD `WebApplication` structured data, Open Graph card definitions, and 100% `html-validate` compliance.
   - ⚡ **Dependencies**: Upgraded to Bootstrap 5.3.8 (SRI verified) and Playwright 1.63.0 E2E testing framework.
-- **[v1.4.0](CHANGELOG.md#140---2026-09-15)**:
+- **[`v1.4.0`](CHANGELOG.md#140---2026-09-15)**:
   - ☁️ Multi-cloud usable IP calculations for AWS VPC, Azure VNet, and Oracle Cloud Infrastructure (OCI).
   - 🔗 Compressed URL sharing with LZ-String state encoding; JSON configuration import/export.
 - **v1.3.x & Earlier**:
   - Foundational visual subnetting table tree, interactive split/join engine, and Docker containerization.
 
-👉 **Browse the full release changelog**: **[CHANGELOG.md](CHANGELOG.md)**
+👉 **Browse the full release changelog**: **[`CHANGELOG.md`](CHANGELOG.md)**
 
 ---
 
@@ -749,11 +808,11 @@ Every notable release, security remediation, accessibility improvement, and fram
 
 Visual Subnet Calculator is built upon the collaborative spirit of the open-source community. Sincere appreciation and credit are extended to:
 
-- 👤 **Caesar Kabalan ([@ckabalan](https://github.com/ckabalan))** — _Original Creator and Lead Architect of Visual Subnet Calculator._ Created the initial modern web implementation, interactive UI tree model, cloud mode profiles, and container packaging.
-- 👤 **Florian M. ([@bl4ckfir3](https://github.com/bl4ckfir3))** — _Core Feature Contributor._ Designed and contributed the Oracle Cloud Infrastructure (OCI) subnet calculations and profile rules ([PR #30](https://github.com/ckabalan/visualsubnetcalc/pull/30)).
-- 👤 **David C ([@davidc](https://github.com/davidc))** — _Inspiration & Concept Pioneer._ Authored the original open-source visual subnetting concept ([davidc/subnets](https://github.com/davidc/subnets)) that inspired the modern tool.
-- 👤 **HARRY DERTIN SUTISNA ([@alsyundawy](https://github.com/alsyundawy))** — _Modernized & Hardened Edition Maintainer._ Spearheaded the comprehensive security hardening (CodeQL DOM XSS remediation), WCAG 2.2 AA accessibility compliance, universal responsive scaling (VGA to 2K), dual-stack IPv4/IPv6 architecture, multi-format import/export engine, $O(1)$ bitwise mask optimization, SEO structured data, modern dependency upgrades, and release engineering for `v1.4.2+`.
-- 🎨 **Iconography**: Split icon designed by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/), and [Font Awesome Free](https://fontawesome.com/) by Fonticons, Inc.
+- 👤 **Caesar Kabalan ([`@ckabalan`](https://github.com/ckabalan))** — _Original Creator and Lead Architect of Visual Subnet Calculator._ Created the initial modern web implementation, interactive UI tree model, cloud mode profiles, and container packaging.
+- 👤 **Florian M. ([`@bl4ckfir3`](https://github.com/bl4ckfir3))** — _Core Feature Contributor._ Designed and contributed the Oracle Cloud Infrastructure (OCI) subnet calculations and profile rules ([`PR #30`](https://github.com/ckabalan/visualsubnetcalc/pull/30)).
+- 👤 **David C ([`@davidc`](https://github.com/davidc))** — _Inspiration & Concept Pioneer._ Authored the original open-source visual subnetting concept ([`davidc/subnets`](https://github.com/davidc/subnets)) that inspired the modern tool.
+- 👤 **HARRY DERTIN SUTISNA ([`@alsyundawy`](https://github.com/alsyundawy))** — _Modernized & Hardened Edition Maintainer._ Spearheaded the comprehensive security hardening (CodeQL DOM XSS remediation), WCAG 2.2 AA accessibility compliance, universal responsive scaling (VGA to 2K), dual-stack IPv4/IPv6 architecture, multi-format import/export engine, $O(1)$ bitwise mask optimization, SEO structured data, modern dependency upgrades, and release engineering for `v1.4.3+`.
+- 🎨 **Iconography**: Split icon designed by [`Freepik`](https://www.flaticon.com/authors/freepik) from [`Flaticon`](https://www.flaticon.com/), and [`Font Awesome Free`](https://fontawesome.com/) by Fonticons, Inc.
 
 ---
 
@@ -761,14 +820,14 @@ Visual Subnet Calculator is built upon the collaborative spirit of the open-sour
 
 For questions, feature requests, security disclosures, or collaboration:
 
-- **Lead Maintainer & Engineering**: **HARRY DERTIN SUTISNA** — [ALSYUNDAWY IT SOLUTION](https://alsyundawy.com)
-- **Official Website**: [https://alsyundawy.com](https://alsyundawy.com) (ALSYUNDAWY IT SOLUTION)
-- **GitHub Profile**: [https://github.com/alsyundawy](https://github.com/alsyundawy)
-- **X (Twitter)**: [@alsyundawy](https://x.com/alsyundawy)
-- **Telegram**: [@alsyundawy](https://t.me/alsyundawy)
-- **Email**: [alsyundawy@gmail.com](mailto:alsyundawy@gmail.com)
-- **Repository**: [https://github.com/alsyundawy/visualsubnetcalc](https://github.com/alsyundawy/visualsubnetcalc)
-- **Sponsorship / Donation**: [PayPal Donate](https://paypal.me/alsyundawy)
+- **Lead Maintainer & Engineering**: **HARRY DERTIN SUTISNA** — [`ALSYUNDAWY IT SOLUTION`](https://alsyundawy.com)
+- **Official Website**: [`https://alsyundawy.com`](https://alsyundawy.com) (ALSYUNDAWY IT SOLUTION)
+- **GitHub Profile**: [`https://github.com/alsyundawy`](https://github.com/alsyundawy)
+- **X (Twitter)**: [`@alsyundawy`](https://x.com/alsyundawy)
+- **Telegram**: [`@alsyundawy`](https://t.me/alsyundawy)
+- **Email**: [`alsyundawy@gmail.com`](mailto:alsyundawy@gmail.com)
+- **Repository**: [`https://github.com/alsyundawy/visualsubnetcalc`](https://github.com/alsyundawy/visualsubnetcalc)
+- **Sponsorship / Donation**: [`PayPal Donate`](https://paypal.me/alsyundawy)
 
 ---
 
@@ -776,7 +835,22 @@ For questions, feature requests, security disclosures, or collaboration:
 
 If **Visual Subnet Calculator** has helped you design, optimize, or troubleshoot your network architectures, consider supporting its continuous maintenance, security audits, and hosting infrastructure:
 
+### 💳 International Support: PayPal
+
 [![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
+
+- **PayPal Link**: [`https://www.paypal.me/alsyundawy`](https://www.paypal.me/alsyundawy)
+
+### 🇮🇩 Indonesian & Regional Support: QRIS (Quick Response Code Indonesian Standard)
+
+Scan the QRIS barcode below using any Indonesian mobile banking application (BCA, Mandiri, BRI, BNI, BSI, CIMB Niaga, Permata) or e-wallet (GoPay, OVO, DANA, LinkAja, ShopeePay):
+
+![QRIS Donation Barcode - ALSYUNDAWY](https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df)
+
+- **Merchant / Account Name**: **ALSYUNDAWY**
+- **NMID**: **`ID1020021153676`**
+- **Direct Barcode Asset Link**: [`https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df`](https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df)
+- **Direct WhatsApp Confirmation**: [`https://wa.me/6285658515212`](https://wa.me/6285658515212) (`+62 856-5851-5212`)
 
 Your generosity directly supports open-source development, security hardening, and future tooling for the network engineering community.
 
@@ -784,5 +858,5 @@ Your generosity directly supports open-source development, security hardening, a
 
 ## 📄 License
 
-Visual Subnet Calculator is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+Visual Subnet Calculator is licensed under the [`MIT License`](https://opensource.org/licenses/MIT).
 Feel free to use, modify, and distribute it for personal and enterprise network engineering workflows.

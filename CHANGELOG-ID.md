@@ -4,8 +4,33 @@
 
 Seluruh perubahan penting pada proyek Visual Subnet Calculator akan didokumentasikan dalam berkas ini.
 
-Format pencatatan mengacu pada [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-dan proyek ini mematuhi standar [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Format pencatatan mengacu pada [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/),
+dan proyek ini mematuhi standar [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
+
+## [1.4.3] - 2026-09-17
+
+### Ditambahkan
+
+- Mode Reservasi Subnet Google Cloud (GCP) VPC: mengintegrasikan profil cloud GCP pada menu dropdown Tools (`#dropdown_gcp`) dan mesin kalkulasi. Sesuai spesifikasi Google Cloud VPC, GCP mereservasi 4 alamat IP per subnet (`network + 0` ID Jaringan, `network + 1` Default Gateway, `broadcast - 1` dicadangkan GCP untuk penggunaan mendatang, dan `broadcast - 0` Broadcast Jaringan). Menerapkan batas minimum subnet `/29`, menghitung rentang host usable deterministik (`network + 2` hingga `last_address - 2`), serta terintegrasi pada matriks perbandingan FAQ dan rangkaian uji Playwright.
+
+### Dioptimalkan
+
+- Penyempurnaan Progresi Tingkatan IPv6 Hirarkis Standar & Batas Keamanan: menyempurnakan dan mengoptimalkan fungsi `getNextIpv6Tier()` dan `splitIpv6Network()` dengan alokasi memori terkendali $O(1)$ dan pemecahan subnet yang aman. Menerapkan transisi berbasis nibble (+4 bit) di seluruh tingkatan korporat, kantor cabang, dan mikro-segmentasi, mempertahankan `/64` sebagai batas leaf SLAAC yang tidak terbagi (RFC 4291 / RFC 7421) disertai modal edukasi, serta mendukung sub-delegasi granular point-to-point (`/112 -> /120 -> /124 -> /127 -> /128`) tanpa risiko rekursi tak terbatas maupun pembekuan browser.
+
+### Diperbaiki
+
+- Memperbaiki bug kalkulasi aritmetika kritis pada `getIpv6Capacity()`: pembagi satuan _quadrillion_ (Q) sebelumnya keliru disetel ke `1000000000000000000` (10^18, _quintillion_), padahal satuan _quadrillion_ yang benar adalah `1000000000000000` (10^15). Perbaikan ini memulihkan keakuratan tampilan kapasitas untuk blok IPv6 besar (`/16` hingga `/0`) sehingga tidak lagi menampilkan angka 1.000 kali lebih kecil dari kenyataan.
+- Mengatasi kerentanan injeksi CSS (_CSS injection_) pada atribut baris tabel `style="background-color: ..."` yang digenerasi secara dinamis: parameter warna yang bersumber dari URL maupun berkas impor kini divalidasi secara ketat oleh fungsi `sanitizeColor()` dengan regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`, hanya mengizinkan format heksadesimal standar CSS Color Level 4 (#RGB, #RGBA, #RRGGBB, #RRGGBBAA) dan memblokir panjang tidak standar (5 atau 7 karakter) serta karakter injeksi berbahaya.
+- Memperketat keamanan tipe data input pada `escapeHtml()`: mengembalikan string kosong (`''`) saat menerima argumen non-string, mencegah kebocoran nilai `undefined` atau objek ke dalam elemen DOM.
+- Mempertahankan kesetiaan 100% pada tampilan visual, tata letak, palet warna, dan tipografi Bootstrap versi 1.4.2 yang asli tanpa regresi UI maupun pergantian gaya tak berizin.
+
+### Diubah
+
+- Memperbarui metadata versi proyek pada `package.json` dan `package-lock.json` menjadi `1.4.3`.
+- Memperbarui `softwareVersion` pada data terstruktur Schema.org `WebApplication` menjadi `1.4.3`.
+- Memperbarui lencana rilis, tautan changelog, dan referensi versi pada footer aplikasi, bagian FAQ, header modal About, dan dokumentasi menjadi Visual Subnet Calculator `v1.4.3`.
+
+---
 
 ## [1.4.2] - 2026-09-16
 
@@ -17,7 +42,7 @@ dan proyek ini mematuhi standar [Semantic Versioning](https://semver.org/spec/v2
 - Perombakan total sistem FAQ menjadi Akordion Bootstrap interaktif dan aksesibel (`#faqAccordion`) yang memuat 10 topik panduan arsitektur: Ikhtisar, Mekanisme Split/Join, Dual-Stack IPv4/IPv6, Profil reservasi cloud (Standar, AWS, Azure, OCI) beserta matriks perbandingan, Pewarnaan 10-swatch & catatan teks, Berbagi URL LZ-String & impor/ekspor data, Privasi sisi klien & keandalan offline, Dukungan perangkat universal (VGA hingga 2K/4K), Pintasan masukan & validasi, serta Kontak resmi pengelola.
 - Tombol kendali akordion terpadu "Expand All" (`#faq_expand_all`) dan "Collapse All" (`#faq_collapse_all`) dengan animasi buka-tutup Bootstrap yang halus.
 - Peningkatan menyeluruh seluruh ikonografi antarmuka ke Font Awesome Free v7 (`@fortawesome/fontawesome-free` v7.3.1) pada navigasi header, toolbar, palet warna, dialog modal, dan footer melekat.
-- Pengembangan footer pengelola permanen (`#app_footer`) yang melekat di dasar viewport, menampilkan profil pengelola resmi HARRY DERTIN SUTISNA (`@alsyundawy`) dan ALSYUNDAWY IT SOLUTION ([https://alsyundawy.com](https://alsyundawy.com)), saluran media sosial (X dan Telegram), kontak cepat, serta donasi PayPal.
+- Pengembangan footer pengelola permanen (`#app_footer`) yang melekat di dasar viewport, menampilkan profil pengelola resmi HARRY DERTIN SUTISNA (`@alsyundawy`) dan ALSYUNDAWY IT SOLUTION ([`https://alsyundawy.com`](https://alsyundawy.com)), saluran media sosial (X dan Telegram), kontak cepat, serta donasi PayPal.
 - Penambahan ikon kontras tinggi Font Awesome `fa-network-wired` mendampingi judul utama "Visual Subnet Calculator" pada header aplikasi (`dist/index.html`, `dist/404.html`).
 - Peningkatan efek interaktif sorot dan hover ("pilihan / SOROT") di seluruh antarmuka: efek penyorotan baris tabel yang halus (`box-shadow: inset` tanpa menimpa warna kustom subnet), umpan balik visual sel interaktif Split dan Join yang aktif, elevasi chip preset CIDR saat disentuh kursor, indikator visual warna palet terpilih (`.selected-color`), styling dropdown item hover, serta warna seleksi teks kustom (`::selection`).
 - Desain responsif multi-resolusi universal dengan `flex-wrap: wrap`, padding chip yang kompak, dan jarak 2px antar-tombol preset, mencegah elemen meluap (_overflow_) pada layar VGA (640×480), smartphone (iPhone, Samsung, Xiaomi, Android), tablet (iPad), laptop (MacBook), hingga monitor resolusi tinggi 2K/4K.

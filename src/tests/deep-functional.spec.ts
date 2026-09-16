@@ -230,6 +230,7 @@ test("Deep Functional Test", async ({ page }) => {
     .getByLabel("Import/Export", { exact: true })
     .getByText("Close")
     .click();
+  await expect(page.locator("#importExportModal")).toBeHidden();
   // Set to AWS Mode
   await page.getByRole("button", { name: "Tools" }).click();
   await page.getByRole("link", { name: "Mode - AWS" }).click();

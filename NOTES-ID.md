@@ -1,20 +1,20 @@
 # Catatan Rekayasa & Arsitektur — Visual Subnet Calculator
 
-Catatan desain teknis, spesifikasi algoritma, struktur data, dan mekanisme serialisasi untuk Visual Subnet Calculator v1.4.2.
+Catatan desain teknis, spesifikasi algoritma, struktur data, dan mekanisme serialisasi untuk Visual Subnet Calculator v1.4.3.
 
 ---
 
 ## 🧭 Ikhtisar & Daftar Isi
 
-1. [Eksplorasi Historis Serialisasi Status](#1-eksplorasi-historis-serialisasi-status)
-2. [Serialisasi Status Produksi: LZ-String & URL Hash](#2-serialisasi-status-produksi-lz-string--url-hash)
-3. [Arsitektur Pertukaran Data Multi-Format (v1.4.2)](#3-arsitektur-pertukaran-data-multi-format-v142)
-4. [Algoritma Perhitungan Supernet Minimal & Rekonstruksi Pohon](#4-algoritma-perhitungan-supernet-minimal--rekonstruksi-pohon)
-5. [Fondasi Matematika Dual-Stack (IPv4 vs IPv6 BigInt)](#5-fondasi-matematika-dual-stack-ipv4-vs-ipv6-bigint)
-6. [Optimasi Masker Bitwise Waktu-Konstan O(1)](#6-optimasi-masker-bitwise-waktu-konstan-o1)
-7. [Performa DOM, Pengerasan Keamanan & Standar Aksesibilitas](#7-performa-dom-pengerasan-keamanan--standar-aksesibilitas)
-8. [Ringkasan Teknis, Kaidah RFC 2119 & Praktik Terbaik Rekayasa](#8-ringkasan-teknis-kaidah-rfc-2119--praktik-terbaik-rekayasa)
-9. [Atribusi Pengelola & Konteks Ekosistem](#9-atribusi-pengelola--konteks-ekosistem)
+1. [`Eksplorasi Historis Serialisasi Status`](#1-eksplorasi-historis-serialisasi-status)
+2. [`Serialisasi Status Produksi: LZ-String & URL Hash`](#2-serialisasi-status-produksi-lz-string--url-hash)
+3. [`Arsitektur Pertukaran Data Multi-Format (v1.4.2)`](#3-arsitektur-pertukaran-data-multi-format-v142)
+4. [`Algoritma Perhitungan Supernet Minimal & Rekonstruksi Pohon`](#4-algoritma-perhitungan-supernet-minimal--rekonstruksi-pohon)
+5. [`Fondasi Matematika Dual-Stack (IPv4 vs IPv6 BigInt)`](#5-fondasi-matematika-dual-stack-ipv4-vs-ipv6-bigint)
+6. [`Optimasi Masker Bitwise Waktu-Konstan O(1)`](#6-optimasi-masker-bitwise-waktu-konstan-o1)
+7. [`Performa DOM, Pengerasan Keamanan & Standar Aksesibilitas`](#7-performa-dom-pengerasan-keamanan--standar-aksesibilitas)
+8. [`Ringkasan Teknis, Kaidah RFC 2119 & Praktik Terbaik Rekayasa`](#8-ringkasan-teknis-kaidah-rfc-2119--praktik-terbaik-rekayasa)
+9. [`Atribusi Pengelola & Konteks Ekosistem`](#9-atribusi-pengelola--konteks-ekosistem)
 
 ---
 
@@ -102,7 +102,7 @@ Pohon status merepresentasikan blok CIDR yang terpartisi sebagai objek rekursif 
 - Subnet yang memiliki objek turunan merepresentasikan cabang yang terbagi (_split_).
 - Subnet yang memiliki properti `_note` atau `_color` merepresentasikan subnet daun (_leaf_) yang telah dikonfigurasi.
 - Metadata operasional tingkat atas (mode cloud, flag IPv6) diserialisasi ke dalam selubung akar (_root envelope_):
-  - `mode`: `"Standard"`, `"AWS"`, `"Azure"`, atau `"OCI"`
+  - `mode`: `"Standard"`, `"AWS"`, `"Azure"`, `"GCP"`, atau `"OCI"`
   - `ip_version`: `"IPv4"` atau `"IPv6"`
 
 ### 2.2 Kompatibilitas Mundur & Migrasi Aman
@@ -295,7 +295,7 @@ Lebar Viewport (px)
 
 ### 8.1 Ringkasan Teknis
 
-Visual Subnet Calculator (v1.4.2) adalah mesin perencanaan IP visual berskala industri yang beroperasi sepenuhnya pada sisi klien (_client-side_), dirancang untuk operasional jaringan enterprise berkeandalan tinggi, topologi cloud VPC/VNet (AWS, Azure, OCI), serta arsitektur _dual-stack_ IPv4/IPv6. Prinsip utama arsitektur mencakup:
+Visual Subnet Calculator (v1.4.3) adalah mesin perencanaan IP visual berskala industri yang beroperasi sepenuhnya pada sisi klien (_client-side_), dirancang untuk operasional jaringan enterprise berkeandalan tinggi, topologi cloud VPC/VNet (AWS, Azure, GCP, OCI), serta arsitektur _dual-stack_ IPv4/IPv6. Prinsip utama arsitektur mencakup:
 
 - **Determinisme Sisi Klien 100%**: Seluruh pemisahan (_split_), penggabungan (_join_), konversi format (JSON, CSV, Plain Text), dan pengodean status berlangsung sepenuhnya di dalam runtime browser lokal menggunakan operasi bitwise waktu-konstan $O(1)$ dan kepresisian lossless 128-bit `BigInt`. Nol bita data topologi yang dikirimkan ke server eksternal.
 - **Serialisasi Status Nir-Server (URL Hash)**: Topologi interaktif dengan struktur pohon biner bersarang, catatan teks kustom, dan tag warna pastel diserialisasi menjadi string hash URL yang aman dan ringkas menggunakan kompresi LZ-String (`#?c=...`).
@@ -304,7 +304,7 @@ Visual Subnet Calculator (v1.4.2) adalah mesin perencanaan IP visual berskala in
 
 ### 8.2 Kaidah Rekayasa RFC 2119 & RFC 8174
 
-Kata kunci **MUST (Wajib)**, **MUST NOT (Dilarang)**, **SHOULD (Sangat Dianjurkan)**, **SHOULD NOT (Sangat Tidak Dianjurkan)**, **MAY (Boleh / Opsional)**, dan **AVOID (Hindari)** dalam spesifikasi teknis ini ditafsirkan sebagaimana dijelaskan dalam [BCP 14](https://datatracker.ietf.org/doc/html/bcp14), [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119), dan [RFC 8174](https://datatracker.ietf.org/doc/html/rfc8174).
+Kata kunci **MUST (Wajib)**, **MUST NOT (Dilarang)**, **SHOULD (Sangat Dianjurkan)**, **SHOULD NOT (Sangat Tidak Dianjurkan)**, **MAY (Boleh / Opsional)**, dan **AVOID (Hindari)** dalam spesifikasi teknis ini ditafsirkan sebagaimana dijelaskan dalam [`BCP 14`](https://datatracker.ietf.org/doc/html/bcp14), [`RFC 2119`](https://datatracker.ietf.org/doc/html/rfc2119), dan [`RFC 8174`](https://datatracker.ietf.org/doc/html/rfc8174).
 
 #### 🔴 MUST (Kaidah Wajib)
 
@@ -347,7 +347,7 @@ Kata kunci **MUST (Wajib)**, **MUST NOT (Dilarang)**, **SHOULD (Sangat Dianjurka
    - Awali perencanaan dari blok induk terbesar (misalnya IPv4 `/16` atau IPv6 `/32`–`/48`).
    - Lakukan partisi secara berurutan berdasarkan tingkatan operasional (Zona Ketersediaan, subnet VPC, atau batas keamanan) daripada rentang alamat acak.
 3. **Kesadaran Alokasi IP Khusus Penyedia Cloud**:
-   - Selalu aktifkan profil cloud yang relevan (**AWS VPC**, **Azure VNet**, atau **Oracle Cloud OCI**) saat merancang topologi cloud guna memperhitungkan alamat yang dicadangkan oleh penyedia (seperti AWS yang mencadangkan `.0`, `.1`, `.2`, `.3`, dan `.255`).
+   - Selalu aktifkan profil cloud yang relevan (**AWS VPC**, **Azure VNet**, **Google Cloud GCP**, atau **Oracle Cloud OCI**) saat merancang topologi cloud guna memperhitungkan alamat yang dicadangkan oleh penyedia (seperti AWS yang mencadangkan `.0`, `.1`, `.2`, `.3`, dan `.255`).
 4. **Manipulasi DOM Defensif**:
    - Gunakan jQuery `.text()` atau `textContent` murni untuk nilai dinamis. Jika struktur HTML diperlukan, selalu sanitasi nilai terlebih dahulu menggunakan `escapeHtml()`.
 5. **Kesiapan Beroperasi di Lingkungan Air-Gapped (Luring)**:
@@ -371,7 +371,7 @@ Visual Subnet Calculator berfungsi sebagai mesin perancangan dan alokasi IP dasa
 
 ### Saluran & Sumber Daya Resmi
 
-- **Situs Resmi Pengelola**: [https://alsyundawy.com](https://alsyundawy.com)
-- **Repositori GitHub**: [https://github.com/alsyundawy/visualsubnetcalc](https://github.com/alsyundawy/visualsubnetcalc)
-- **Kontak Langsung**: X ([@alsyundawy](https://x.com/alsyundawy)) | Telegram ([@alsyundawy](https://t.me/alsyundawy)) | Email ([alsyundawy@gmail.com](mailto:alsyundawy@gmail.com))
-- **Dukungan Finansial**: [Donasi PayPal](https://paypal.me/alsyundawy)
+- **Situs Resmi Pengelola**: [`https://alsyundawy.com`](https://alsyundawy.com)
+- **Repositori GitHub**: [`https://github.com/alsyundawy/visualsubnetcalc`](https://github.com/alsyundawy/visualsubnetcalc)
+- **Kontak Langsung**: X ([`@alsyundawy`](https://x.com/alsyundawy)) | Telegram ([`@alsyundawy`](https://t.me/alsyundawy)) | Email ([`alsyundawy@gmail.com`](mailto:alsyundawy@gmail.com))
+- **Dukungan Finansial**: [`Donasi PayPal`](https://paypal.me/alsyundawy)

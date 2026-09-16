@@ -211,6 +211,7 @@ const usableIpCases = [
   { mode: "Standard", expectedIps: "10.0.0.1 - 10.0.255.254" },
   { mode: "AWS", expectedIps: "10.0.0.4 - 10.0.255.254" },
   { mode: "Azure", expectedIps: "10.0.0.4 - 10.0.255.254" },
+  { mode: "GCP", expectedIps: "10.0.0.2 - 10.0.255.253" },
   { mode: "OCI", expectedIps: "10.0.0.2 - 10.0.255.254" },
 ];
 

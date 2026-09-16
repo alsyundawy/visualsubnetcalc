@@ -1,42 +1,42 @@
 # Visual Subnet Calculator — Edisi Modern & Diperkeras
 
-[![Rilis](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.2)
+[![Rilis](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.3)
 [![Lisensi: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Keamanan CodeQL](https://img.shields.io/badge/CodeQL-0%20Alerts%20%7C%20Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/alsyundawy/visualsubnetcalc/security/code-scanning)
 [![Linter Trunk](https://img.shields.io/badge/Trunk%20Check-14%20Linters%20Clean-brightgreen?style=for-the-badge&logo=checkmarx)](https://trunk.io)
 [![WCAG](https://img.shields.io/badge/WCAG%202.2-Level%20AA%20Compliant-blue?style=for-the-badge&logo=w3c)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![Pengujian E2E](https://img.shields.io/badge/Playwright%20E2E-114%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
+[![Pengujian E2E](https://img.shields.io/badge/Playwright%20E2E-118%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Responsif](https://img.shields.io/badge/Responsive-VGA%20to%202K-purple?style=for-the-badge)](https://github.com/alsyundawy/visualsubnetcalc)
 [![Donasi PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
 
 > **Mesin perancangan dan kalkulator subnet CIDR visual IPv4 & IPv6 yang interaktif, aksesibel, dan berkinerja tinggi untuk insinyur jaringan, arsitek cloud, serta praktisi DevOps.**
-> Dioptimalkan dan dikelola oleh **[HARRY DERTIN SUTISNA (@alsyundawy)](https://github.com/alsyundawy)** — Dibangun atas karya perintis oleh **[@ckabalan](https://github.com/ckabalan)**, **[@bl4ckfir3](https://github.com/bl4ckfir3)**, dan **[@davidc](https://github.com/davidc)**.
+> Dioptimalkan dan dikelola oleh **[`HARRY DERTIN SUTISNA (@alsyundawy)`](https://github.com/alsyundawy)** — Dibangun atas karya perintis oleh **[`@ckabalan`](https://github.com/ckabalan)**, **[`@bl4ckfir3`](https://github.com/bl4ckfir3)**, dan **[`@davidc`](https://github.com/davidc)**.
 >
-> 📖 **[Catatan Arsitektur & Integrasi (DOCNOTE-ID.md)](DOCNOTE-ID.md)** &nbsp;|&nbsp; 📜 **[Catatan Perubahan Rilis (CHANGELOG-ID.md)](CHANGELOG-ID.md)** &nbsp;|&nbsp; 💖 **[Dukung via PayPal](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[Daftar Rilis](https://github.com/alsyundawy/visualsubnetcalc/releases)**
+> 📖 **[`Catatan Arsitektur & Integrasi (DOCNOTE-ID.md)`](DOCNOTE-ID.md)** &nbsp;|&nbsp; 📜 **[`Catatan Perubahan Rilis (CHANGELOG-ID.md)`](CHANGELOG-ID.md)** &nbsp;|&nbsp; 💖 **[`Dukung via PayPal`](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[`Daftar Rilis`](https://github.com/alsyundawy/visualsubnetcalc/releases)**
 
 ---
 
 ## 🧭 Navigasi
 
-- [📸 Pratinjau Interaktif](#-pratinjau-interaktif)
-- [🌟 Mengapa Edisi Modern Ini?](#-mengapa-edisi-modern-ini)
-- [✨ Fitur Utama](#-fitur-utama)
-- [🌐 Arsitektur IPv6 & Tingkatan Alokasi](#-arsitektur-ipv6--tingkatan-alokasi)
-- [☁️ Profil Subnet Penyedia Cloud](#️-profil-subnet-penyedia-cloud)
-- [📦 Impor & Ekspor Multi-Format (JSON, CSV, Plain Text)](#-impor--ekspor-multi-format-json-csv-plain-text)
-- [🚀 Panduan Instalasi & Deployment](#-panduan-instalasi--deployment)
-  - [🐳 Menjalankan dengan Docker](#-menjalankan-dengan-docker)
-  - [🖥️ Menjalankan Tanpa Docker (Host Asli / Bare-Metal)](#️-menjalankan-tanpa-docker-host-asli--bare-metal)
-  - [🔒 Deployment Produksi: Nginx + Certbot (SSL) + Domain Kustom](#-deployment-produksi-nginx--certbot-ssl--domain-kustom)
-- [🛠️ Pengembangan Lokal & Pengujian](#️-pengembangan-lokal--pengujian)
-- [📊 Jaminan Kualitas & Matriks Verifikasi](#-jaminan-kualitas--matriks-verifikasi)
-- [📋 Standar Rekayasa, Praktik Terbaik & Kaidah RFC 2119](#-standar-rekayasa-praktik-terbaik--kaidah-rfc-2119)
-- [📚 Dokumentasi & Catatan Rekayasa](#-dokumentasi--catatan-rekayasa)
-- [📜 Riwayat Versi & Catatan Perubahan](#-riwayat-versi--catatan-perubahan)
-- [🤝 Kredit & Penulis Asli](#-kredit--penulis-asli)
-- [📬 Pengelola & Kontak](#-pengelola--kontak)
-- [💖 Dukungan & Donasi](#-dukungan--donasi)
-- [📄 Lisensi](#-lisensi)
+- [`📸 Pratinjau Interaktif`](#-pratinjau-interaktif)
+- [`🌟 Mengapa Edisi Modern Ini?`](#-mengapa-edisi-modern-ini)
+- [`✨ Fitur Utama`](#-fitur-utama)
+- [`🌐 Arsitektur IPv6 & Tingkatan Alokasi`](#-arsitektur-ipv6--tingkatan-alokasi)
+- [`☁️ Profil Subnet Penyedia Cloud & Catatan Subnet Cloud`](#️-profil-subnet-penyedia-cloud--catatan-subnet-cloud)
+- [`📦 Impor & Ekspor Multi-Format (JSON, CSV, Plain Text)`](#-impor--ekspor-multi-format-json-csv-plain-text)
+- [`🚀 Panduan Instalasi & Deployment`](#-panduan-instalasi--deployment)
+  - [`🐳 Menjalankan dengan Docker`](#-menjalankan-dengan-docker)
+  - [`🖥️ Menjalankan Tanpa Docker (Host Asli / Bare-Metal)`](#️-menjalankan-tanpa-docker-host-asli--bare-metal)
+  - [`🔒 Deployment Produksi: Nginx + Certbot (SSL) + Domain Kustom`](#-deployment-produksi-nginx--certbot-ssl--domain-kustom)
+- [`🛠️ Pengembangan Lokal & Pengujian`](#️-pengembangan-lokal--pengujian)
+- [`📊 Jaminan Kualitas & Matriks Verifikasi`](#-jaminan-kualitas--matriks-verifikasi)
+- [`📋 Standar Rekayasa, Praktik Terbaik & Kaidah RFC 2119`](#-standar-rekayasa-praktik-terbaik--kaidah-rfc-2119)
+- [`📚 Dokumentasi & Catatan Rekayasa`](#-dokumentasi--catatan-rekayasa)
+- [`📜 Riwayat Versi & Catatan Perubahan`](#-riwayat-versi--catatan-perubahan)
+- [`🤝 Kredit & Penulis Asli`](#-kredit--penulis-asli)
+- [`📬 Pengelola & Kontak`](#-pengelola--kontak)
+- [`💖 Dukungan & Donasi`](#-dukungan--donasi)
+- [`📄 Lisensi`](#-lisensi)
 
 ---
 
@@ -50,9 +50,9 @@ Visual Subnet Calculator menyingkirkan perhitungan subnet akademis yang rumit da
 
 ## 🌟 Mengapa Edisi Modern Ini?
 
-> 💡 _Untuk spesifikasi arsitektur mendalam, hash integritas SRI dependensi, dan detail integrasi ekosistem, lihat [DOCNOTE-ID.md](DOCNOTE-ID.md). Untuk riwayat rilis versi per versi secara terperinci, lihat [CHANGELOG-ID.md](CHANGELOG-ID.md)._
+> 💡 _Untuk spesifikasi arsitektur mendalam, hash integritas SRI dependensi, dan detail integrasi ekosistem, lihat [`DOCNOTE-ID.md`](DOCNOTE-ID.md). Untuk riwayat rilis versi per versi secara terperinci, lihat [`CHANGELOG-ID.md`](CHANGELOG-ID.md)._
 
-Edisi ini (**v1.4.2+**) menghadirkan perombakan menyeluruh pada aspek arsitektur, keamanan, aksesibilitas, performa, dan antarmuka visual:
+Edisi ini (**v1.4.3+**) menghadirkan perombakan menyeluruh pada aspek arsitektur, keamanan, aksesibilitas, performa, dan antarmuka visual:
 
 ### 🛡️ 1. Keamanan Bebas Celah & Remediasi CodeQL
 
@@ -106,7 +106,7 @@ Edisi ini (**v1.4.2+**) menghadirkan perombakan menyeluruh pada aspek arsitektur
 - **Tautan Point-to-Point Antar-Router RFC 6164**: Dukungan langsung untuk subnet `/127` yang digunakan pada infrastruktur tautan router guna mencegah serangan amplifikasi _ping-pong_, dengan kemampuan membagi secara interaktif menjadi dua subnet host `/128`.
 - **Perlindungan Batas SLAAC & Host**: Kepatuhan penuh terhadap standar RFC 4291 dan RFC 7421, melindungi subnet daun `/64` dan `/128` dari pemecahan yang tidak valid disertai panduan edukatif yang jelas.
 - **Pemisahan & Penggabungan Visual (Split & Join)**: Membagi blok CIDR IPv4 atau IPv6 menjadi dua bagian dengan satu klik, atau menggabungkan kembali pasangan subnet yang bersebelahan menjadi blok induknya.
-- **Mode Khusus Penyedia Cloud**: Profil bawaan untuk **Standar RFC 1918**, **AWS VPC**, **Azure VNet**, dan **Oracle Cloud (OCI)** yang secara otomatis memperhitungkan alamat IP yang dicadangkan oleh vendor cloud.
+- **Mode Khusus Penyedia Cloud**: Profil bawaan untuk **Standar RFC 1918**, **AWS VPC**, **Azure VNet**, **Google Cloud (GCP) VPC**, dan **Oracle Cloud (OCI)** yang secara otomatis memperhitungkan alamat IP yang dicadangkan oleh vendor cloud.
 - **Pemberian Warna yang Aksesibel**: Menetapkan warna-warna pastel yang nyaman di mata pada setiap subnet untuk membedakan tingkatan peran jaringan (misalnya DMZ, Web, Aplikasi, Basis Data, Manajemen).
 - **Akordion FAQ Interaktif**: Dokumentasi bawaan yang memuat 10 panduan topik arsitektur terlipat rapi dengan tombol kendali satu-klik "Expand All" dan "Collapse All", matriks perbandingan reservasi cloud, panduan IPv6, mekanisme split/join, alur kerja pewarnaan, dan jaminan privasi.
 - **Ikon Font Awesome Free v7.3.1**: Memperbarui seluruh grafis antarmuka dengan ikon vektor Font Awesome yang tajam dan aksesibel pada header, toolbar, modal, dan footer.
@@ -139,22 +139,74 @@ $$\text{/32 (ISP/LIR)} \longrightarrow \text{/48 (Situs Korporat)} \longrightarr
 
 ---
 
-## ☁️ Profil Subnet Penyedia Cloud
+## ☁️ Profil Subnet Penyedia Cloud & Catatan Subnet Cloud
 
-Setiap penyedia infrastruktur cloud mencadangkan alamat IP tertentu dalam setiap subnet untuk kebutuhan perutean internal, DNS, dan gateway:
+Setiap penyedia infrastruktur cloud mencadangkan alamat IP tertentu dalam setiap subnet untuk kebutuhan perutean internal, DNS, dan gateway. Visual Subnet Calculator secara native memperhitungkan reservasi vendor tersebut, menyesuaikan rentang host usable, dan menampilkan rincian tooltip secara transparan.
 
-| Profil Cloud           | Subnet Terkecil |        IP Dicadangkan        | Rincian Peran Alamat IP yang Dicadangkan                                                             | Dokumentasi Rujukan                                                                                                                                                             |
-| :--------------------- | :-------------: | :--------------------------: | :--------------------------------------------------------------------------------------------------- | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| **Standar**            |      `/32`      | **2** _(ukuran $\le$ `/30`)_ | Alamat Jaringan (`.0`), Alamat Broadcast (`.last`)                                                   | [RFC 1918](https://datatracker.ietf.org/doc/html/rfc1918) / [RFC 4632](https://datatracker.ietf.org/doc/html/rfc4632)                                                           |
-| **AWS VPC**            |      `/28`      |            **5**             | Network (`.0`), Router VPC (`.1`), DNS VPC (`.2`), Penggunaan Masa Depan (`.3`), Broadcast (`.last`) | [Ukuran Subnet AWS VPC](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)                                                                                    |
-| **Azure VNet**         |      `/29`      |            **5**             | Network (`.0`), Default Gateway (`.1`), Pemetaan DNS Azure (`.2`, `.3`), Broadcast (`.last`)         | [Batasan Subnet Azure VNet](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets) |
-| **Oracle Cloud (OCI)** |      `/30`      |            **3**             | Network (`.0`), Default Gateway (`.1`), Broadcast (`.last`)                                          | [Alamat IP Dicadangkan OCI](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)                                                 |
+### 📊 Matriks Perbandingan Reservasi Cloud
+
+| Profil Cloud           | Subnet Terkecil |        IP Dicadangkan        | Rincian Peran Alamat IP yang Dicadangkan                                                             | Dokumentasi Rujukan                                                                                                                                                               |
+| :--------------------- | :-------------: | :--------------------------: | :--------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Standar**            |      `/32`      | **2** _(ukuran $\le$ `/30`)_ | Alamat Jaringan (`.0`), Alamat Broadcast (`.last`)                                                   | [`RFC 1918`](https://datatracker.ietf.org/doc/html/rfc1918) / [`RFC 4632`](https://datatracker.ietf.org/doc/html/rfc4632)                                                         |
+| **AWS VPC**            |      `/28`      |            **5**             | Network (`.0`), Router VPC (`.1`), DNS VPC (`.2`), Penggunaan Masa Depan (`.3`), Broadcast (`.last`) | [`Ukuran Subnet AWS VPC`](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)                                                                                    |
+| **Azure VNet**         |      `/29`      |            **5**             | Network (`.0`), Default Gateway (`.1`), Pemetaan DNS Azure (`.2`, `.3`), Broadcast (`.last`)         | [`Batasan Subnet Azure VNet`](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets) |
+| **Google Cloud (GCP)** |      `/29`      |            **4**             | Network (`.0`), Default Gateway (`.1`), Penggunaan Masa Depan (`.last - 1`), Broadcast (`.last`)     | [`Subnet Google Cloud VPC`](https://cloud.google.com/vpc/docs/subnets#reserved_ip_addresses_in_ipv4_subnets)                                                                      |
+| **Oracle Cloud (OCI)** |      `/30`      |            **3**             | Network (`.0`), Default Gateway (`.1`), Broadcast (`.last`)                                          | [`Alamat IP Dicadangkan OCI`](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)                                                 |
+
+### 🌐 Mode Standar RFC 1918 / RFC 4632
+
+- **Subnet Terkecil**: `/32` (Antarmuka host tunggal / loopback)
+- **Alamat Dicadangkan (untuk ukuran $\le$ /30)**: 2 alamat
+  - **Alamat Jaringan**: `network + 0` (Pengenal dasar jaringan)
+  - **Alamat Broadcast**: `alamat terakhir` (`network + size - 1`)
+- **Rentang Host Usable**: `network + 1` hingga `last_address - 1` (untuk ukuran $\le$ /30). Untuk tautan point-to-point router `/31` (RFC 3021), kedua alamat dapat digunakan tanpa reservasi network/broadcast terpisah. Untuk `/32`, tersedia tepat 1 alamat host.
+
+### 🟧 Mode Amazon Web Services (AWS) VPC
+
+- **Subnet Terkecil**: `/28` (16 alamat total, 11 usable)
+- **Alamat Dicadangkan**: 5 alamat per subnet
+  - `network + 0`: **Alamat jaringan** (Mengidentifikasi blok CIDR subnet)
+  - `network + 1`: **Router VPC** (Dicadangkan oleh AWS untuk perutean default gateway)
+  - `network + 2`: **DNS VPC** (Dicadangkan oleh AWS untuk AmazonProvidedDNS / Route 53 Resolver)
+  - `network + 3`: **Penggunaan masa depan** (Dicadangkan oleh AWS untuk kapabilitas internal mendatang)
+  - `alamat terakhir`: **Broadcast jaringan** (AWS VPC tidak mendukung broadcast, namun tetap mencadangkan alamat ini)
+- **Rentang Host Usable**: `network + 4` hingga `last_address - 1`
+
+### 🟦 Mode Microsoft Azure Virtual Network (VNet)
+
+- **Subnet Terkecil**: `/29` (8 alamat total, 3 usable)
+- **Alamat Dicadangkan**: 5 alamat per subnet
+  - `network + 0`: **Alamat jaringan** (Mengidentifikasi blok CIDR subnet)
+  - `network + 1`: **Default gateway** (Dicadangkan oleh Azure untuk perutean keluar dari subnet)
+  - `network + 2`: **DNS Azure** (Memetakan alamat IP DNS Azure ke ruang alamat VNet)
+  - `network + 3`: **DNS Azure** (Pemetaan redundan sekunder untuk resolusi DNS Azure)
+  - `alamat terakhir`: **Broadcast jaringan** (Dicadangkan oleh Azure)
+- **Rentang Host Usable**: `network + 4` hingga `last_address - 1`
+
+### 🟥 Mode Google Cloud Platform (GCP) VPC
+
+- **Subnet Terkecil**: `/29` (8 alamat total, 4 usable)
+- **Alamat Dicadangkan**: 4 alamat per subnet
+  - `network + 0`: **Alamat jaringan** (Mengidentifikasi blok CIDR subnet)
+  - `network + 1`: **Default gateway** (Digunakan oleh Google Cloud untuk merutekan lalu lintas di dalam jaringan VPC)
+  - `last_address - 1`: **Penggunaan masa depan** (Alamat kedua dari belakang, dicadangkan oleh Google untuk fitur mendatang)
+  - `alamat terakhir`: **Broadcast jaringan** (Google Cloud VPC tidak mendukung broadcast, namun tetap mencadangkan alamat ini)
+- **Rentang Host Usable**: `network + 2` hingga `last_address - 2` (Perhatikan bahwa berbeda dari AWS dan Azure yang mencadangkan `.2` dan `.3` di batas awal, Google Cloud mencadangkan `.1` di awal dan `last - 1` di batas akhir)
+
+### 🔴 Mode Oracle Cloud Infrastructure (OCI)
+
+- **Subnet Terkecil**: `/30` (4 alamat total, 1 usable)
+- **Alamat Dicadangkan**: 3 alamat per subnet
+  - `network + 0`: **Alamat jaringan** (Mengidentifikasi blok CIDR subnet)
+  - `network + 1`: **Default gateway** (Dicadangkan oleh OCI untuk IP virtual router subnet)
+  - `alamat terakhir`: **Broadcast jaringan** (Dicadangkan oleh OCI)
+- **Rentang Host Usable**: `network + 2` hingga `last_address - 1`
 
 ---
 
 ## 📦 Impor & Ekspor Multi-Format (JSON, CSV, Plain Text)
 
-Visual Subnet Calculator v1.4.2 menyediakan mesin pertukaran data multi-format yang dapat diakses melalui tombol **Import / Export** pada bilah alat atas:
+Visual Subnet Calculator v1.4.3 menyediakan mesin pertukaran data multi-format yang dapat diakses melalui tombol **Import / Export** pada bilah alat atas:
 
 ```text
                        ┌──────────────────────────────────────────────┐
@@ -234,14 +286,14 @@ git clone https://github.com/alsyundawy/visualsubnetcalc.git
 cd visualsubnetcalc
 
 # 2. Bangun image Docker produksi menggunakan Dockerfile multi-stage
-docker build -t visualsubnetcalc:1.4.2 .
+docker build -t visualsubnetcalc:1.4.3 .
 
 # 3. Jalankan kontainer yang telah diperkeras
 docker run -d \
   --name visualsubnetcalc \
   --restart unless-stopped \
   -p 8080:8080 \
-  visualsubnetcalc:1.4.2
+  visualsubnetcalc:1.4.3
 ```
 
 #### Metode 3: Konfigurasi Docker Compose Produksi (`docker-compose.yml`)
@@ -315,9 +367,10 @@ Jika Anda tidak menggunakan Docker, Visual Subnet Calculator dapat berjalan pada
 
 **Kebutuhan Sistem**:
 
-- Linux: Ubuntu 22.04/24.04 LTS, Debian 11/12 (atau macOS Sonoma/Sequoia, Windows WSL2)
-- Node.js: 20 LTS atau 22 LTS
-- npm: Versi 10 ke atas
+- **Sistem Operasi**: Linux (Ubuntu 22.04/24.04 LTS, Debian 11/12), macOS (Sonoma, Sequoia), atau Windows 10/11 dengan WSL2
+- **Versi Minimum Node.js**: **Node.js `v18.0.0+ LTS`** (Hydrogen) — Diperlukan untuk modul ECMAScript native (ESM), matematika bitwise `BigInt` 128-bit lossless, dan Web Crypto API.
+- **Versi Optimal / Disarankan**: **Node.js `v20.x` / `v22.x Active LTS`** (Iron / Jod) — Menghadirkan performa puncak melalui mesin V8 JIT mutakhir, jejak memori terendah, serta eksekusi pengujian otomatis Playwright berkecepatan tinggi.
+- **Pengelola Paket**: **npm `10.x+`** (atau pnpm `9.x+`, yarn `4.x+`)
 
 ```bash
 # 1. Gandakan repositori
@@ -368,11 +421,11 @@ sudo chown -R www-data:www-data /var/www/visualsubnetcalc
 sudo chmod -R 755 /var/www/visualsubnetcalc
 ```
 
-Lihat bagian [Konfigurasi Nginx](#-deployment-produksi-nginx--certbot-ssl--domain-kustom) di bawah untuk blok konfigurasi virtual host selengkapnya.
+Lihat bagian [`Konfigurasi Nginx`](#-deployment-produksi-nginx--certbot-ssl--domain-kustom) di bawah untuk blok konfigurasi virtual host selengkapnya.
 
 #### Metode 4: Server Caddy (Modern dengan HTTPS Otomatis)
 
-Jika Anda menggunakan [Caddy](https://caddyserver.com/), penyajian berkas statis berkecepatan tinggi dengan sertifikat SSL otomatis hanya membutuhkan 3 baris pada `/etc/caddy/Caddyfile`:
+Jika Anda menggunakan [`Caddy`](https://caddyserver.com/), penyajian berkas statis berkecepatan tinggi dengan sertifikat SSL otomatis hanya membutuhkan 3 baris pada `/etc/caddy/Caddyfile`:
 
 ```caddyfile
 subnet.domainanda.com {
@@ -616,13 +669,13 @@ npm run local-secure-start
 
 Setiap rilis edisi ini melewati pengujian bertingkat yang ketat pada pipeline otomatis:
 
-| Gerbang Kualitas           | Alat / Mesin                         | Cakupan Target                                           | Status                                       |
-| :------------------------- | :----------------------------------- | :------------------------------------------------------- | :------------------------------------------- |
-| **Linting Komprehensif**   | [Trunk Check](https://trunk.io)      | 14 Linter (`prettier`, `yamllint`, `markdownlint`, dll.) | **BERHASIL (68/68 berkas bersih)**           |
-| **Validasi Standar HTML5** | `html-validate`                      | Standar native HTML, aksesibilitas & tag semantik        | **BERHASIL (0 galat, 0 peringatan)**         |
-| **Pengujian Peramban E2E** | [Playwright](https://playwright.dev) | Alur pengguna menyeluruh pada Chromium & Firefox         | **BERHASIL (114/114 pengujian lulus)**       |
-| **Pemindaian Keamanan**    | GitHub CodeQL                        | Analisis kerentanan DOM XSS dan alur source-to-sink      | **BERHASIL (0 peringatan keamanan)**         |
-| **Kebijakan Kontainer**    | `checkov` & `hadolint`               | Best practice Dockerfile & konfigurasi CloudFormation    | **BERHASIL (Kepatuhan CIS & Best Practice)** |
+| Gerbang Kualitas           | Alat / Mesin                           | Cakupan Target                                           | Status                                       |
+| :------------------------- | :------------------------------------- | :------------------------------------------------------- | :------------------------------------------- |
+| **Linting Komprehensif**   | [`Trunk Check`](https://trunk.io)      | 14 Linter (`prettier`, `yamllint`, `markdownlint`, dll.) | **BERHASIL (68/68 berkas bersih)**           |
+| **Validasi Standar HTML5** | `html-validate`                        | Standar native HTML, aksesibilitas & tag semantik        | **BERHASIL (0 galat, 0 peringatan)**         |
+| **Pengujian Peramban E2E** | [`Playwright`](https://playwright.dev) | Alur pengguna menyeluruh pada Chromium & Firefox         | **BERHASIL (118/118 pengujian lulus)**       |
+| **Pemindaian Keamanan**    | GitHub CodeQL                          | Analisis kerentanan DOM XSS dan alur source-to-sink      | **BERHASIL (0 peringatan keamanan)**         |
+| **Kebijakan Kontainer**    | `checkov` & `hadolint`                 | Best practice Dockerfile & konfigurasi CloudFormation    | **BERHASIL (Kepatuhan CIS & Best Practice)** |
 
 ---
 
@@ -634,7 +687,7 @@ Visual Subnet Calculator merupakan mesin perencanaan subnet IP visual tingkat in
 
 ### 📐 Kriteria Rekayasa RFC 2119 / RFC 8174
 
-Kata kunci **MUST (Wajib)**, **MUST NOT (Dilarang)**, **SHOULD (Sangat Dianjurkan)**, **SHOULD NOT (Sangat Tidak Dianjurkan)**, **MAY (Boleh / Opsional)**, dan **AVOID (Hindari)** dalam dokumen ini ditafsirkan sebagaimana dijelaskan dalam [BCP 14](https://datatracker.ietf.org/doc/html/bcp14), [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119), dan [RFC 8174](https://datatracker.ietf.org/doc/html/rfc8174).
+Kata kunci **MUST (Wajib)**, **MUST NOT (Dilarang)**, **SHOULD (Sangat Dianjurkan)**, **SHOULD NOT (Sangat Tidak Dianjurkan)**, **MAY (Boleh / Opsional)**, dan **AVOID (Hindari)** dalam dokumen ini ditafsirkan sebagaimana dijelaskan dalam [`BCP 14`](https://datatracker.ietf.org/doc/html/bcp14), [`RFC 2119`](https://datatracker.ietf.org/doc/html/rfc2119), dan [`RFC 8174`](https://datatracker.ietf.org/doc/html/rfc8174).
 
 #### 🔴 MUST (Keharusan Mutlak / Invarian Wajib)
 
@@ -686,7 +739,7 @@ Kata kunci **MUST (Wajib)**, **MUST NOT (Dilarang)**, **SHOULD (Sangat Dianjurka
 
 ## 📚 Dokumentasi & Catatan Rekayasa
 
-Dokumentasi teknis komprehensif, spesifikasi arsitektur, pertimbangan keamanan, dan panduan integrasi sistem dipelihara di **[DOCNOTE-ID.md](DOCNOTE-ID.md)**. Topik utama mencakup:
+Dokumentasi teknis komprehensif, spesifikasi arsitektur, pertimbangan keamanan, dan panduan integrasi sistem dipelihara di **[`DOCNOTE-ID.md`](DOCNOTE-ID.md)**. Topik utama mencakup:
 
 - **Arsitektur Inti**: Rincian Struktur (`dist/index.html`), Presentasi (`dist/css/main.css`), Logika (`dist/js/main.js`), dan Profil Subnet Cloud.
 - **Matriks Dependensi & Hash Kriptografis SRI**: Tabel verifikasi lengkap Subresource Integrity SHA384 untuk Bootstrap 5.3.8, jQuery 3.7.1, jQuery Validate 1.21.0, dan LZ-String 1.5.0.
@@ -696,17 +749,23 @@ Dokumentasi teknis komprehensif, spesifikasi arsitektur, pertimbangan keamanan, 
 - **Integrasi Infrastruktur ALSYUNDAWY**: Panduan integrasi alokasi subnet ke dalam sistem Netplan Linux, alat diagnostik Ping/MTR, administrasi DNS PTR, audit keamanan Nmap, serta isolasi akses zero-trust Nginx.
 - **Model Keamanan & Privasi**: Jaminan eksekusi 100% sisi klien tanpa kebocoran data jaringan dan panduan Content Security Policy (CSP).
 
-👉 **Baca spesifikasi teknis selengkapnya**: **[DOCNOTE-ID.md](DOCNOTE-ID.md)**
+👉 **Baca spesifikasi teknis selengkapnya**: **[`DOCNOTE-ID.md`](DOCNOTE-ID.md)**
 
 ---
 
 ## 📜 Riwayat Versi & Catatan Perubahan
 
-Setiap rilis, perbaikan keamanan, peningkatan aksesibilitas, dan pembaruan kerangka kerja didokumentasikan dalam **[CHANGELOG-ID.md](CHANGELOG-ID.md)** mengikuti format [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) dan prinsip [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+Setiap rilis, perbaikan keamanan, peningkatan aksesibilitas, dan pembaruan kerangka kerja didokumentasikan dalam **[`CHANGELOG-ID.md`](CHANGELOG-ID.md)** mengikuti format [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/) dan prinsip [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
 
 ### Ringkasan Rilis Terkini
 
-- **[v1.4.2 (Rilis Terkini)](CHANGELOG-ID.md#142---2026-09-16)**:
+- **[`v1.4.3 (Rilis Terkini)`](CHANGELOG-ID.md#143---2026-09-17)**:
+  - ☁️ **Mode Reservasi Subnet VPC Google Cloud (GCP)**: Integrasi profil reservasi cloud GCP pada menu Tools (`#dropdown_gcp`) yang mencadangkan 4 alamat IP per subnet (`network + 0` ID Jaringan, `network + 1` Gateway Default, `broadcast - 1` dicadangkan masa depan, dan `broadcast - 0` Broadcast Jaringan). Menegakkan batas ukuran subnet minimum `/29` serta rentang IP yang dapat digunakan secara deterministik (`network + 2` hingga `last_address - 2`).
+  - 🌐 **Progresi Tingkatan IPv6 Hierarkis & Batas Keamanan**: Penyempurnaan dan optimasi fungsi `getNextIpv6Tier()` dan `splitIpv6Network()` dengan jaminan memori terbatas $O(1)$ dan pembagian subnet yang sepenuhnya aman. Menerapkan transisi nibble bersih (+4 bit) di seluruh tingkatan korporasi, cabang, dan mikro-segmentasi, menjaga `/64` sebagai batas daun SLAAC permanen (RFC 4291 / RFC 7421), serta mendukung sub-delegasi point-to-point granular (`/112 -> /120 -> /124 -> /127 -> /128`).
+  - 🔢 **Perbaikan Aritmatika Kapasitas IPv6**: Memperbaiki pembagi kuadriliun pada `getIpv6Capacity()` dari `10^18` menjadi `10^15`.
+  - 🛡️ **Pengerasan Injeksi CSS & Keamanan Tipe**: Validasi regex ketat warna latar tabel via `sanitizeColor()`, serta penguatan penanganan tipe pada `escapeHtml()`.
+  - 🧪 **Ekspansi Rangkaian Uji E2E**: 118 uji otomatis Playwright yang sepenuhnya lulus pada Chromium dan Firefox.
+- **[`v1.4.2`](CHANGELOG-ID.md#142---2026-09-16)**:
   - 📦 **Mesin Impor & Ekspor Multi-Format**: Dukungan pertukaran data untuk spreadsheet CSV standar RFC 4180, tabel Plain Text ASCII rata kolom, serta konfigurasi hierarkis JSON dengan tombol pengalih format satu-klik (`#btn_format_json`, `#btn_format_csv`, `#btn_format_txt`).
   - 💾 **Unduh & Unggah Berkas Sisi Klien**: Pembuatan objek `Blob` di memori untuk pengunduhan berkas langsung (`#btn_download_export`) dan pembacaan berkas lokal via HTML5 `FileReader` (`#btn_upload_file`, `#importFileInput`) untuk berkas `.json`, `.csv`, dan `.txt`.
   - 📋 **Salin Cepat ke Clipboard**: Tombol salin (`#btn_copy_export`) dengan umpan balik visual transien "Copied!".
@@ -721,19 +780,19 @@ Setiap rilis, perbaikan keamanan, peningkatan aksesibilitas, dan pembaruan keran
   - 📖 **Akordion FAQ Interaktif**: 10 topik arsitektur terlipat rapi dengan tombol kendali "Expand All" dan "Collapse All".
   - 📱 **Paritas Viewport Responsif**: Penataan gaya khusus `#calc.ipv6-mode` dan sinkronisasi visibilitas header kolom tabel pada layar ponsel `< 576px`.
   - 🧪 **Pengujian Otomatis Komprehensif**: 114 uji otomatis Playwright E2E yang seluruhnya lulus pada Chromium dan Firefox.
-- **[v1.4.1](CHANGELOG-ID.md#141---2026-09-16)**:
+- **[`v1.4.1`](CHANGELOG-ID.md#141---2026-09-16)**:
   - 🛡️ **Keamanan**: Perbaikan CodeQL Alert #5 (`js/xss-through-dom`) melalui penyisipan teks node `.text()` pada modal peringatan batas; sanitasi entitas HTML kontekstual (`escapeHtml()`) pada seluruh dekoder URL dan impor JSON.
   - ♿ **Aksesibilitas**: Kepatuhan WCAG 2.2 Level AA; penambahan atribut unik `id` dan `name` untuk autofill peramban; pemicu form WCAG H32 `<button type="submit">`; keterangan tabel semantik `<caption class="visually-hidden">`; navigasi keyboard palet warna.
   - 📱 **Desain Responsif**: Media queries CSS modular dari VGA (640×480), smartphone, tablet, hingga layar 2K (2560px).
   - 🔍 **Standar SEO & Web**: Data terstruktur Schema.org JSON-LD `WebApplication`, kartu Open Graph, dan validasi 100% `html-validate`.
   - ⚡ **Dependensi**: Pembaruan ke Bootstrap 5.3.8 (verifikasi SRI) dan Playwright 1.63.0.
-- **[v1.4.0](CHANGELOG-ID.md#140---2026-09-15)**:
+- **[`v1.4.0`](CHANGELOG-ID.md#140---2026-09-15)**:
   - ☁️ Kalkulasi IP yang dapat digunakan untuk profil cloud AWS VPC, Azure VNet, dan Oracle Cloud (OCI).
   - 🔗 Berbagi URL terkompresi dengan LZ-String; impor/ekspor konfigurasi JSON.
 - **v1.3.x & Sebelumnya**:
   - Model dasar pohon visual tabel subnet, mesin interaktif split/join, dan kontainerisasi Docker.
 
-👉 **Telusuri catatan perubahan selengkapnya**: **[CHANGELOG-ID.md](CHANGELOG-ID.md)**
+👉 **Telusuri catatan perubahan selengkapnya**: **[`CHANGELOG-ID.md`](CHANGELOG-ID.md)**
 
 ---
 
@@ -741,11 +800,11 @@ Setiap rilis, perbaikan keamanan, peningkatan aksesibilitas, dan pembaruan keran
 
 Visual Subnet Calculator dibangun atas semangat kolaborasi komunitas sumber terbuka. Apresiasi tulus disampaikan kepada:
 
-- 👤 **Caesar Kabalan ([@ckabalan](https://github.com/ckabalan))** — _Pencipta Asli & Arsitek Utama Visual Subnet Calculator._ Merancang implementasi web modern pertama, model pohon UI interaktif, profil mode cloud, serta pengemasan kontainer Docker awal.
-- 👤 **Florian M. ([@bl4ckfir3](https://github.com/bl4ckfir3))** — _Kontributor Fitur Inti._ Merancang dan mengontribusikan aturan kalkulasi subnet Oracle Cloud Infrastructure (OCI) ([PR #30](https://github.com/ckabalan/visualsubnetcalc/pull/30)).
-- 👤 **David C ([@davidc](https://github.com/davidc))** — _Pelopor Konsep Visual Subnetting._ Menciptakan konsep pemisahan visual subnet sumber terbuka awal ([davidc/subnets](https://github.com/davidc/subnets)) yang menjadi inspirasi lahirnya aplikasi modern ini.
-- 👤 **HARRY DERTIN SUTISNA ([@alsyundawy](https://github.com/alsyundawy))** — _Pengelola Edisi Modern & Diperkeras._ Memimpin pengerasan keamanan (remediasi CodeQL DOM XSS), kepatuhan aksesibilitas WCAG 2.2 AA, penskalaan responsif universal (VGA ke 2K), arsitektur dual-stack IPv4/IPv6, mesin impor/ekspor multi-format, optimasi masker bitwise $O(1)$, data terstruktur SEO, pembaruan dependensi modern, dan rekayasa rilis untuk versi `v1.4.2+`.
-- 🎨 **Ikonografi**: Ikon split dirancang oleh [Freepik](https://www.flaticon.com/authors/freepik) dari [Flaticon](https://www.flaticon.com/), serta [Font Awesome Free](https://fontawesome.com/) oleh Fonticons, Inc.
+- 👤 **Caesar Kabalan ([`@ckabalan`](https://github.com/ckabalan))** — _Pencipta Asli & Arsitek Utama Visual Subnet Calculator._ Merancang implementasi web modern pertama, model pohon UI interaktif, profil mode cloud, serta pengemasan kontainer Docker awal.
+- 👤 **Florian M. ([`@bl4ckfir3`](https://github.com/bl4ckfir3))** — _Kontributor Fitur Inti._ Merancang dan mengontribusikan aturan kalkulasi subnet Oracle Cloud Infrastructure (OCI) ([`PR #30`](https://github.com/ckabalan/visualsubnetcalc/pull/30)).
+- 👤 **David C ([`@davidc`](https://github.com/davidc))** — _Pelopor Konsep Visual Subnetting._ Menciptakan konsep pemisahan visual subnet sumber terbuka awal ([`davidc/subnets`](https://github.com/davidc/subnets)) yang menjadi inspirasi lahirnya aplikasi modern ini.
+- 👤 **HARRY DERTIN SUTISNA ([`@alsyundawy`](https://github.com/alsyundawy))** — _Pengelola Edisi Modern & Diperkeras._ Memimpin pengerasan keamanan (remediasi CodeQL DOM XSS), kepatuhan aksesibilitas WCAG 2.2 AA, penskalaan responsif universal (VGA ke 2K), arsitektur dual-stack IPv4/IPv6, mesin impor/ekspor multi-format, optimasi masker bitwise $O(1)$, data terstruktur SEO, pembaruan dependensi modern, dan rekayasa rilis untuk versi `v1.4.3+`.
+- 🎨 **Ikonografi**: Ikon split dirancang oleh [`Freepik`](https://www.flaticon.com/authors/freepik) dari [`Flaticon`](https://www.flaticon.com/), serta [`Font Awesome Free`](https://fontawesome.com/) oleh Fonticons, Inc.
 
 ---
 
@@ -753,14 +812,14 @@ Visual Subnet Calculator dibangun atas semangat kolaborasi komunitas sumber terb
 
 Untuk pertanyaan, usulan fitur, pelaporan keamanan, atau kerja sama teknis:
 
-- **Pengelola Utama & Rekayasa**: **HARRY DERTIN SUTISNA** — [ALSYUNDAWY IT SOLUTION](https://alsyundawy.com)
-- **Situs Web Resmi**: [https://alsyundawy.com](https://alsyundawy.com) (ALSYUNDAWY IT SOLUTION)
-- **Profil GitHub**: [https://github.com/alsyundawy](https://github.com/alsyundawy)
-- **X (Twitter)**: [@alsyundawy](https://x.com/alsyundawy)
-- **Telegram**: [@alsyundawy](https://t.me/alsyundawy)
-- **Surel (Email)**: [alsyundawy@gmail.com](mailto:alsyundawy@gmail.com)
-- **Repositori Proyek**: [https://github.com/alsyundawy/visualsubnetcalc](https://github.com/alsyundawy/visualsubnetcalc)
-- **Dukungan / Donasi**: [Donasi PayPal](https://paypal.me/alsyundawy)
+- **Pengelola Utama & Rekayasa**: **HARRY DERTIN SUTISNA** — [`ALSYUNDAWY IT SOLUTION`](https://alsyundawy.com)
+- **Situs Web Resmi**: [`https://alsyundawy.com`](https://alsyundawy.com) (ALSYUNDAWY IT SOLUTION)
+- **Profil GitHub**: [`https://github.com/alsyundawy`](https://github.com/alsyundawy)
+- **X (Twitter)**: [`@alsyundawy`](https://x.com/alsyundawy)
+- **Telegram**: [`@alsyundawy`](https://t.me/alsyundawy)
+- **Surel (Email)**: [`alsyundawy@gmail.com`](mailto:alsyundawy@gmail.com)
+- **Repositori Proyek**: [`https://github.com/alsyundawy/visualsubnetcalc`](https://github.com/alsyundawy/visualsubnetcalc)
+- **Dukungan / Donasi**: [`Donasi PayPal`](https://paypal.me/alsyundawy)
 
 ---
 
@@ -768,7 +827,22 @@ Untuk pertanyaan, usulan fitur, pelaporan keamanan, atau kerja sama teknis:
 
 Jika **Visual Subnet Calculator** telah membantu Anda merancang, mengoptimalkan, atau menyelesaikan masalah arsitektur jaringan Anda, pertimbangkan untuk mendukung pemeliharaan berkelanjutan, audit keamanan, dan infrastruktur hosting:
 
+### 💳 Dukungan Internasional: PayPal
+
 [![Donasi dengan PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
+
+- **Tautan PayPal**: [`https://www.paypal.me/alsyundawy`](https://www.paypal.me/alsyundawy)
+
+### 🇮🇩 Dukungan Indonesia & Regional: QRIS (Quick Response Code Indonesian Standard)
+
+Pindai barcode QRIS di bawah ini menggunakan aplikasi perbankan seluler Indonesia mana pun (BCA, Mandiri, BRI, BNI, BSI, CIMB Niaga, Permata) atau dompet digital / e-wallet (GoPay, OVO, DANA, LinkAja, ShopeePay):
+
+![Barcode Donasi QRIS - ALSYUNDAWY](https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df)
+
+- **Nama Merchant / Akun**: **ALSYUNDAWY**
+- **NMID**: **`ID1020021153676`**
+- **Tautan Langsung Gambar Barcode**: [`https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df`](https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df)
+- **Konfirmasi Langsung via WhatsApp**: [`https://wa.me/6285658515212`](https://wa.me/6285658515212) (`+62 856-5851-5212`)
 
 Kemurahan hati Anda secara langsung mendukung pengembangan sumber terbuka, pengerasan keamanan, dan penyediaan alat bantu terbaik bagi komunitas insinyur jaringan.
 
@@ -776,5 +850,5 @@ Kemurahan hati Anda secara langsung mendukung pengembangan sumber terbuka, penge
 
 ## 📄 Lisensi
 
-Visual Subnet Calculator dilisensikan di bawah [Lisensi MIT](https://opensource.org/licenses/MIT).
+Visual Subnet Calculator dilisensikan di bawah [`Lisensi MIT`](https://opensource.org/licenses/MIT).
 Anda bebas untuk menggunakan, memodifikasi, dan mendistribusikannya untuk keperluan pribadi maupun alur kerja rekayasa jaringan perusahaan.

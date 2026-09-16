@@ -4,8 +4,33 @@
 
 All notable changes to Visual Subnet Calculator will be documented in this file.
 
-The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
-and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+The format is based on [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/),
+and this project adheres to [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
+
+## [1.4.3] - 2026-09-17
+
+### Added
+
+- Google Cloud (GCP) VPC Subnet Reservation Mode: integrated GCP cloud reservation profile in Tools dropdown (`#dropdown_gcp`) and calculation engine. Per Google Cloud VPC specifications, GCP reserves 4 addresses per subnet (`network + 0` Network ID, `network + 1` Default Gateway, `broadcast - 1` reserved for future use, and `broadcast - 0` Network Broadcast). Enforces minimum `/29` subnet boundary, computes deterministic usable range (`network + 2` to `last_address - 2`), and integrates with FAQ comparison matrix and Playwright test suites.
+
+### Optimized
+
+- Standard Hierarchical IPv6 Tier Progression & Safety Bounds: refined and optimized `getNextIpv6Tier()` and `splitIpv6Network()` to guarantee bounded $O(1)$ memory usage and strictly safe subnet splitting. Enforces clean nibble transitions (+4 bits) across enterprise, branch, and micro-segmentation tiers, preserves `/64` as an immutable SLAAC leaf boundary (RFC 4291 / RFC 7421) with educational guidance modal, and enables granular point-to-point sub-delegation (`/112 -> /120 -> /124 -> /127 -> /128`) without risk of exponential recursion or browser freeze.
+
+### Fixed
+
+- Fixed critical arithmetic calculation bug in `getIpv6Capacity()`: the quadrillion (Q) unit divisor was incorrectly set to `1000000000000000000` (10^18, quintillion) instead of the correct `1000000000000000` (10^15). This caused capacity values for large IPv6 blocks (`/16` down to `/0`) to display numbers 1,000 times smaller than actual address quantities.
+- Fixed CSS injection vulnerability in dynamically generated `style="background-color: ..."` table row attributes: color parameters from URL query strings or imported configurations are now strictly validated by a dedicated `sanitizeColor()` helper using regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`, strictly permitting valid CSS Color Level 4 hexadecimal formats (#RGB, #RGBA, #RRGGBB, #RRGGBBAA) and blocking non-standard 5- and 7-character hex values or CSS property breakouts.
+- Hardened input type safety in `escapeHtml()`: returns an empty string (`''`) whenever receiving non-string inputs, preventing non-string objects or `undefined` from leaking into DOM elements.
+- Maintained 100% fidelity to the authentic, established v1.4.2 visual design, layout, color palette, and Bootstrap typography, ensuring zero UI regressions or unauthorized style deviations.
+
+### Changed
+
+- Updated `package.json` and `package-lock.json` project version metadata to `1.4.3`.
+- Updated Schema.org `WebApplication` structured data `softwareVersion` to `1.4.3`.
+- Updated release badges, changelog links, and version references in application footer, FAQ section, and About modal header across `dist/index.html`, `dist/404.html`, `NOTES.md`, and `NOTES-ID.md` to Visual Subnet Calculator `v1.4.3`.
+
+---
 
 ## [1.4.2] - 2026-09-16
 

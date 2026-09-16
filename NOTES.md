@@ -1,20 +1,20 @@
 # Engineering & Architecture Notes — Visual Subnet Calculator
 
-Technical design notes, algorithmic specifications, data structures, and serialization mechanics for Visual Subnet Calculator v1.4.2.
+Technical design notes, algorithmic specifications, data structures, and serialization mechanics for Visual Subnet Calculator v1.4.3.
 
 ---
 
 ## 🧭 Overview & Contents
 
-1. [Historical State Serialization Explorations](#1-historical-state-serialization-explorations)
-2. [Production State Serialization: LZ-String & URL Hashes](#2-production-state-serialization-lz-string--url-hashes)
-3. [Multi-Format Data Interchange Architecture (v1.4.2)](#3-multi-format-data-interchange-architecture-v142)
-4. [Minimal Supernet Calculation & Tree Reconstruction Algorithm](#4-minimal-supernet-calculation--tree-reconstruction-algorithm)
-5. [Dual-Stack Mathematical Foundations (IPv4 vs IPv6 BigInt)](#5-dual-stack-mathematical-foundations-ipv4-vs-ipv6-bigint)
-6. [Constant-Time Bitwise Mask Optimization O(1)](#6-constant-time-bitwise-mask-optimization-o1)
-7. [DOM Performance, Security Hardening & Accessibility Standards](#7-dom-performance-security-hardening--accessibility-standards)
-8. [Technical Summary, RFC 2119 Criteria & Engineering Best Practices](#8-technical-summary-rfc-2119-criteria--engineering-best-practices)
-9. [Maintainer Attribution & Ecosystem Context](#9-maintainer-attribution--ecosystem-context)
+1. [`Historical State Serialization Explorations`](#1-historical-state-serialization-explorations)
+2. [`Production State Serialization: LZ-String & URL Hashes`](#2-production-state-serialization-lz-string--url-hashes)
+3. [`Multi-Format Data Interchange Architecture (v1.4.2)`](#3-multi-format-data-interchange-architecture-v142)
+4. [`Minimal Supernet Calculation & Tree Reconstruction Algorithm`](#4-minimal-supernet-calculation--tree-reconstruction-algorithm)
+5. [`Dual-Stack Mathematical Foundations (IPv4 vs IPv6 BigInt)`](#5-dual-stack-mathematical-foundations-ipv4-vs-ipv6-bigint)
+6. [`Constant-Time Bitwise Mask Optimization O(1)`](#6-constant-time-bitwise-mask-optimization-o1)
+7. [`DOM Performance, Security Hardening & Accessibility Standards`](#7-dom-performance-security-hardening--accessibility-standards)
+8. [`Technical Summary, RFC 2119 Criteria & Engineering Best Practices`](#8-technical-summary-rfc-2119-criteria--engineering-best-practices)
+9. [`Maintainer Attribution & Ecosystem Context`](#9-maintainer-attribution--ecosystem-context)
 
 ---
 
@@ -102,7 +102,7 @@ The state tree represents partitioned CIDR blocks as nested recursive objects:
 - Subnets with child objects represent partitioned branches.
 - Subnets containing `_note` or `_color` properties represent configured leaf subnets.
 - Top-level operational metadata (cloud mode, IPv6 flag) is serialized into the root envelope:
-  - `mode`: `"Standard"`, `"AWS"`, `"Azure"`, or `"OCI"`
+  - `mode`: `"Standard"`, `"AWS"`, `"Azure"`, `"GCP"`, or `"OCI"`
   - `ip_version`: `"IPv4"` or `"IPv6"`
 
 ### 2.2 Backward Compatibility & Safe Migration
@@ -295,7 +295,7 @@ Viewport Width (px)
 
 ### 8.1 Technical Summary
 
-Visual Subnet Calculator (v1.4.2) is an industrial-grade, client-side visual IP planning engine designed for high-availability enterprise network operations, cloud VPC/VNet topologies (AWS, Azure, OCI), and dual-stack IPv4/IPv6 architectures. Core architectural tenets include:
+Visual Subnet Calculator (v1.4.3) is an industrial-grade, client-side visual IP planning engine designed for high-availability enterprise network operations, cloud VPC/VNet topologies (AWS, Azure, GCP, OCI), and dual-stack IPv4/IPv6 architectures. Core architectural tenets include:
 
 - **100% Client-Side Determinism**: All subnet splitting, joining, format conversions (JSON, CSV, Plain Text), and state encodings occur entirely within the local browser runtime using $O(1)$ constant-time bitwise operations and 128-bit lossless `BigInt` precision. Zero bytes of topology data egress to external servers.
 - **Stateless URL Serialization**: Interactive topologies with nested binary tree structures, custom notes, and pastel color tags serialize into compact, URL-safe hash strings using LZ-String compression (`#?c=...`).
@@ -304,7 +304,7 @@ Visual Subnet Calculator (v1.4.2) is an industrial-grade, client-side visual IP 
 
 ### 8.2 RFC 2119 & RFC 8174 Engineering Invariants
 
-The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **AVOID** in this technical specification are to be interpreted as described in [BCP 14](https://datatracker.ietf.org/doc/html/bcp14), [RFC 2119](https://datatracker.ietf.org/doc/html/rfc2119), and [RFC 8174](https://datatracker.ietf.org/doc/html/rfc8174).
+The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and **AVOID** in this technical specification are to be interpreted as described in [`BCP 14`](https://datatracker.ietf.org/doc/html/bcp14), [`RFC 2119`](https://datatracker.ietf.org/doc/html/rfc2119), and [`RFC 8174`](https://datatracker.ietf.org/doc/html/rfc8174).
 
 #### 🔴 MUST (Mandatory Invariants)
 
@@ -347,7 +347,7 @@ The key words **MUST**, **MUST NOT**, **SHOULD**, **SHOULD NOT**, **MAY**, and *
    - Begin with the largest parent block (e.g., `/16` IPv4 or `/32`–`/48` IPv6).
    - Divide sequentially along operational tiers (Availability Zones, VPC subnets, or security perimeters) rather than arbitrary address ranges.
 3. **Cloud Reservation Awareness**:
-   - Always activate the targeted cloud profile (**AWS VPC**, **Azure VNet**, or **Oracle Cloud OCI**) during topology design to account for cloud-reserved addresses (such as AWS reserving `.0`, `.1`, `.2`, `.3`, and `.255`).
+   - Always activate the targeted cloud profile (**AWS VPC**, **Azure VNet**, **Google Cloud GCP**, or **Oracle Cloud OCI**) during topology design to account for cloud-reserved addresses (such as AWS reserving `.0`, `.1`, `.2`, `.3`, and `.255`).
 4. **Defensive DOM Manipulation**:
    - Use jQuery's `.text()` or native `textContent` for dynamic values. When HTML structure is required, sanitize through `escapeHtml()` first.
 5. **Air-Gapped & Offline Verification**:
@@ -371,7 +371,7 @@ Visual Subnet Calculator serves as the foundational IP allocation and planning e
 
 ### Official Resources
 
-- **Official Maintainer Site**: [https://alsyundawy.com](https://alsyundawy.com)
-- **GitHub Repository**: [https://github.com/alsyundawy/visualsubnetcalc](https://github.com/alsyundawy/visualsubnetcalc)
-- **Direct Contacts**: X ([@alsyundawy](https://x.com/alsyundawy)) | Telegram ([@alsyundawy](https://t.me/alsyundawy)) | Email ([alsyundawy@gmail.com](mailto:alsyundawy@gmail.com))
-- **Financial Support**: [PayPal Sponsorship](https://paypal.me/alsyundawy)
+- **Official Maintainer Site**: [`https://alsyundawy.com`](https://alsyundawy.com)
+- **GitHub Repository**: [`https://github.com/alsyundawy/visualsubnetcalc`](https://github.com/alsyundawy/visualsubnetcalc)
+- **Direct Contacts**: X ([`@alsyundawy`](https://x.com/alsyundawy)) | Telegram ([`@alsyundawy`](https://t.me/alsyundawy)) | Email ([`alsyundawy@gmail.com`](mailto:alsyundawy@gmail.com))
+- **Financial Support**: [`PayPal Sponsorship`](https://paypal.me/alsyundawy)

@@ -45,6 +45,7 @@ test("Network Boundary Correction", async ({ page }) => {
     "123.45.67.89 -> 123.45.64.0",
   );
   await page.getByLabel("Warning!").getByLabel("Close").click();
+  await expect(page.locator("#notifyModal")).toBeHidden();
   await expect(page.getByLabel("Network Address")).toHaveValue("123.45.64.0");
   await page.getByLabel("Network Size").click();
   await expect(
@@ -62,6 +63,7 @@ test("Network Boundary Correction", async ({ page }) => {
 const subnetTooSmallCases = [
   { mode: "AWS", size: "29", message: "AWS Mode - Smallest size is /28" },
   { mode: "Azure", size: "30", message: "Azure Mode - Smallest size is /29" },
+  { mode: "GCP", size: "30", message: "GCP Mode - Smallest size is /29" },
   { mode: "OCI", size: "31", message: "OCI Mode - Smallest size is /30" },
 ];
 

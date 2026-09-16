@@ -44,6 +44,7 @@ const netsizePatterns = {
   Standard: "^([12]?[0-9]|3[0-2])$",
   AZURE: "^([12]?[0-9])$",
   AWS: "^(1?[0-9]|2[0-8])$",
+  GCP: "^([12]?[0-9])$",
   OCI: "^([12]?[0-9]|30)$",
 };
 
@@ -51,17 +52,28 @@ const minSubnetSizes = {
   Standard: 32,
   AZURE: 29,
   AWS: 28,
+  GCP: 29,
   OCI: 30,
 };
 
 function escapeHtml(str) {
-  if (typeof str !== "string") return str;
+  if (typeof str !== "string") return "";
   return str
     .replace(/&/g, "&amp;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
+}
+
+/**
+ * Validates a CSS hex color string to prevent CSS injection.
+ * Only allows valid CSS hex color formats: #RGB, #RGBA, #RRGGBB, #RRGGBBAA.
+ * Returns empty string for invalid/unsafe values.
+ */
+function sanitizeColor(color) {
+  if (typeof color !== "string" || color === "") return "";
+  return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color.trim()) ? color.trim() : "";
 }
 
 function parseIpv6(str) {
@@ -130,20 +142,20 @@ function getIpv6End(netStr, prefix) {
 function getNextIpv6Tier(prefix) {
   prefix = parseInt(prefix, 10);
   if (prefix < 32) return 32;
-  if (prefix === 32) return 36;
-  if (prefix > 32 && prefix < 48) return Math.min(48, prefix + 4);
+  if (prefix >= 32 && prefix < 48) return Math.min(48, prefix + 4);
   if (prefix === 48) return 56;
   if (prefix > 48 && prefix < 56) return 56;
   if (prefix === 56) return 60;
   if (prefix > 56 && prefix < 60) return 60;
   if (prefix === 60) return 64;
-  if (prefix >= 64 && prefix < 112) return 112;
+  if (prefix >= 64 && prefix < 80) return prefix;
+  if (prefix >= 80 && prefix < 96) return Math.min(96, prefix + 4);
+  if (prefix >= 96 && prefix < 112) return Math.min(112, prefix + 4);
   if (prefix === 112) return 120;
   if (prefix > 112 && prefix < 120) return 120;
   if (prefix === 120) return 124;
   if (prefix > 120 && prefix < 124) return 124;
-  if (prefix === 124) return 127;
-  if (prefix > 124 && prefix < 127) return 127;
+  if (prefix >= 124 && prefix < 127) return 127;
   if (prefix === 127) return 128;
   return 128;
 }
@@ -151,7 +163,7 @@ function getNextIpv6Tier(prefix) {
 function splitIpv6Network(netStr, curPrefix) {
   curPrefix = parseInt(curPrefix, 10);
   const targetPrefix = getNextIpv6Tier(curPrefix);
-  if (targetPrefix <= curPrefix) return [];
+  if (targetPrefix <= curPrefix || targetPrefix - curPrefix > 8) return [];
   const count = 1n << BigInt(targetPrefix - curPrefix);
   const step = 1n << BigInt(128 - targetPrefix);
   const baseInt = parseIpv6(netStr);
@@ -218,7 +230,7 @@ function getIpv6Capacity(netSize) {
     } else if (ips < 1000000000000000n) {
       return `${(Number(ips) / 1000000000000).toFixed(1)}T IPs`;
     } else {
-      return `${(Number(ips) / 1000000000000000000).toFixed(1)}Q IPs`;
+      return `${(Number(ips) / 1000000000000000).toFixed(1)}Q IPs`;
     }
   }
 }
@@ -471,6 +483,16 @@ $("#dropdown_aws").click(function () {
   }
 });
 
+$("#dropdown_gcp").click(function () {
+  previousOperatingMode = operatingMode;
+  operatingMode = "GCP";
+
+  if (!switchMode(operatingMode)) {
+    operatingMode = previousOperatingMode;
+    $("#dropdown_" + operatingMode.toLowerCase()).addClass("active");
+  }
+});
+
 $("#dropdown_oci").click(function () {
   previousOperatingMode = operatingMode;
   operatingMode = "OCI";
@@ -617,7 +639,11 @@ function getFlatSubnetList(subnetTree = subnetMap) {
             size,
             operatingMode,
           );
-          const usableLast = subnet_usable_last(addressFirst, size);
+          const usableLast = subnet_usable_last(
+            addressFirst,
+            size,
+            operatingMode,
+          );
           hostCount = 1 + usableLast - usableFirst;
           if (size < 32) {
             rangeCol = int2ip(addressFirst) + " - " + int2ip(addressLast);
@@ -1264,7 +1290,11 @@ function addRow(
       netSize,
       operatingMode,
     );
-    const usableLast = subnet_usable_last(addressFirst, netSize);
+    const usableLast = subnet_usable_last(
+      addressFirst,
+      netSize,
+      operatingMode,
+    );
     hostCount = 1 + usableLast - usableFirst;
     if (netSize < 32) {
       rangeCol = int2ip(addressFirst) + " - " + int2ip(addressLast);
@@ -1278,8 +1308,9 @@ function addRow(
   }
 
   let styleTag = "";
-  if (color !== "") {
-    styleTag = ' style="background-color: ' + escapeHtml(color) + '"';
+  const safeColor = sanitizeColor(color);
+  if (safeColor !== "") {
+    styleTag = ' style="background-color: ' + safeColor + '"';
   }
 
   const sanitizedNote = escapeHtml(note);
@@ -1466,6 +1497,7 @@ function subnet_usable_first(network, netSize, operatingMode) {
       case "AWS":
       case "AZURE":
         return network + 4;
+      case "GCP":
       case "OCI":
         return network + 2;
       default:
@@ -1476,9 +1508,12 @@ function subnet_usable_first(network, netSize, operatingMode) {
   }
 }
 
-function subnet_usable_last(network, netSize) {
+function subnet_usable_last(network, netSize, operatingMode) {
   const last_address = subnet_last_address(network, netSize);
   if (netSize < 31) {
+    if (operatingMode === "GCP") {
+      return last_address - 2;
+    }
     return last_address - 1;
   } else {
     return last_address;
@@ -1602,7 +1637,7 @@ function mutate_subnet_map(verb, network, subnetTree, propValue = "") {
       const netSize = parseInt(netSplit[1], 10);
       if (verb === "split") {
         if (ipVersion === "IPv6") {
-          if (netSize < 64 || (netSize >= 112 && netSize <= 127)) {
+          if (netSize < 64 || (netSize >= 80 && netSize <= 127)) {
             const new_networks = splitIpv6Network(netSplit[0], netSize);
             for (const sub of new_networks) {
               subnetTree[mapKey][sub] = {};
@@ -1630,7 +1665,7 @@ function mutate_subnet_map(verb, network, subnetTree, propValue = "") {
             );
           } else {
             show_warning_modal(
-              "<div><strong>SLAAC Boundary Reached:</strong><br/><br/>IPv6 subnets should not be split smaller than <strong>/64</strong>.<br/>A /64 prefix is required by RFC 4291 and RFC 7421 for Stateless Address Autoconfiguration (SLAAC) and standard local network routing.<br/><br/><em>Note: For special sub-delegations (such as /112, /120, /124, or /127 point-to-point links), select the corresponding preset directly from the toolbar.</em></div>",
+              "<div><strong>SLAAC Boundary Reached:</strong><br/><br/>IPv6 subnets should not be split smaller than <strong>/64</strong>.<br/>A /64 prefix is required by RFC 4291 and RFC 7421 for Stateless Address Autoconfiguration (SLAAC) and standard local network routing.<br/><br/><em>Note: For special sub-delegations (such as /80, /96, /112, /120, /124, or /127 point-to-point links), select the corresponding preset directly from the toolbar.</em></div>",
             );
           }
         } else if (netSize < minSubnetSizes[operatingMode]) {
@@ -1669,6 +1704,12 @@ function mutate_subnet_map(verb, network, subnetTree, propValue = "") {
                 "The minimum IPv4 subnet size for Azure is /" +
                 minSubnetSizes[operatingMode] +
                 '.<br/><br/>More Information:<br/><a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#how-small-and-how-large-can-virtual-networks-and-subnets-be" target="_blank" rel="noopener noreferrer">Azure Virtual Network FAQ > How small and how large can virtual networks and subnets be?</a>';
+              break;
+            case "GCP":
+              modalErrorMessage =
+                "The minimum IPv4 subnet size for GCP is /" +
+                minSubnetSizes[operatingMode] +
+                '.<br/><br/>More Information:<br/><a href="https://cloud.google.com/vpc/docs/subnets#unusable-ip-addresses-in-every-subnet" target="_blank" rel="noopener noreferrer">Google Cloud VPC > Subnets > Unusable addresses in IPv4 subnet ranges</a>';
               break;
             case "OCI":
               modalErrorMessage =
@@ -1721,6 +1762,10 @@ function switchMode(operatingMode) {
           validateErrorMessage =
             "Azure Mode - Smallest size is /" + minSubnetSizes[operatingMode];
           break;
+        case "GCP":
+          validateErrorMessage =
+            "GCP Mode - Smallest size is /" + minSubnetSizes[operatingMode];
+          break;
         case "OCI":
           validateErrorMessage =
             "OCI Mode - Smallest size is /" + minSubnetSizes[operatingMode];
@@ -1741,7 +1786,7 @@ function switchMode(operatingMode) {
       });
 
       $(
-        "#dropdown_standard, #dropdown_azure, #dropdown_aws, #dropdown_oci",
+        "#dropdown_standard, #dropdown_azure, #dropdown_aws, #dropdown_gcp, #dropdown_oci",
       ).removeClass("active");
       $("#dropdown_" + operatingMode.toLowerCase()).addClass("active");
       isSwitched = true;
@@ -1759,6 +1804,12 @@ function switchMode(operatingMode) {
             "One or more subnets are smaller than the minimum allowed for Azure.<br/>The smallest size allowed is /" +
             minSubnetSizes[operatingMode] +
             '.<br/>See: <a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#how-small-and-how-large-can-virtual-networks-and-subnets-be" target="_blank" rel="noopener noreferrer">Azure Virtual Network FAQ > How small and how large can virtual networks and subnets be?</a>';
+          break;
+        case "GCP":
+          modalErrorMessage =
+            "One or more subnets are smaller than the minimum allowed for GCP.<br/>The smallest size allowed is /" +
+            minSubnetSizes[operatingMode] +
+            '.<br/>See: <a href="https://cloud.google.com/vpc/docs/subnets#unusable-ip-addresses-in-every-subnet" target="_blank" rel="noopener noreferrer">Google Cloud VPC > Subnets > Unusable addresses in IPv4 subnet ranges</a>';
           break;
         case "OCI":
           modalErrorMessage =
@@ -1809,6 +1860,11 @@ function set_usable_ips_title(operatingMode) {
     case "AZURE":
       $("#useableHeader").html(
         'Usable IPs (<a href="https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets" target="_blank" rel="noopener noreferrer" class="reserved-info-link" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="Azure reserves 5 addresses in each subnet for platform use.<br/>Click to navigate to the Azure documentation.">Azure</a>)',
+      );
+      break;
+    case "GCP":
+      $("#useableHeader").html(
+        'Usable IPs (<a href="https://cloud.google.com/vpc/docs/subnets#unusable-ip-addresses-in-every-subnet" target="_blank" rel="noopener noreferrer" class="reserved-info-link" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-html="true" title="GCP reserves 4 addresses in each subnet for platform use.<br/>Click to navigate to the GCP documentation.">GCP</a>)',
       );
       break;
     case "OCI":

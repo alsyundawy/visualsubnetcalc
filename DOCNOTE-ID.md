@@ -1,19 +1,19 @@
 # Catatan Dokumentasi Teknis — Visual Subnet Calculator
 
-Spesifikasi arsitektur teknis, standar keamanan, dan panduan integrasi operasional untuk Visual Subnet Calculator v1.4.2.
+Spesifikasi arsitektur teknis, standar keamanan, dan panduan integrasi operasional untuk Visual Subnet Calculator v1.4.3.
 
 ---
 
 ## 🧭 Ikhtisar Arsitektur
 
-Visual Subnet Calculator adalah aplikasi visual kalkulator dan perancang subnet IP di sisi klien (_client-side_) yang dirancang untuk memberikan performa tinggi, latensi eksekusi nol, serta kompatibilitas lintas peramban yang maksimal. Dimulai sejak versi 1.4.2, aplikasi menghadirkan arsitektur _dual-stack_ terpadu yang mendukung perencanaan visual IPv4 legasi (CIDR 32-bit) dan IPv6 modern (hierarki tingkatan 128-bit).
+Visual Subnet Calculator adalah aplikasi visual kalkulator dan perancang subnet IP di sisi klien (_client-side_) yang dirancang untuk memberikan performa tinggi, latensi eksekusi nol, serta kompatibilitas lintas peramban yang maksimal. Dimulai sejak versi 1.4.2, aplikasi menghadirkan arsitektur _dual-stack_ terpadu yang mendukung perencanaan visual IPv4 legasi (CIDR 32-bit) dan IPv6 modern (hierarki tingkatan 128-bit). Versi 1.4.3 memperkuat lapisan keamanan CSS dan memperbaiki presisi tampilan kapasitas IPv6 skala besar.
 
 ### Lapisan Arsitektur Utama
 
 - **Struktur (`dist/index.html`)**: Markup semantik HTML5 yang dibangun dengan sistem kisi (_grid_) Bootstrap 5.3.8, toolbar pemilihan versi IP tersegmen dan aksesibel (`#ip_version_toolbar`), kontainer tabel responsif, dialog modal aksesibel, serta anotasi ARIA yang mematuhi pedoman WCAG 2.2 Level AA. Bersih seutuhnya dari atribut gaya inline (`style="..."`).
 - **Presentasi (`dist/css/main.css`)**: CSS modern yang memanfaatkan aturan ruang lingkup (_scoped rules_), media queries responsif dari resolusi VGA (640×480) hingga 2K (2560×1440), cincin fokus aksesibel `:focus-visible`, awalan vendor `-webkit-user-select` untuk Safari, mode tata letak khusus IPv6 (`#calc.ipv6-mode`), serta bebas dari polusi selektor global.
 - **Logika (`dist/js/main.js`)**: JavaScript vanilla murni berstandar modern yang dipadukan dengan utilitas DOM jQuery 3.7.1 dan komponen Bootstrap 5.3.8, mengimplementasikan matematika bitwise 32-bit (IPv4) dan bitwise native 128-bit `BigInt` (IPv6), rekursi pohon subnet hierarkis, serialisasi status LZ-String, serta sanitasi XSS kontekstual.
-- **Profil Cloud**: Preset bawaan vendor cloud terkemuka yang menyesuaikan perhitungan alamat IP yang dapat digunakan (_usable IPs_) mengikuti aturan standar RFC 1918/RFC 4632 atau reservasi khusus penyedia layanan cloud (AWS mencadangkan 5 alamat IP, Azure mencadangkan 5 alamat IP, OCI mencadangkan 3 alamat IP).
+- **Profil Cloud**: Preset bawaan vendor cloud terkemuka yang menyesuaikan perhitungan alamat IP yang dapat digunakan (_usable IPs_) mengikuti aturan standar RFC 1918/RFC 4632 atau reservasi khusus penyedia layanan cloud (AWS mencadangkan 5 alamat IP, Azure mencadangkan 5 alamat IP, GCP mencadangkan 4 alamat IP, OCI mencadangkan 3 alamat IP).
 
 ---
 
@@ -109,28 +109,88 @@ Sesuai ketentuan RFC 4291 Bagian 2.5.4 dan RFC 7421, semua subnet unicast IPv6 s
 
 ### 3. Edisi Produksi ALSYUNDAWY (`alsyundawy/visualsubnetcalc`)
 
-- **Dukungan Dual-Stack IPv4/IPv6 Penuh (v1.4.2)**: Mengintegrasikan switcher versi IP tersegmen dengan matematika bitwise 128-bit `BigInt`, format kanonikal RFC 5952, toolbar preset (/32 hingga /128), link point-to-point RFC 6164, dan proteksi SLAAC RFC 7421.
-- **Arsitektur Akordion FAQ Interaktif**: Mengubah FAQ statis menjadi Akordion Bootstrap interaktif dan aksesibel (`#faqAccordion`) yang memuat 10 modul panduan arsitektur. Dilengkapi tombol kendali satu-klik "Expand All" (`#faq_expand_all`) dan "Collapse All" (`#faq_collapse_all`).
-- **Ikonografi Font Awesome Free v7 Terkini**: Memperbarui ekosistem grafis dengan ikon Font Awesome Free v7.3.1 pada seluruh header, toolbar, palet warna, modal, dan footer.
-- **Footer Maintainer Flexbox yang Melekat (Sticky Footer)**: Mengembangkan footer permanen (`#app_footer`) menggunakan tata letak CSS Flexbox (`min-height: 100dvh`, `margin-top: auto`), yang selalu melekat di bagian bawah viewport pada seluruh halaman termasuk halaman galat 404. Memuat profil pengelola resmi HARRY DERTIN SUTISNA (`@alsyundawy`) dan ALSYUNDAWY IT SOLUTION ([https://alsyundawy.com](https://alsyundawy.com)), kontak cepat (X dan Telegram), serta donasi PayPal.
-- **Ikon Merek pada Header**: Menyematkan ikon resmi Font Awesome `fa-network-wired` mendampingi judul utama `<h1>` "Visual Subnet Calculator".
-- **Modernisasi Kerangka Kerja & Library**: Peningkatan ke Bootstrap 5.3.8 dan jQuery 3.7.1 dengan hash SRI tervalidasi tanpa dependensi luar yang tidak aman.
-- **Pengerasan Aksesibilitas (WCAG 2.2 AA)**: Keterangan tabel semantik (`.visually-hidden`), palet warna yang dapat dinavigasi menggunakan keyboard (`role="button"`, `tabindex="0"`), serta header kolom semantik `<th scope="col">`.
-- **Pengerasan Keamanan Tingkat Tinggi**: Sanitasi entitas HTML (`escapeHtml()`) pada seluruh teks catatan dinamis guna menangkal ancaman Cross-Site Scripting (XSS) tersimpan maupun terefleksi.
-- **Resolusi Celah DOM XSS (CodeQL Alert #5)**: Isolasi penuh input batas jaringan melalui fungsi pembantu `show_boundary_warning_modal()` yang menggunakan pengikatan teks node `.text()` yang aman.
-- **Kepatuhan CI/CD dan Linter Ketat**: Kepatuhan penuh terhadap Trunk Check, Prettier, Markdownlint, serta cakupan pengujian otomatis Playwright lintas peramban Chromium dan Firefox (114 uji otomatis berhasil).
-- **Standar Formulir & Kepatuhan Autofill**: Semua kontrol formulir (`#network`, `#netsize`, `#importExportArea`, `#importFileInput`, dan setiap input dinamis `#note_*`) memiliki atribut `id` dan `name` unik serta pasangan `<label>` eksplisit.
-- **Skalabilitas Responsif Multi-Resolusi**: Sistem token CSS terpadu dengan breakpoint yang mencakup ponsel (potret/lanskap), tablet, MacBook, desktop FHD, hingga layar resolusi tinggi 2K (VGA 640×480 hingga 2560×1440).
+#### v1.4.3 (Arsitektur Rilis Terkini) — 2026-09-17
+
+- **Mode Reservasi Google Cloud (GCP) VPC**: Mengintegrasikan profil cloud GCP VPC yang mereservasi 4 alamat IP per subnet (`network + 0` ID Jaringan, `network + 1` Default Gateway, `broadcast - 1` cadangan masa depan Google, dan `broadcast - 0` Broadcast Jaringan) dengan batas minimum subnet `/29`, melengkapi paritas hyperscaler cloud antara AWS, Azure, GCP, dan OCI.
+- **Penyempurnaan Progresi Tingkatan IPv6 Hirarkis & Batas Keamanan**: Mengoptimalkan fungsi `getNextIpv6Tier()` dan `splitIpv6Network()` dengan alokasi memori berbatas $O(1)$, transisi berbasis nibble (+4 bit), perlindungan leaf SLAAC `/64` (RFC 4291 / RFC 7421), serta alur sub-delegasi point-to-point granular (`/112 -> /120 -> /124 -> /127 -> /128`).
+- **Perbaikan Aritmetika Kapasitas IPv6**: Memperbaiki bug pembagi satuan _quadrillion_ (Q) pada `getIpv6Capacity()` dari $10^{18}$ (_quintillion_) menjadi $10^{15}$ (_quadrillion_), memulihkan keakuratan tampilan kapasitas blok besar (`/0` hingga `/16`).
+- **Pengerasan Terhadap Injeksi CSS**: Memvalidasi atribut `style="background-color: ..."` baris tabel menggunakan fungsi `sanitizeColor()` dengan regex ketat `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Panjang tidak standar (5 atau 7 karakter heksadesimal) dan upaya injeksi CSS diblokir total tanpa disisipkan ke atribut DOM.
+- **Sanitasi Bertipe Data Aman**: Memperketat `escapeHtml()` agar selalu mengembalikan string kosong (`''`) saat menerima input non-string, mencegah kebocoran objek atau `undefined` ke dalam DOM.
+- **Ekspansi Rangkaian Uji Otomatis Playwright**: Memperluas rangkaian uji end-to-end menjadi 118 pengujian sukses pada mesin peramban Chromium dan Firefox dengan sinkronisasi siklus hidup modal dan penanganan touch event yang presisi.
+
+#### v1.4.2 — 2026-09-16
+
+- **Dukungan Dual-Stack IPv4/IPv6 Penuh**: Mengintegrasikan toolbar pemilih versi IP interaktif dengan matematika bitwise 128-bit `BigInt`, format kanonikal RFC 5952, bilah alat preset (/32 hingga /128), link point-to-point RFC 6164 (`/127`), dan proteksi SLAAC RFC 7421 (`/64`).
+- **Arsitektur Akordion FAQ Interaktif**: Merombak total sistem panduan menjadi Akordion Bootstrap (`#faqAccordion`) dengan 10 modul arsitektur, dilengkapi tombol kontrol satu-klik "Expand All" (`#faq_expand_all`) dan "Collapse All" (`#faq_collapse_all`).
+- **Mesin Impor & Ekspor Multi-Format**: Mendukung format CSV standar RFC 4180, tabel rata-kolom Plain Text, dan konfigurasi hierarkis JSON dengan tombol pemilih format seketika, fitur unduh file `Blob` langsung (`#btn_download_export`), dan unggah file lokal (`#btn_upload_file`).
+- **Optimasi Masker Bitwise Waktu-Konstan $O(1)$**: Mengoptimalkan kalkulasi alamat dasar IPv4 `get_network()` dari perulangan iteratif menjadi operasi masker bitwise instan (`(0xffffffff << (32 - netSize)) >>> 0`).
+- **Bilah Alat Preset IPv4**: 17 preset CIDR satu-klik dari `/16` hingga `/32` dengan sinkronisasi dua arah secara _real-time_ terhadap kolom input ukuran jaringan `#netsize`.
+- **Ikonografi Font Awesome Free v7 Terkini**: Meningkatkan seluruh ikonografi antarmuka ke Font Awesome Free v7.3.1 (`@fortawesome/fontawesome-free`) pada navigasi header, toolbar, palet warna, modal, dan footer.
+- **Footer Melekat Flexbox**: Mengembangkan footer melekat permanen (`#app_footer`) menggunakan Flexbox modern (`min-height: 100dvh`, `margin-top: auto`), yang selalu melekat di dasar viewport pada seluruh halaman termasuk halaman 404.
+- **Ikon Merek Header**: Menambahkan ikon Font Awesome `fa-network-wired` pada judul utama `<h1>` "Visual Subnet Calculator".
+
+#### v1.4.1 — 2026-09-16
+
+- **Remediasi CodeQL Alert #5 (DOM XSS)**: Mengisolasi koreksi batas jaringan ke fungsi pembantu `show_boundary_warning_modal()` dengan pengikatan node teks aman `.text()`, meniadakan perambatan nilai tercemar ke dalam sink jQuery `.html()`.
+- **Kepatuhan Aksesibilitas WCAG 2.2 AA**: Keterangan tabel semantik (`.visually-hidden`), palet warna yang dapat dinavigasi keyboard (`role="button"`, `tabindex="0"`), header kolom semantik `<th scope="col">`, dan tombol submit formulir `#btn_go` bertipe `type="submit"` dengan pencegahan default.
+- **Desain Responsif Multi-Resolusi Universal**: Aturan CSS modular yang menskalakan tampilan dari layar VGA (640×480), ponsel cerdas, dan tablet hingga monitor resolusi tinggi 2K (2560px).
+- **SEO & Standar Web**: Data terstruktur JSON-LD Schema.org `WebApplication`, tag URL kanonikal, kartu Open Graph, Twitter Cards, serta kepatuhan 100% `html-validate`.
+- **Pembaruan Dependensi**: Memperbarui Bootstrap ke versi `5.3.8` (terverifikasi SRI) dan Playwright ke `1.63.0`.
+
+#### v1.4.0 — 2026-09-15
+
+- **Kalkulasi IP Usable Multi-Cloud**: Memperkenalkan profil kalkulasi khusus untuk AWS VPC, Azure VNet, dan Oracle Cloud Infrastructure (OCI) yang menyesuaikan rentang host berdasarkan reservasi IP vendor.
+- **Berbagi URL Terkompresi**: Mengintegrasikan kompresi LZ-String untuk menyerialisasi struktur pohon subnet ke dalam parameter URL ringkas (`?c=...`).
+- **Mesin Pemecahan & Penggabungan Subnet**: Pemisahan biner dan penggabungan pohon hierarkis secara interaktif di sisi klien.
+- **Pertukaran Konfigurasi JSON**: Alur kerja dasar untuk ekspor dan impor konfigurasi berbasis JSON.
+
+### 4. Spesifikasi Lingkungan Runtime & Kebutuhan Sistem Node.js
+
+Alat pembangunan, framework pengujian, dan server lokal Visual Subnet Calculator mengacu pada matriks runtime berikut:
+
+- **Versi Minimum yang Didukung**: **Node.js `v18.0.0+ LTS`** (Hydrogen)
+  - _Rasional Teknis_: Rilis LTS baseline yang menyediakan dukungan native modul ECMAScript (ESM), matematika bitwise `BigInt` 128-bit lossless, Web Crypto API (`crypto.getRandomValues`), serta Fetch API tanpa membutuhkan polyfill eksternal.
+- **Versi Optimal / Disarankan**: **Node.js `v20.x` / `v22.x Active LTS`** (Iron / Jod)
+  - _Rasional Teknis_: Menyajikan kompilasi JIT mesin V8 yang sangat dioptimalkan, eksekusi pengujian otomatis Playwright headless tercepat, konsumsi memori terendah selama pengemasan aset, dan keselarasan siklus hidup pemeliharaan korporat jangka panjang.
+- **Pengelola Paket**: **npm `10.x+`** (kompatibel penuh dengan pnpm `9.x+` dan yarn `4.x+`).
+
+### 5. Catatan Subnet Cloud & Matriks Reservasi Hyperscaler
+
+| Profil Cloud           | Subnet Terkecil |        IP Dicadangkan        | Rincian Peran Alamat IP yang Dicadangkan                                                             | Dokumentasi Rujukan                                                                                                                                                               |
+| :--------------------- | :-------------: | :--------------------------: | :--------------------------------------------------------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Standar**            |      `/32`      | **2** _(ukuran $\le$ `/30`)_ | Alamat Jaringan (`.0`), Alamat Broadcast (`.last`)                                                   | [`RFC 1918`](https://datatracker.ietf.org/doc/html/rfc1918) / [`RFC 4632`](https://datatracker.ietf.org/doc/html/rfc4632)                                                         |
+| **AWS VPC**            |      `/28`      |            **5**             | Network (`.0`), Router VPC (`.1`), DNS VPC (`.2`), Penggunaan Masa Depan (`.3`), Broadcast (`.last`) | [`Ukuran Subnet AWS VPC`](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)                                                                                    |
+| **Azure VNet**         |      `/29`      |            **5**             | Network (`.0`), Default Gateway (`.1`), Pemetaan DNS Azure (`.2`, `.3`), Broadcast (`.last`)         | [`Batasan Subnet Azure VNet`](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets) |
+| **Google Cloud (GCP)** |      `/29`      |            **4**             | Network (`.0`), Default Gateway (`.1`), Penggunaan Masa Depan (`.last - 1`), Broadcast (`.last`)     | [`Subnet Google Cloud VPC`](https://cloud.google.com/vpc/docs/subnets#reserved_ip_addresses_in_ipv4_subnets)                                                                      |
+| **Oracle Cloud (OCI)** |      `/30`      |            **3**             | Network (`.0`), Default Gateway (`.1`), Broadcast (`.last`)                                          | [`Alamat IP Dicadangkan OCI`](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)                                                 |
+
+- **Standar RFC 1918**: Mencadangkan `network + 0` dan `broadcast` (`alamat terakhir`) untuk subnet $\le /30$. Rentang usable adalah `network + 1` hingga `last_address - 1`.
+- **AWS VPC**: Menegakkan ukuran minimum `/28`. Mencadangkan 5 alamat: `network + 0` (Jaringan), `network + 1` (Router VPC), `network + 2` (DNS VPC), `network + 3` (Masa Depan), dan `last_address` (Broadcast). Rentang usable adalah `network + 4` hingga `last_address - 1`.
+- **Azure VNet**: Menegakkan ukuran minimum `/29`. Mencadangkan 5 alamat: `network + 0` (Jaringan), `network + 1` (Default Gateway), `network + 2` dan `network + 3` (Pemetaan DNS Azure), dan `last_address` (Broadcast). Rentang usable adalah `network + 4` hingga `last_address - 1`.
+- **Google Cloud (GCP) VPC**: Menegakkan ukuran minimum `/29`. Mencadangkan 4 alamat: `network + 0` (Jaringan), `network + 1` (Default Gateway), `last_address - 1` (Dicadangkan Google untuk penggunaan masa depan), dan `last_address` (Broadcast). Rentang usable adalah `network + 2` hingga `last_address - 2`.
+- **Oracle Cloud (OCI)**: Menegakkan ukuran minimum `/30`. Mencadangkan 3 alamat: `network + 0` (Jaringan), `network + 1` (Default Gateway), dan `last_address` (Broadcast). Rentang usable adalah `network + 2` hingga `last_address - 1`.
+
+### 6. Dukungan, Sponsor & Integrasi Donasi QRIS
+
+Visual Subnet Calculator menyediakan sarana dukungan komunitas melalui gateway internasional maupun regional:
+
+- **PayPal Internasional**: [`https://www.paypal.me/alsyundawy`](https://www.paypal.me/alsyundawy)
+- **QRIS (Quick Response Code Indonesian Standard)**:
+  - Berkas Barcode: `https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df`
+  - NMID: `ID1020021153676`
+  - Nama Merchant: `ALSYUNDAWY`
+  - Kompatibilitas: Kompatibel dengan seluruh aplikasi perbankan mobile Indonesia (BCA, Mandiri, BRI, BNI, BSI, CIMB Niaga, Permata) serta dompet digital (GoPay, OVO, DANA, LinkAja, ShopeePay).
+  - Konfirmasi WhatsApp: [`https://wa.me/6285658515212`](https://wa.me/6285658515212) (`+62 856-5851-5212`)
 
 ---
 
-## Mesin Impor & Ekspor Multi-Format (v1.4.2)
+## Mesin Impor & Ekspor Multi-Format (v1.4.2 – v1.4.3)
 
-Visual Subnet Calculator v1.4.2 memperkenalkan sistem pertukaran data multi-format yang dapat diakses melalui modal Impor / Ekspor (`#importExportModal`), mendukung spreadsheet CSV standar RFC 4180, tabel dokumentasi Plain Text, serta konfigurasi hierarkis JSON:
+Visual Subnet Calculator v1.4.2 memperkenalkan sistem pertukaran data multi-format yang dapat diakses melalui modal Impor / Ekspor (`#importExportModal`), mendukung spreadsheet CSV standar RFC 4180, tabel dokumentasi Plain Text, serta konfigurasi hierarkis JSON. Versi 1.4.3 memperketat keamanan sanitasi warna pada seluruh format ekspor:
 
 ### 1. Format Ekspor
 
-- **JSON (`exportConfig`)**: Menyerialisasi seluruh struktur hierarki pohon termasuk jaringan dasar, mode operasional (`Standard`, `AWS`, `Azure`, `OCI`), versi IP aktif (`IPv4`, `IPv6`), catatan kustom (`_note`), dan pemetaan warna (`_color`).
+- **JSON (`exportConfig`)**: Menyerialisasi seluruh struktur hierarki pohon termasuk jaringan dasar, mode operasional (`Standard`, `AWS`, `Azure`, `GCP`, `OCI`), versi IP aktif (`IPv4`, `IPv6`), catatan kustom (`_note`), dan pemetaan warna (`_color`).
 - **CSV (`exportCsv`)**: Menghasilkan data nilai berpemisah koma yang mematuhi standar RFC 4180 dengan header: `"Subnet Address","Range of Addresses","Usable IPs","Hosts","Note","Color"`. Pembungkusan kutip dan karakter escape ganda (`""`) memastikan kompatibilitas penuh dengan Microsoft Excel, LibreOffice Calc, dan Google Sheets.
 - **Plain Text (`exportPlainText`)**: Menghasilkan tabel teks ASCII monospace yang sejajar rapi dengan komentar metadata (`# Visual Subnet Calculator Export`), memudahkan penempelan rencana alokasi IP ke dalam dokumentasi teknis, Git pull request, maupun konsol terminal.
 
@@ -166,7 +226,7 @@ Visual Subnet Calculator berfungsi sebagai mesin perancangan dan alokasi IP dasa
 
 ---
 
-## Rekayasa Performa & Modernisasi (v1.4.2)
+## Rekayasa Performa & Modernisasi (v1.4.2 – v1.4.3)
 
 - **Masker Bitwise Waktu-Konstan ($O(1)$)**: Rutinitas kalkulasi alamat dasar jaringan IPv4 `get_network(networkInput, netSize)` dioptimalkan dari perulangan iteratif menjadi satu operasi masker bitwise instan:
   ```javascript
@@ -183,5 +243,6 @@ Visual Subnet Calculator berfungsi sebagai mesin perancangan dan alokasi IP dasa
 - **Isolasi Penuh di Sisi Klien**: Seluruh kalkulasi berlangsung sepenuhnya di dalam runtime peramban. Tidak ada data pengguna, skema IP, maupun catatan teks yang dikirimkan ke server backend mana pun.
 - **Pencegahan XSS**: Setiap nilai dinamis yang disisipkan ke dalam DOM (termasuk isi catatan yang dimuat dari file impor atau URL bersama) melewati penyandian entitas karakter sebelum proses interpolasi string.
 - **Pencegahan DOM XSS (CodeQL Alert #5)**: Masukan koreksi batas jaringan dari DOM diisolasi secara ketat dalam fungsi `show_boundary_warning_modal()` yang menggunakan pengikatan node `.text()` yang aman dari eksekusi skrip.
+- **Sanitasi Warna CSS (v1.4.3)**: Atribut `style="background-color: ..."` yang dihasilkan secara dinamis untuk baris tabel subnet kini divalidasi menggunakan fungsi `sanitizeColor(color)` dengan whitelist regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Hanya format heksadesimal CSS yang benar-benar valid (#RGB, #RGBA, #RRGGBB, #RRGGBBAA) yang diizinkan melewati validasi; nilai dengan panjang 5 atau 7 karakter yang tidak diakui oleh spesifikasi CSS Color Level 4 diblokir. Nilai tidak valid dikembalikan sebagai string kosong dan tidak pernah diinterpolasi ke dalam atribut DOM. Pendekatan ini lebih aman daripada `escapeHtml()` dalam konteks CSS karena mencegah injeksi ekspresi CSS seperti `url()`, `expression()`, atau sekuens _escape_ `\`.
 - **Aksesibilitas & Kepatuhan Formulir**: Input file tersembunyi (`#importFileInput`) dipasangkan dengan label semantik (`<label for="importFileInput" class="visually-hidden">`) dan atribut judul, memenuhi standar pembaca layar WCAG 2.2 AA dan aturan linter HTML tanpa menghasilkan atribut ARIA yang redundan.
 - **Kebijakan Keamanan Konten (CSP)**: Aplikasi tidak memerlukan skrip eksternal di luar aset distribusi lokal, memungkinkan penerapan kebijakan `script-src 'self'` yang ketat pada _reverse proxy_ produksi.

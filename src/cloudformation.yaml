@@ -1,5 +1,5 @@
 ---
-AWSTemplateFormatVersion: '2010-09-09'
+AWSTemplateFormatVersion: "2010-09-09"
 Description: Visual Subnet Calculator
 Metadata:
   AWS::CloudFormation::Interface:
@@ -18,11 +18,11 @@ Metadata:
 Parameters:
   DomainName:
     Type: String
-    Default: ''
+    Default: ""
     Description: Domain Name for Route53 Hosted Zone and Static S3 Site
   ExtraTXTRecord:
     Type: String
-    Default: ''
+    Default: ""
     Description: Extra TXT record for the root domain, such as for validation of domain ownership. Will be enclosed in quotes automatically.
 Resources:
   OriginAccessIdentity:
@@ -35,8 +35,11 @@ Resources:
     Properties:
       BucketName: !Sub
         - visualsubnetcalc-static-website-${Unique}
-        - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
-      AccessControl: Private
+        - Unique:
+            !Select [
+              4,
+              !Split ["-", !Select [2, !Split ["/", !Ref "AWS::StackId"]]],
+            ]
       LoggingConfiguration:
         DestinationBucketName: !Ref LoggingBucket
         LogFilePrefix: s3-static-website/
@@ -62,43 +65,73 @@ Resources:
     Properties:
       Bucket: !Sub
         - visualsubnetcalc-static-website-${Unique}
-        - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+        - Unique:
+            !Select [
+              4,
+              !Split ["-", !Select [2, !Split ["/", !Ref "AWS::StackId"]]],
+            ]
       PolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Id: WebAccess
         Statement:
           - Sid: CloudFrontReadForGetBucketObjects
             Principal:
-              AWS: !Sub 'arn:${AWS::Partition}:iam::cloudfront:user/CloudFront Origin Access Identity ${OriginAccessIdentity}'
+              AWS: !Sub "arn:${AWS::Partition}:iam::cloudfront:user/CloudFront Origin Access Identity ${OriginAccessIdentity}"
             Effect: Allow
             Action:
               - s3:GetObject
               - s3:GetObjectVersion
             Resource: !Sub
               - arn:${AWS::Partition}:s3:::visualsubnetcalc-static-website-${Unique}/*
-              - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+              - Unique:
+                  !Select [
+                    4,
+                    !Split [
+                      "-",
+                      !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                    ],
+                  ]
           - Sid: DenyPlaintextAccess
-            Principal: '*'
+            Principal: "*"
             Effect: Deny
             Action: s3:*
             Resource:
               - !Sub
                 - arn:${AWS::Partition}:s3:::visualsubnetcalc-static-website-${Unique}
-                - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+                - Unique:
+                    !Select [
+                      4,
+                      !Split [
+                        "-",
+                        !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                      ],
+                    ]
               - !Sub
                 - arn:${AWS::Partition}:s3:::visualsubnetcalc-static-website-${Unique}/*
-                - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+                - Unique:
+                    !Select [
+                      4,
+                      !Split [
+                        "-",
+                        !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                      ],
+                    ]
             Condition:
               Bool:
-                aws:SecureTransport: 'false'
+                aws:SecureTransport: "false"
   LoggingBucket:
     Type: AWS::S3::Bucket
+    # checkov:skip=CKV_AWS_18: S3 access logs destination bucket cannot log to itself
     DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
     Properties:
       BucketName: !Sub
         - visualsubnetcalc-logging-${Unique}
-        - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
-      AccessControl: Private
+        - Unique:
+            !Select [
+              4,
+              !Split ["-", !Select [2, !Split ["/", !Ref "AWS::StackId"]]],
+            ]
       PublicAccessBlockConfiguration:
         BlockPublicAcls: true
         BlockPublicPolicy: true
@@ -125,9 +158,13 @@ Resources:
     Properties:
       Bucket: !Sub
         - visualsubnetcalc-logging-${Unique}
-        - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+        - Unique:
+            !Select [
+              4,
+              !Split ["-", !Select [2, !Split ["/", !Ref "AWS::StackId"]]],
+            ]
       PolicyDocument:
-        Version: '2012-10-17'
+        Version: "2012-10-17"
         Id: WebAccess
         Statement:
           - Sid: S3ServerAccessLogsPolicy
@@ -138,82 +175,110 @@ Resources:
               - s3:PutObject
             Resource: !Sub
               - arn:${AWS::Partition}:s3:::visualsubnetcalc-logging-${Unique}/*
-              - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+              - Unique:
+                  !Select [
+                    4,
+                    !Split [
+                      "-",
+                      !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                    ],
+                  ]
             Condition:
               ArnEquals:
                 aws:SourceArn:
                   - !Sub
                     - arn:${AWS::Partition}:s3:::visualsubnetcalc-static-website-${Unique}
-                    - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+                    - Unique:
+                        !Select [
+                          4,
+                          !Split [
+                            "-",
+                            !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                          ],
+                        ]
               StringEquals:
-                aws:SourceAccount: !Ref 'AWS::AccountId'
+                aws:SourceAccount: !Ref "AWS::AccountId"
           - Sid: DenyPlaintextAccess
-            Principal: '*'
+            Principal: "*"
             Effect: Deny
             Action: s3:*
             Resource:
               - !Sub
                 - arn:${AWS::Partition}:s3:::visualsubnetcalc-logging-${Unique}
-                - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+                - Unique:
+                    !Select [
+                      4,
+                      !Split [
+                        "-",
+                        !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                      ],
+                    ]
               - !Sub
                 - arn:${AWS::Partition}:s3:::visualsubnetcalc-logging-${Unique}/*
-                - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
+                - Unique:
+                    !Select [
+                      4,
+                      !Split [
+                        "-",
+                        !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                      ],
+                    ]
             Condition:
               Bool:
-                aws:SecureTransport: 'false'
+                aws:SecureTransport: "false"
   HostedZone:
     Type: AWS::Route53::HostedZone
     Properties:
       HostedZoneConfig:
-        Comment: !Sub 'VisualSubnetCalc'
-      Name: !Ref 'DomainName'
+        Comment: VisualSubnetCalc
+      Name: !Ref "DomainName"
   Certificate:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: !Ref 'DomainName'
+      DomainName: !Ref "DomainName"
       DomainValidationOptions:
-        - DomainName: !Ref 'DomainName'
-          HostedZoneId: !Ref 'HostedZone'
+        - DomainName: !Ref "DomainName"
+          HostedZoneId: !Ref "HostedZone"
       ValidationMethod: DNS
       Tags:
         - Key: Name
-          Value: !Sub 'VisualSubnetCalc'
+          Value: VisualSubnetCalc
   CertificateWWW:
     Type: AWS::CertificateManager::Certificate
     Properties:
-      DomainName: !Sub 'www.${DomainName}'
+      DomainName: !Sub "www.${DomainName}"
       DomainValidationOptions:
-        - DomainName: !Sub 'www.${DomainName}'
-          HostedZoneId: !Ref 'HostedZone'
+        - DomainName: !Sub "www.${DomainName}"
+          HostedZoneId: !Ref "HostedZone"
       ValidationMethod: DNS
       Tags:
         - Key: Name
-          Value: !Sub 'VisualSubnetCalc'
+          Value: VisualSubnetCalc
   CloudFrontAlias:
     Type: AWS::Route53::RecordSet
     Properties:
       AliasTarget:
-        DNSName: !GetAtt 'CloudFront.DomainName'
+        DNSName: !GetAtt "CloudFront.DomainName"
         HostedZoneId: Z2FDTNDATAQYW2
       Comment: To CloudFront S3
-      HostedZoneId: !Ref 'HostedZone'
-      Name: !Sub '${DomainName}.'
+      HostedZoneId: !Ref "HostedZone"
+      Name: !Sub "${DomainName}."
       Type: A
   CloudFrontAliasWWW:
     Type: AWS::Route53::RecordSet
     Properties:
       AliasTarget:
-        DNSName: !GetAtt 'CloudFrontWWW.DomainName'
+        DNSName: !GetAtt "CloudFrontWWW.DomainName"
         HostedZoneId: Z2FDTNDATAQYW2
       Comment: To CloudFront Redirect
-      HostedZoneId: !Ref 'HostedZone'
-      Name: !Sub 'www.${DomainName}.'
+      HostedZoneId: !Ref "HostedZone"
+      Name: !Sub "www.${DomainName}."
       Type: A
   SPFRecord:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZone
-      Name: !Sub '${DomainName}.'
+      Name: !Sub "${DomainName}."
       Type: TXT
       TTL: 300
       ResourceRecords:
@@ -223,18 +288,19 @@ Resources:
     Type: AWS::Route53::RecordSet
     Properties:
       HostedZoneId: !Ref HostedZone
-      Name: !Sub '_dmarc.${DomainName}.'
+      Name: !Sub "_dmarc.${DomainName}."
       Type: TXT
       TTL: 300
       ResourceRecords:
         - '"v=DMARC1; p=reject;"'
   CloudFront:
     Type: AWS::CloudFront::Distribution
+    # checkov:skip=CKV_AWS_68: Standalone static site template without AWS WAF
     Properties:
       DistributionConfig:
         Comment: Visual Subnet Calculator Static Website
         Aliases:
-          - !Ref 'DomainName'
+          - !Ref "DomainName"
         Logging:
           Bucket: !GetAtt LoggingBucket.DomainName
           Prefix: cloudfront
@@ -242,7 +308,7 @@ Resources:
         DefaultCacheBehavior:
           ForwardedValues:
             QueryString: false
-          TargetOriginId: !Sub 'S3-Static-Website'
+          TargetOriginId: S3-Static-Website
           ViewerProtocolPolicy: redirect-to-https
           Compress: true
           ResponseHeadersPolicyId: !Ref HstsResponseHeadersPolicy
@@ -261,27 +327,39 @@ Resources:
         Origins:
           - DomainName: !Sub
               - visualsubnetcalc-static-website-${Unique}.s3.${AWS::Region}.amazonaws.com
-              - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
-            Id: !Sub 'S3-Static-Website'
+              - Unique:
+                  !Select [
+                    4,
+                    !Split [
+                      "-",
+                      !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                    ],
+                  ]
+            Id: S3-Static-Website
             S3OriginConfig:
-              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${OriginAccessIdentity}'
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentity}"
         PriceClass: PriceClass_100
         IPV6Enabled: false
         ViewerCertificate:
-          AcmCertificateArn: !Ref 'Certificate'
+          AcmCertificateArn: !Ref "Certificate"
           MinimumProtocolVersion: TLSv1.2_2021
           SslSupportMethod: sni-only
   CloudFrontWWW:
     Type: AWS::CloudFront::Distribution
+    # checkov:skip=CKV_AWS_68: Standalone redirect distribution without AWS WAF
     Properties:
       DistributionConfig:
         Comment: Visual Subnet Calculator WWW Redirect
         Aliases:
-          - !Sub 'www.${DomainName}'
+          - !Sub "www.${DomainName}"
+        Logging:
+          Bucket: !GetAtt LoggingBucket.DomainName
+          Prefix: cloudfront-www
+          IncludeCookies: true
         DefaultCacheBehavior:
           ForwardedValues:
             QueryString: false
-          TargetOriginId: !Sub 'S3-Static-Website'
+          TargetOriginId: S3-Static-Website
           ViewerProtocolPolicy: redirect-to-https
           Compress: true
           FunctionAssociations:
@@ -294,14 +372,21 @@ Resources:
         Origins:
           - DomainName: !Sub
               - visualsubnetcalc-static-website-${Unique}.s3.${AWS::Region}.amazonaws.com
-              - Unique: !Select [ 4, !Split [ '-', !Select [ 2, !Split [ '/', !Ref 'AWS::StackId' ] ] ] ]
-            Id: !Sub 'S3-Static-Website'
+              - Unique:
+                  !Select [
+                    4,
+                    !Split [
+                      "-",
+                      !Select [2, !Split ["/", !Ref "AWS::StackId"]],
+                    ],
+                  ]
+            Id: S3-Static-Website
             S3OriginConfig:
-              OriginAccessIdentity: !Sub 'origin-access-identity/cloudfront/${OriginAccessIdentity}'
+              OriginAccessIdentity: !Sub "origin-access-identity/cloudfront/${OriginAccessIdentity}"
         PriceClass: PriceClass_100
         IPV6Enabled: false
         ViewerCertificate:
-          AcmCertificateArn: !Ref 'CertificateWWW'
+          AcmCertificateArn: !Ref "CertificateWWW"
           MinimumProtocolVersion: TLSv1.2_2021
           SslSupportMethod: sni-only
   RedirectWWWFunction:

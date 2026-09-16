@@ -26,7 +26,7 @@ test('CIDR Input Paste', async ({ page }) => {
       clipboardData,
       dataType,
       data
-    });
+    } as any);
     formEl.dispatchEvent(clipboardEvent);
   });
 

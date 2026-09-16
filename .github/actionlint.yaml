@@ -11,4 +11,4 @@ config-variables:
 paths:
   .github/workflows/**/*.yml:
     ignore:
-      - 'Context access might be invalid'
+      - Context access might be invalid

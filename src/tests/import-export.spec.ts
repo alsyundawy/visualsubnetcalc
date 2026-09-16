@@ -74,6 +74,70 @@ test("Import 192.168.0.0/24", async ({ page }) => {
   ).toContainText("192.168.0.0/24");
 });
 
-//test('Test', async ({ page }) => {
-//  await page.goto('/');
-//});
+test("Export CSV Format", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Tools" }).click();
+  await page.getByRole("link", { name: "Import / Export" }).click();
+  await page.locator("#btn_format_csv").click();
+  await expect(page.locator("#btn_format_csv")).toHaveClass(/active/);
+  const val = await page.getByLabel("Import/Export Content").inputValue();
+  expect(val).toContain(
+    '"Subnet Address","Range of Addresses","Usable IPs","Hosts","Note","Color"',
+  );
+  expect(val).toContain('"10.0.0.0/16"');
+});
+
+test("Export Plain Text Format", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Tools" }).click();
+  await page.getByRole("link", { name: "Import / Export" }).click();
+  await page.locator("#btn_format_txt").click();
+  await expect(page.locator("#btn_format_txt")).toHaveClass(/active/);
+  const val = await page.getByLabel("Import/Export Content").inputValue();
+  expect(val).toContain("# Visual Subnet Calculator Export");
+  expect(val).toContain("Subnet Address");
+  expect(val).toContain("10.0.0.0/16");
+});
+
+test("Import CSV Format", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Tools" }).click();
+  await page.getByRole("link", { name: "Import / Export" }).click();
+  await page
+    .getByLabel("Import/Export Content")
+    .fill(
+      '"Subnet Address","Range of Addresses","Usable IPs","Hosts","Note","Color"\n"172.16.0.0/24","172.16.0.0 - 172.16.0.255","172.16.0.1 - 172.16.0.254","254","CSV Imported Subnet","#fff3e0"',
+    );
+  await page.getByRole("button", { name: "Import" }).click();
+  await expect(page.getByLabel("Network Address")).toHaveValue("172.16.0.0");
+  await expect(page.getByLabel("Network Size")).toHaveValue("24");
+  await expect(
+    page
+      .getByLabel("172.16.0.0/24", { exact: true })
+      .getByLabel("Subnet Address"),
+  ).toContainText("172.16.0.0/24");
+});
+
+test("Import Plain Text Format", async ({ page }) => {
+  await page.goto("/");
+  await page.getByRole("button", { name: "Tools" }).click();
+  await page.getByRole("link", { name: "Import / Export" }).click();
+  await page
+    .getByLabel("Import/Export Content")
+    .fill(
+      "# Custom Network Plan\n10.50.0.0/25 # Office LAN\n10.50.0.128/25 # DMZ LAN",
+    );
+  await page.getByRole("button", { name: "Import" }).click();
+  await expect(page.getByLabel("Network Address")).toHaveValue("10.50.0.0");
+  await expect(page.getByLabel("Network Size")).toHaveValue("24");
+  await expect(
+    page
+      .getByLabel("10.50.0.0/25", { exact: true })
+      .getByLabel("Subnet Address"),
+  ).toContainText("10.50.0.0/25");
+  await expect(
+    page
+      .getByLabel("10.50.0.128/25", { exact: true })
+      .getByLabel("Subnet Address"),
+  ).toContainText("10.50.0.128/25");
+});

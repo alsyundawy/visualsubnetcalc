@@ -55,6 +55,33 @@ test("About Dialog", async ({ page }) => {
   ).toBeVisible();
 });
 
+test("FAQ Dialog", async ({ page }) => {
+  await page.goto("/");
+  await page.locator("#faq_icon").click();
+  await expect(page.locator("#faqModalLabel")).toContainText(
+    "FAQ - Visual Subnet Calculator",
+  );
+  await expect(page.locator("#faqAccordion")).toBeVisible();
+  await expect(page.locator("#faqCollapse1")).toHaveClass(/show/);
+
+  // Test Expand All
+  await page.locator("#faq_expand_all").click();
+  await expect(page.locator("#faqCollapse2")).toHaveClass(/show/);
+  await expect(page.locator("#faqCollapse10")).toHaveClass(/show/);
+
+  // Test Collapse All
+  await page.locator("#faq_collapse_all").click();
+  await expect(page.locator("#faqCollapse1")).not.toHaveClass(/show/);
+  await expect(page.locator("#faqCollapse2")).not.toHaveClass(/show/);
+
+  // Test Close Button
+  await page
+    .locator("#faqModal .modal-footer")
+    .getByRole("button", { name: "Close" })
+    .click();
+  await expect(page.locator("#faqModal")).not.toBeVisible();
+});
+
 test("GitHub Link", async ({ page }) => {
   await page.goto("/");
   const page1Promise = page.waitForEvent("popup");

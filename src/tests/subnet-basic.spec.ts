@@ -108,7 +108,10 @@ test("Change To 192.168.0.0/24", async ({ page }) => {
 
 test("Deep /32 Split", async ({ page }) => {
   await page.goto("/");
-  await page.getByText("/16", { exact: true }).click();
+  await page
+    .getByLabel("10.0.0.0/16", { exact: true })
+    .getByText("/16", { exact: true })
+    .click();
   await page
     .getByLabel("10.0.128.0/17", { exact: true })
     .getByText("/17", { exact: true })
@@ -259,7 +262,10 @@ test("Color Splitting", async ({ page }) => {
   await page.getByLabel("Color 5").click();
   await page.getByRole("cell", { name: "/16 Subnet Address" }).click();
   await page.getByText("« Stop Changing Colors").click();
-  await page.getByText("/16", { exact: true }).click();
+  await page
+    .getByLabel("10.0.0.0/16", { exact: true })
+    .getByText("/16", { exact: true })
+    .click();
   await expect(page.getByRole("row", { name: "10.0.0.0/17" })).toHaveCSS(
     "background-color",
     "rgb(155, 246, 255)",

@@ -14,7 +14,7 @@
       name="keywords"
       content="subnet calculator, CIDR calculator, IP subnet planner, network design tool, IPv4 subnetting, AWS VPC subnetting, Azure CIDR, OCI networking, visual subnetting, subnet split join"
     />
-    <meta name="author" content="alsyundawy" />
+    <meta name="author" content="HARRY DERTIN SUTISNA (@alsyundawy)" />
     <meta
       name="robots"
       content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
@@ -87,11 +87,12 @@
         },
         "author": {
           "@type": "Person",
-          "name": "alsyundawy",
+          "name": "HARRY DERTIN SUTISNA",
+          "alternateName": "alsyundawy",
           "url": "https://github.com/alsyundawy"
         },
         "codeRepository": "https://github.com/alsyundawy/visualsubnetcalc",
-        "softwareVersion": "1.4.1",
+        "softwareVersion": "1.4.2",
         "license": "https://github.com/alsyundawy/visualsubnetcalc/blob/main/LICENSE",
         "screenshot": "__DEPLOY_URL__/icon/social_1200x630.png",
         "featureList": [
@@ -113,8 +114,8 @@
     <link rel="preconnect" href="https://code.jquery.com" />
     <link rel="dns-prefetch" href="https://code.jquery.com" />
 
-    <!-- ═══ Stylesheets ══════════════════════════════════════════════════ -->
     <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/fontawesome.min.css" />
     <link href="css/main.css" rel="stylesheet" />
 
     <!-- ═══ Icons & PWA ══════════════════════════════════════════════════ -->
@@ -141,77 +142,53 @@
   </head>
   <body>
     <div class="container-xxl mt-2">
-      <div class="float-end" id="navigation">
-        <button
-          type="button"
-          id="faq_icon"
-          class="btn btn-link p-1"
-          data-bs-toggle="modal"
-          data-bs-target="#faqModal"
-          aria-label="FAQ"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="36"
-            height="36"
-            fill="currentColor"
-            class="bi bi-question-circle"
-            viewBox="0 0 16 16"
+      <header
+        class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2"
+        id="app_header"
+      >
+        <h1 class="mb-0 d-inline-flex align-items-center gap-2">
+          <i
+            class="fa-solid fa-network-wired text-primary"
+            aria-hidden="true"
+          ></i>
+          <span>Visual Subnet Calculator</span>
+        </h1>
+        <div class="d-flex align-items-center gap-1" id="navigation">
+          <button
+            type="button"
+            id="faq_icon"
+            class="btn btn-link p-1 text-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#faqModal"
+            aria-label="FAQ"
           >
-            <path
-              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"
-            />
-            <path
-              d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"
-            />
-          </svg>
-        </button>
-        <button
-          type="button"
-          id="info_icon"
-          class="btn btn-link p-1"
-          data-bs-toggle="modal"
-          data-bs-target="#aboutModal"
-          aria-label="About"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="36"
-            height="36"
-            fill="currentColor"
-            class="bi bi-info-circle"
-            viewBox="0 0 16 16"
+            <i
+              class="fa-regular fa-circle-question fa-2xl"
+              aria-hidden="true"
+            ></i>
+          </button>
+          <button
+            type="button"
+            id="info_icon"
+            class="btn btn-link p-1 text-dark"
+            data-bs-toggle="modal"
+            data-bs-target="#aboutModal"
+            aria-label="About"
           >
-            <path
-              d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-            />
-            <path
-              d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
-            />
-          </svg>
-        </button>
-        <a
-          href="https://github.com/alsyundawy/visualsubnetcalc"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="GitHub"
-        >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="36"
-            height="36"
-            fill="currentColor"
-            class="bi bi-github"
-            viewBox="0 0 16 16"
+            <i class="fa-solid fa-circle-info fa-2xl" aria-hidden="true"></i>
+          </button>
+          <a
+            href="https://github.com/alsyundawy/visualsubnetcalc"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            class="p-1 text-dark text-decoration-none d-inline-flex align-items-center"
           >
-            <path
-              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"
-            />
-          </svg>
-        </a>
-      </div>
-      <h1 class="mb-1">Visual Subnet Calculator</h1>
-      <div class="alert alert-primary alert-dismissible show mt-1" role="alert">
+            <i class="fa-brands fa-github fa-2xl" aria-hidden="true"></i>
+          </a>
+        </div>
+      </header>
+      <div class="alert alert-primary alert-dismissible show mb-2" role="alert">
         <p class="mb-1">
           Quickly and easily design network layouts. Split and join subnets, add
           notes and color, then collaborate with others by sharing a custom link
@@ -228,10 +205,258 @@
           aria-label="Close"
         ></button>
       </div>
+      <div
+        class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-2"
+        id="ip_version_toolbar"
+      >
+        <fieldset
+          class="btn-group btn-group-sm border-0 p-0 m-0"
+          aria-label="IP Version Selection"
+        >
+          <legend class="visually-hidden">IP Version Selection</legend>
+          <button
+            type="button"
+            class="btn btn-outline-primary active"
+            id="btn_ipv4"
+            aria-pressed="true"
+          >
+            <span class="fw-semibold">IPv4</span>
+          </button>
+          <button
+            type="button"
+            class="btn btn-outline-primary"
+            id="btn_ipv6"
+            aria-pressed="false"
+          >
+            <span class="fw-semibold">IPv6</span>
+          </button>
+        </fieldset>
+        <div id="ipv4_tier_info" class="text-muted small">
+          <span class="badge bg-secondary me-1">Presets:</span>
+          <div
+            class="btn-group btn-group-sm"
+            role="toolbar"
+            aria-label="IPv4 Prefix Presets"
+          >
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn active"
+              data-prefix="16"
+            >
+              /16
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="17"
+            >
+              /17
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="18"
+            >
+              /18
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="19"
+            >
+              /19
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="20"
+            >
+              /20
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="21"
+            >
+              /21
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="22"
+            >
+              /22
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="23"
+            >
+              /23
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="24"
+            >
+              /24
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="25"
+            >
+              /25
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="26"
+            >
+              /26
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="27"
+            >
+              /27
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="28"
+            >
+              /28
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="29"
+            >
+              /29
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="30"
+            >
+              /30
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="31"
+            >
+              /31
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv4-preset-btn"
+              data-prefix="32"
+            >
+              /32
+            </button>
+          </div>
+        </div>
+        <div id="ipv6_tier_info" class="text-muted small d-none">
+          <span class="badge bg-secondary me-1">Presets:</span>
+          <div
+            class="btn-group btn-group-sm"
+            role="toolbar"
+            aria-label="IPv6 Prefix Presets"
+          >
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn active"
+              data-prefix="32"
+            >
+              /32
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="48"
+            >
+              /48
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="56"
+            >
+              /56
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="60"
+            >
+              /60
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="64"
+            >
+              /64
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="80"
+            >
+              /80
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="96"
+            >
+              /96
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="112"
+            >
+              /112
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="120"
+            >
+              /120
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="124"
+            >
+              /124
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="127"
+            >
+              /127
+            </button>
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-sm py-0 px-2 ipv6-preset-btn"
+              data-prefix="128"
+            >
+              /128
+            </button>
+          </div>
+        </div>
+      </div>
       <form id="input_form" class="row g-2 mb-2 align-items-end">
         <div class="font-monospace col-lg-2 col-md-3 col-4">
           <div>
-            <label for="network" class="form-label mb-0 ms-1"
+            <label for="network" id="network_label" class="form-label mb-0 ms-1"
               >Network Address</label
             >
           </div>
@@ -257,7 +482,7 @@
         </div>
         <div class="font-monospace col-lg-2 col-md-3 col-4">
           <div>
-            <label for="netsize" class="form-label mb-0 ms-1"
+            <label for="netsize" id="netsize_label" class="form-label mb-0 ms-1"
               >Network Size</label
             >
           </div>
@@ -271,7 +496,7 @@
               name="netsize"
               id="netsize"
               type="text"
-              class="form-control w-10"
+              class="form-control"
               value="16"
               pattern="^([0-9]|[12][0-9]|3[0-2])$"
               required
@@ -435,7 +660,8 @@
           id="colors_word_open"
           aria-label="Change Colors"
         >
-          <span>Change Colors &#187;</span>
+          <i class="fa-solid fa-palette me-1" aria-hidden="true"></i
+          ><span>Change Colors &#187;</span>
         </button>
         <div
           class="d-inline-flex align-items-center d-none"
@@ -518,7 +744,8 @@
           id="copy_url"
           aria-label="Copy Shareable URL"
         >
-          <span>Copy Shareable URL</span>
+          <i class="fa-solid fa-share-nodes me-1" aria-hidden="true"></i
+          ><span>Copy Shareable URL</span>
         </button>
         <div class="d-inline-block align-top pt-1 ps-3" id="whats_new">
           <a
@@ -527,10 +754,167 @@
             href="https://github.com/alsyundawy/visualsubnetcalc/releases"
             target="_blank"
             rel="noopener noreferrer"
-            >v1.4.1 (What&#39;s New?)</a
+            ><i class="fa-solid fa-tag me-1" aria-hidden="true"></i>v1.4.2
+            (What&#39;s New?)</a
           >
         </div>
       </div>
+
+      <!-- ═══ Elegant Maintainer & Contact Footer ═════════════════════════ -->
+      <footer id="app_footer" class="mt-auto pt-4 pb-4 border-top">
+        <div class="row align-items-center gy-3 text-muted small">
+          <div class="col-12 col-md-4 text-center text-md-start">
+            <div
+              class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-1"
+            >
+              <i
+                class="fa-solid fa-network-wired text-primary fs-5"
+                aria-hidden="true"
+              ></i>
+              <span class="fw-bold text-dark fs-6"
+                >Visual Subnet Calculator</span
+              >
+              <span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill"
+                >v1.4.2</span
+              >
+            </div>
+            <p class="mb-0 text-secondary">
+              High-performance dual-stack IPv4/IPv6 visual design &amp; CIDR
+              hierarchy engine.
+            </p>
+          </div>
+          <div class="col-12 col-md-4 text-center">
+            <div class="mb-2">
+              <span>Maintained &amp; Engineered by </span>
+              <a
+                href="https://github.com/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="fw-semibold text-primary text-decoration-none"
+                >HARRY DERTIN SUTISNA (@alsyundawy)</a
+              >
+              <div class="mt-1">
+                <a
+                  href="https://alsyundawy.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="badge bg-light text-dark border rounded-pill px-2 py-1 text-decoration-none fw-medium"
+                >
+                  <i
+                    class="fa-solid fa-globe text-primary me-1"
+                    aria-hidden="true"
+                  ></i
+                  >ALSYUNDAWY IT SOLUTION
+                </a>
+              </div>
+            </div>
+            <div
+              class="d-flex justify-content-center align-items-center gap-2 flex-wrap"
+            >
+              <a
+                href="https://alsyundawy.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 footer-btn"
+                aria-label="ALSYUNDAWY IT SOLUTION Website"
+              >
+                <i class="fa-solid fa-globe me-1" aria-hidden="true"></i
+                >alsyundawy.com
+              </a>
+              <a
+                href="https://github.com/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 footer-btn"
+                aria-label="Maintainer Profile"
+              >
+                <i class="fa-brands fa-github me-1" aria-hidden="true"></i
+                >GitHub
+              </a>
+              <a
+                href="https://x.com/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-dark btn-sm rounded-pill px-3 py-1 footer-btn"
+                aria-label="X Profile"
+              >
+                <i class="fa-brands fa-x-twitter me-1" aria-hidden="true"></i>X
+              </a>
+              <a
+                href="https://t.me/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-info btn-sm rounded-pill px-3 py-1 footer-btn"
+                aria-label="Telegram Profile"
+              >
+                <i class="fa-brands fa-telegram me-1" aria-hidden="true"></i
+                >Telegram
+              </a>
+              <a
+                href="mailto:alsyundawy@gmail.com"
+                class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 footer-btn"
+                aria-label="Email Maintainer"
+              >
+                <i class="fa-solid fa-envelope me-1" aria-hidden="true"></i
+                >Email
+              </a>
+              <a
+                href="https://paypal.me/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="btn btn-outline-success btn-sm rounded-pill px-3 py-1 footer-btn"
+                aria-label="Donate via PayPal"
+              >
+                <i class="fa-brands fa-paypal me-1" aria-hidden="true"></i
+                >Donate
+              </a>
+            </div>
+          </div>
+          <div class="col-12 col-md-4 text-center text-md-end">
+            <div
+              class="d-flex justify-content-center justify-content-md-end align-items-center gap-2 mb-1 flex-wrap"
+            >
+              <a
+                href="https://github.com/alsyundawy/visualsubnetcalc"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-secondary text-decoration-none footer-link"
+              >
+                <i class="fa-solid fa-code-branch me-1" aria-hidden="true"></i
+                >Source Code
+              </a>
+              <span>&bull;</span>
+              <a
+                href="https://github.com/alsyundawy/visualsubnetcalc/releases"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-secondary text-decoration-none footer-link"
+              >
+                <i class="fa-solid fa-tag me-1" aria-hidden="true"></i>Release
+                v1.4.2
+              </a>
+              <span>&bull;</span>
+              <a
+                href="https://github.com/alsyundawy/visualsubnetcalc/blob/main/LICENSE"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-secondary text-decoration-none footer-link"
+              >
+                <i
+                  class="fa-solid fa-scale-balanced me-1"
+                  aria-hidden="true"
+                ></i
+                >MIT License
+              </a>
+            </div>
+            <p class="mb-0 text-secondary">
+              Zero cookies &bull; Zero tracking &bull; Pure client-side
+              computation
+            </p>
+          </div>
+        </div>
+      </footer>
 
       <div class="modal fade" id="notifyModal" tabindex="-1">
         <div class="modal-dialog modal-md">
@@ -577,12 +961,87 @@
             </div>
             <div class="modal-body pt-1">
               <div
-                class="alert alert-primary show mt-3"
+                class="alert alert-primary show mt-2 mb-3"
                 id="importExportModalDescription"
               >
-                Copy the content from the box below to EXPORT the current subnet
-                configuration. Or, overwrite/paste a previously exported
-                configuration into the box below and click IMPORT.
+                Choose a format (<strong>JSON</strong>, <strong>CSV</strong>, or
+                <strong>Plain Text</strong>) to export your current subnet
+                layout, or paste an existing configuration / CIDR list into the
+                box below and click <strong>Import</strong>.
+              </div>
+              <div
+                class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2"
+              >
+                <div class="btn-group btn-group-sm">
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary active"
+                    id="btn_format_json"
+                  >
+                    <i class="fa-solid fa-code me-1" aria-hidden="true"></i>JSON
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="btn_format_csv"
+                  >
+                    <i class="fa-solid fa-file-csv me-1" aria-hidden="true"></i
+                    >CSV
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-primary"
+                    id="btn_format_txt"
+                  >
+                    <i
+                      class="fa-solid fa-file-lines me-1"
+                      aria-hidden="true"
+                    ></i
+                    >Plain Text
+                  </button>
+                </div>
+                <div class="d-flex align-items-center gap-1">
+                  <label for="importFileInput" class="visually-hidden"
+                    >Upload configuration file</label
+                  >
+                  <input
+                    type="file"
+                    id="importFileInput"
+                    class="d-none"
+                    accept=".json,.csv,.txt"
+                    title="Upload configuration file"
+                  />
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary"
+                    id="btn_upload_file"
+                    title="Load configuration from file"
+                  >
+                    <i
+                      class="fa-solid fa-file-arrow-up me-1"
+                      aria-hidden="true"
+                    ></i
+                    >Load File
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-secondary"
+                    id="btn_copy_export"
+                    title="Copy content to clipboard"
+                  >
+                    <i class="fa-regular fa-copy me-1" aria-hidden="true"></i
+                    ><span id="btn_copy_export_text">Copy</span>
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-outline-success"
+                    id="btn_download_export"
+                    title="Download file to computer"
+                  >
+                    <i class="fa-solid fa-download me-1" aria-hidden="true"></i
+                    >Download
+                  </button>
+                </div>
               </div>
               <div class="form-floating font-monospace">
                 <textarea
@@ -592,26 +1051,38 @@
                   aria-label="Import/Export Content"
                 ></textarea>
                 <label for="importExportArea" class="visually-hidden"
-                  >Subnet Configuration Data (JSON)</label
+                  >Subnet Configuration Data</label
                 >
               </div>
             </div>
-            <div class="modal-footer">
-              <button
-                type="button"
-                class="btn btn-secondary"
-                data-bs-dismiss="modal"
-              >
-                Close
-              </button>
-              <button
-                type="button"
-                class="btn btn-primary"
-                data-bs-dismiss="modal"
-                id="importBtn"
-              >
-                Import
-              </button>
+            <div
+              class="modal-footer d-flex justify-content-between flex-wrap gap-2"
+            >
+              <div class="text-muted small">
+                <i
+                  class="fa-solid fa-circle-info text-primary me-1"
+                  aria-hidden="true"
+                ></i
+                >Supports JSON hierarchy, CSV spreadsheets, and CIDR text lists.
+              </div>
+              <div class="d-flex gap-2">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  data-bs-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  data-bs-dismiss="modal"
+                  id="importBtn"
+                >
+                  <i class="fa-solid fa-file-import me-1" aria-hidden="true"></i
+                  >Import
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -623,11 +1094,20 @@
         tabindex="-1"
         aria-labelledby="faqModalLabel"
       >
-        <div class="modal-dialog modal-xl modal-dialog-centered">
+        <div
+          class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable"
+        >
           <div class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title" id="faqModalLabel">
-                FAQ - Visual Subnet Calculator
+              <h3
+                class="modal-title d-flex align-items-center gap-2"
+                id="faqModalLabel"
+              >
+                <i
+                  class="fa-solid fa-circle-question text-primary"
+                  aria-hidden="true"
+                ></i>
+                <span>FAQ - Visual Subnet Calculator</span>
               </h3>
               <button
                 type="button"
@@ -637,105 +1117,1208 @@
               ></button>
             </div>
             <div class="modal-body">
-              <h4>What is subnetting?</h4>
-              <p>
-                Subnetting is the practice of dividing a large network into
-                smaller subnetworks or "subnets," allowing for more efficient
-                management and routing of network traffic. Think of subnetting
-                as organizing a crowded sports field by creating dedicated areas
-                for each sport, reducing chaos, and improving coordination. Each
-                subnet functions as a separate network with its own unique IP
-                address range, optimizing performance by localizing network
-                traffic.
-              </p>
-              <p>
-                Subnetting involves using subnet masks, special identifiers that
-                help devices determine which portion of an IP address belongs to
-                the network and which to individual hosts. This logical division
-                enhances security and resource management by clearly delineating
-                network boundaries and roles.
-              </p>
-              <h4>Why is subnetting important?</h4>
-              <p>
-                Subnetting improves network performance and speed by reducing
-                unnecessary broadcast traffic, ensuring data packets remain
-                within their designated subnet. It significantly reduces network
-                congestion, as routers only forward traffic intended for devices
-                within specific subnets. Subnetting also enhances network
-                security by controlling device access to sensitive resources,
-                making it easier to identify and isolate threats.
-              </p>
-              <p>
-                It simplifies network management and supports future growth,
-                allowing administrators to efficiently allocate IP addresses and
-                configure subnets based on organizational needs. Overall,
-                subnetting provides greater visibility, control, and
-                scalability, essential for robust network operation in any
-                sizeable organization.
-              </p>
-              <h4>How does subnetting work?</h4>
-              <p>
-                Subnetting works by dividing an IP address into two segments:
-                the network portion, which identifies the overall network, and
-                the host portion, which identifies individual devices within
-                that network. Using a subnet mask, administrators indicate
-                exactly which bits belong to each part, and with CIDR (Classless
-                Inter-Domain Routing) this division is expressed as a "slash
-                number" appended to the IP address (for example, /24). This
-                slash number indicates the number of bits reserved for the
-                network ID; the remaining bits define the host addresses
-                available within the subnet.
-              </p>
-              <p>
-                As you increase the slash number, more bits shift to form the
-                network ID, resulting in smaller, more tightly scoped subnets
-                with fewer host addresses, while decreasing the slash number
-                provides a larger pool of addresses for hosts. This flexible
-                method allows for optimal allocation of IP addresses tailored to
-                the size and security requirements of each network segment.
-              </p>
-              <h4>How does the Visual Subnet Calculator help me?</h4>
-              <p>
-                Visual Subnet Calculator helps network professionals simplify
-                and expedite the design process by transforming complex subnet
-                calculations into intuitive, visual layouts. It supports various
-                networking modes (including standard, AWS, and Azure) by
-                automatically accounting for reserved addresses, so you can
-                design with confidence whether planning small subnets or complex
-                architectures. Its clear, user-focused interface, rooted in
-                simplicity and ease-of-use, means even first-time users can
-                quickly lay out and adjust network designs without getting
-                bogged down in intricate math.
-              </p>
-              <p>
-                By enabling you to save and share your designs effortlessly, the
-                tool fosters collaboration and streamlines team discussions. It
-                puts you in full control of your data while reducing common
-                errors and speeding up deployment. Ultimately, the Visual Subnet
-                Calculator is designed to let you focus on designing effective
-                networks rather than struggling with manual calculations.
-              </p>
-              <h4>
-                How is Visual Subnet Calculator different than the binary/math
-                calculators online?
-              </h4>
-              <p>
-                The Visual Subnet Calculator prioritizes simplicity, intuitive
-                visual design, and rapid usability, making it more accessible
-                than traditional binary or mathematical subnet calculators.
-                Instead of forcing users into complex binary arithmetic, it
-                allows administrators to visually layout and manipulate network
-                designs, enhancing understanding and reducing errors.
-              </p>
-              <p>
-                The focus is on practical network administration rather than
-                academic subnetting exercises, reflecting real-world network
-                design scenarios. It also uniquely supports specialized cloud
-                subnetting rules, such as AWS and Azure, clearly indicating
-                reserved IP addresses for these platforms. Lastly, it encourages
-                collaboration and community input, continuously refining its
-                capabilities based on real-world user feedback.
-              </p>
+              <div
+                class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2 pb-2 border-bottom"
+              >
+                <div class="text-muted small">
+                  <span
+                    class="badge bg-primary-subtle text-primary border border-primary-subtle me-1"
+                    >v1.4.2</span
+                  >
+                  <span
+                    >Explore features, dual-stack subnetting guides, cloud
+                    reservation profiles, and workflow tips.</span
+                  >
+                </div>
+                <div class="btn-group btn-group-sm">
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    id="faq_expand_all"
+                  >
+                    <i
+                      class="fa-solid fa-angles-down me-1"
+                      aria-hidden="true"
+                    ></i
+                    >Expand All
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-secondary"
+                    id="faq_collapse_all"
+                  >
+                    <i class="fa-solid fa-angles-up me-1" aria-hidden="true"></i
+                    >Collapse All
+                  </button>
+                </div>
+              </div>
+
+              <div class="accordion" id="faqAccordion">
+                <!-- FAQ Item 1: Overview -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading1">
+                    <button
+                      class="accordion-button"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse1"
+                      aria-expanded="true"
+                      aria-controls="faqCollapse1"
+                    >
+                      <i
+                        class="fa-solid fa-calculator text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >What is Visual Subnet Calculator?</span
+                      >
+                      <span
+                        class="badge bg-primary-subtle text-primary border border-primary-subtle ms-auto me-2"
+                        >Overview</span
+                      >
+                    </button>
+                  </h4>
+                  <div
+                    id="faqCollapse1"
+                    class="accordion-collapse collapse show"
+                  >
+                    <div class="accordion-body">
+                      <p>
+                        <strong>Visual Subnet Calculator (v1.4.2)</strong> is an
+                        industrial-grade, interactive, client-side visual IP
+                        planning and calculation engine engineered for network
+                        engineers, cloud infrastructure architects, DevOps
+                        specialists, and systems administrators. Instead of
+                        forcing users to manually compute tedious binary
+                        bit-math or rely on static cheat sheets, it transforms
+                        complex IP address allocation into an intuitive,
+                        interactive visual binary buddy tree.
+                      </p>
+                      <h5>Key Highlights &amp; Core Capabilities:</h5>
+                      <ul class="mb-0">
+                        <li>
+                          <strong>Dual-Stack Engine:</strong> Native visual
+                          partitioning and calculations for both 32-bit IPv4 and
+                          128-bit IPv6 address spaces with lossless
+                          <code>BigInt</code> precision.
+                        </li>
+                        <li>
+                          <strong>Interactive Split &amp; Join:</strong>
+                          Subdivide CIDR blocks into equal halves or join
+                          adjacent buddy subnets back together with
+                          instantaneous visual hierarchy feedback.
+                        </li>
+                        <li>
+                          <strong>One-Click Presets Toolbars:</strong> 17
+                          instant presets for IPv4 (<code>/16</code> through
+                          <code>/32</code>) and 12 standard allocation tier
+                          presets for IPv6 (<code>/32</code> through
+                          <code>/128</code>).
+                        </li>
+                        <li>
+                          <strong>Cloud Reservation Profiles:</strong> Automated
+                          usable host calculations matching vendor-specific
+                          internal reservation policies for AWS VPC, Microsoft
+                          Azure VNet, Oracle Cloud (OCI), and Standard RFC
+                          networks.
+                        </li>
+                        <li>
+                          <strong>Multi-Format Import &amp; Export:</strong>
+                          Universal data interchange supporting RFC 4180 CSV
+                          spreadsheets, dynamically aligned Plain Text ASCII
+                          tables, and hierarchical JSON state snapshots with
+                          1-click file download, clipboard copy, and file
+                          upload.
+                        </li>
+                        <li>
+                          <strong>Visual Color Coding &amp; Tagging:</strong> 10
+                          curated pastel color swatches and editable inline
+                          notes per subnet row for rapid architectural
+                          documentation and visual tiering.
+                        </li>
+                        <li>
+                          <strong>High-Performance Bitwise Engine:</strong>
+                          Foundational network masking optimized to
+                          constant-time $O(1)$ operations, eliminating CPU cycle
+                          jitter across any prefix size.
+                        </li>
+                        <li>
+                          <strong>100% Client-Side Privacy:</strong> Zero
+                          backend servers, zero database telemetry, zero
+                          cookies, zero tracking scripts, and complete offline /
+                          air-gapped execution capability.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 2: Split & Join -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading2">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse2"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse2"
+                    >
+                      <i
+                        class="fa-solid fa-arrows-split-up-and-left text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >How do the Split and Join features work?</span
+                      >
+                      <span
+                        class="badge bg-info-subtle text-info-emphasis border border-info-subtle ms-auto me-2"
+                        >Subnetting</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse2" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        Subnetting in Visual Subnet Calculator follows a binary
+                        buddy-tree model:
+                      </p>
+                      <ul>
+                        <li>
+                          <strong>Split Operation:</strong> Divides any selected
+                          subnet block into two equal halves (incrementing the
+                          prefix length by 1 bit, halving the host capacity per
+                          sub-block).
+                          <br />
+                          <em>IPv4 Example:</em> Splitting
+                          <code>10.0.0.0/16</code> creates two contiguous
+                          <code>/17</code> subnets: <code>10.0.0.0/17</code> and
+                          <code>10.0.128.0/17</code> (each spanning 32,768 IP
+                          addresses).
+                          <br />
+                          <em>IPv6 Example:</em> Splitting
+                          <code>2001:db8::/32</code> creates
+                          <code>2001:db8::/33</code> and
+                          <code>2001:db8:8000::/33</code>.
+                          <br />
+                          You can split repeatedly down to <code>/32</code> in
+                          IPv4, or down to <code>/128</code> in IPv6.
+                        </li>
+                        <li>
+                          <strong>Join Operation:</strong> Combines two adjacent
+                          buddy subnets that share a common binary ancestor back
+                          into their single parent block (decrementing the
+                          prefix length by 1 bit).
+                          <br />
+                          The <strong>Join</strong> button activates dynamically
+                          only when both sibling subnets are adjacent, un-split,
+                          and reside at the exact same prefix depth.
+                        </li>
+                        <li>
+                          <strong>RFC 7421 SLAAC Boundary Protection:</strong>
+                          IPv6 subnets at <code>/64</code> are designated as
+                          standard leaf subnets (marked with
+                          <code>.split-disabled</code>). Clicking triggers an
+                          educational modal explaining SLAAC interface
+                          identifier requirements.
+                        </li>
+                        <li>
+                          <strong>RFC 6164 Point-to-Point Support:</strong>
+                          Subnets at <code>/127</code> can be split into two
+                          <code>/128</code> host addresses for router
+                          inter-links, preventing neighbor discovery ping-pong
+                          attacks.
+                        </li>
+                      </ul>
+                      <p class="mb-0">
+                        <strong
+                          >Visual Hierarchy &amp; Note Persistence:</strong
+                        >
+                        Visual tree brackets on the right clearly illustrate
+                        split lineage. All custom notes, labels, and color
+                        assignments automatically remain bound to their
+                        respective subnets throughout splitting and joining.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 3: Dual-Stack -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading3">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse3"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse3"
+                    >
+                      <i
+                        class="fa-solid fa-network-wired text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >How does Dual-Stack IPv4 &amp; IPv6 Subnetting
+                        work?</span
+                      >
+                      <span
+                        class="badge bg-success-subtle text-success border border-success-subtle ms-auto me-2"
+                        >Dual-Stack</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse3" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        You can switch between <strong>IPv4</strong> and
+                        <strong>IPv6</strong> at any moment using the dedicated
+                        segmented toolbar at the top of the interface:
+                      </p>
+                      <h5>IPv4 Engine (32-Bit):</h5>
+                      <p>
+                        Default root network is <code>10.0.0.0/16</code> with
+                        <strong>17 rapid preset buttons</strong> (<code
+                          >/16</code
+                        >
+                        through <code>/32</code>). It automatically computes
+                        Subnet Address, Address Range, Usable Host Range, Total
+                        Addresses, Usable Hosts, Subnet Mask, and Wildcard Mask.
+                        It includes full support for RFC 3021
+                        <code>/31</code> point-to-point links (2 usable hosts
+                        with 0 reserved network/broadcast addresses) and
+                        <code>/32</code> single host routes.
+                      </p>
+                      <h5>IPv6 Engine (128-Bit):</h5>
+                      <p>
+                        Default root network is <code>2001:db8::/32</code> with
+                        <strong>12 standard tier presets</strong> matching
+                        global Internet registry and enterprise architecture
+                        best practices:
+                      </p>
+                      <div class="table-responsive mb-3">
+                        <table class="table table-sm table-bordered mb-0">
+                          <thead class="table-light">
+                            <tr>
+                              <th scope="col">Prefix</th>
+                              <th scope="col">Subnet Capacity</th>
+                              <th scope="col">Standard Allocation Purpose</th>
+                              <th scope="col">RFC Standard</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><code>/32</code></td>
+                              <td>65,536 &times; <code>/48</code> sites</td>
+                              <td>
+                                Regional Internet Registry (RIR) / ISP block
+                                allocation
+                              </td>
+                              <td>RFC 6177</td>
+                            </tr>
+                            <tr>
+                              <td><code>/48</code></td>
+                              <td>65,536 &times; <code>/64</code> LANs</td>
+                              <td>
+                                Large enterprise / corporate data center site
+                                prefix
+                              </td>
+                              <td>RFC 6177</td>
+                            </tr>
+                            <tr>
+                              <td><code>/56</code></td>
+                              <td>256 &times; <code>/64</code> LANs</td>
+                              <td>
+                                Medium enterprise / branch office / multi-VPC
+                                assignment
+                              </td>
+                              <td>RFC 6177</td>
+                            </tr>
+                            <tr>
+                              <td><code>/60</code></td>
+                              <td>16 &times; <code>/64</code> LANs</td>
+                              <td>
+                                Small office / departmental network segment
+                              </td>
+                              <td>RFC 6177</td>
+                            </tr>
+                            <tr>
+                              <td><code>/64</code></td>
+                              <td>18.4 &times; 10<sup>18</sup> IPs</td>
+                              <td>
+                                Standard end-user LAN segment / SLAAC boundary
+                              </td>
+                              <td>RFC 4291 / RFC 7421</td>
+                            </tr>
+                            <tr>
+                              <td><code>/80</code></td>
+                              <td>2.81 &times; 10<sup>14</sup> IPs</td>
+                              <td>
+                                Micro-segmented server zone / Kubernetes pod
+                                network
+                              </td>
+                              <td>RFC 4291</td>
+                            </tr>
+                            <tr>
+                              <td><code>/96</code></td>
+                              <td>4.29 &times; 10<sup>9</sup> IPs</td>
+                              <td>IPv4-mapped / NAT64 translation boundary</td>
+                              <td>RFC 6052 / RFC 6146</td>
+                            </tr>
+                            <tr>
+                              <td><code>/112</code></td>
+                              <td>65,536 IPs</td>
+                              <td>
+                                Isolated infrastructure subnets / router
+                                loopback groups
+                              </td>
+                              <td>RFC 4291</td>
+                            </tr>
+                            <tr>
+                              <td><code>/120</code></td>
+                              <td>256 IPs</td>
+                              <td>
+                                Legacy small isolated subnets / sensor pools
+                              </td>
+                              <td>RFC 4291</td>
+                            </tr>
+                            <tr>
+                              <td><code>/124</code></td>
+                              <td>16 IPs</td>
+                              <td>Point-to-multipoint links</td>
+                              <td>RFC 4291</td>
+                            </tr>
+                            <tr>
+                              <td><code>/127</code></td>
+                              <td>2 IPs</td>
+                              <td>Point-to-point router interlinks</td>
+                              <td>RFC 6164</td>
+                            </tr>
+                            <tr>
+                              <td><code>/128</code></td>
+                              <td>1 IP</td>
+                              <td>Single host / router loopback interface</td>
+                              <td>RFC 4291</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p class="mb-0">
+                        <strong>Lossless 128-Bit Precision:</strong> IPv6 math
+                        is executed via native JavaScript
+                        <code>BigInt</code> bitwise calculations, avoiding
+                        floating-point rounding errors across huge address
+                        spaces. Output strictly adheres to RFC 5952 canonical
+                        format (leading zero suppression, lowercase hexadecimal,
+                        and <code>::</code>
+                        compression).
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 4: Cloud Profiles -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading4">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse4"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse4"
+                    >
+                      <i
+                        class="fa-solid fa-cloud text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >What Cloud Reservation Profiles (AWS, Azure, OCI) are
+                        supported?</span
+                      >
+                      <span
+                        class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle ms-auto me-2"
+                        >Cloud Profiles</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse4" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        Major public cloud providers reserve specific IP
+                        addresses within subnets for their internal management
+                        and routing infrastructure. Select your operating
+                        profile from the <strong>Tools</strong> dropdown menu:
+                      </p>
+                      <div class="table-responsive mb-3">
+                        <table class="table table-sm table-bordered mb-0">
+                          <thead class="table-light">
+                            <tr>
+                              <th scope="col">Provider Profile</th>
+                              <th scope="col" class="text-center">
+                                Reserved IPs
+                              </th>
+                              <th scope="col">Specific Internal Deductions</th>
+                              <th scope="col">Allowed CIDR Range</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td><strong>Standard Mode</strong></td>
+                              <td class="text-center">2</td>
+                              <td>
+                                <code>.0</code> (Network ID), <code>.255</code>
+                                (Network Broadcast)
+                              </td>
+                              <td><code>/1</code> to <code>/32</code></td>
+                            </tr>
+                            <tr>
+                              <td><strong>AWS VPC</strong></td>
+                              <td class="text-center">5</td>
+                              <td>
+                                <code>.0</code> (Network), <code>.1</code> (VPC
+                                Router), <code>.2</code> (AWS DNS /
+                                AmazonProvidedDNS), <code>.3</code> (Future
+                                use), <code>.255</code> (Network Broadcast)
+                              </td>
+                              <td><code>/16</code> to <code>/28</code></td>
+                            </tr>
+                            <tr>
+                              <td><strong>Azure VNet</strong></td>
+                              <td class="text-center">5</td>
+                              <td>
+                                <code>.0</code> (Network),
+                                <code>.1</code> (Default Gateway),
+                                <code>.2</code> (Azure DNS mapping),
+                                <code>.3</code> (Azure DNS mapping),
+                                <code>.255</code> (Network Broadcast)
+                              </td>
+                              <td><code>/8</code> to <code>/29</code></td>
+                            </tr>
+                            <tr>
+                              <td><strong>Oracle Cloud (OCI)</strong></td>
+                              <td class="text-center">3</td>
+                              <td>
+                                <code>.0</code> (Network),
+                                <code>.1</code> (Default Gateway),
+                                <code>.255</code> (Network Broadcast)
+                              </td>
+                              <td><code>/16</code> to <code>/30</code></td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <p class="mb-0">
+                        When a cloud mode is activated, the
+                        <strong>Usable IPs</strong> and
+                        <strong>Hosts</strong> columns dynamically adjust to
+                        display accurate usable address boundaries, preventing
+                        costly IP provisioning errors in production.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 5: Colors & Notes -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading5">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse5"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse5"
+                    >
+                      <i
+                        class="fa-solid fa-palette text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >How do Color Coding and Inline Notes work?</span
+                      >
+                      <span
+                        class="badge bg-secondary-subtle text-secondary border border-secondary-subtle ms-auto me-2"
+                        >Organization</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse5" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <h5>10-Swatch Color Palette:</h5>
+                      <p>
+                        Visual Subnet Calculator provides 10 curated pastel
+                        colors to help you visually distinguish functional
+                        layers (e.g., DMZ, Web Tier, App Tier, Database,
+                        Kubernetes, Management, VPN, Storage, IoT, External):
+                      </p>
+                      <ol>
+                        <li>
+                          Click <strong>Change Colors</strong> in the bottom
+                          navigation toolbar to open the color palette.
+                        </li>
+                        <li>
+                          Click any of the 10 color swatches to choose it as
+                          your active paintbrush.
+                        </li>
+                        <li>
+                          Click on any subnet row in the table to apply the
+                          active color.
+                        </li>
+                        <li>
+                          Click <strong>Stop Changing Colors</strong> when
+                          finished to close the palette.
+                        </li>
+                      </ol>
+                      <h5>Inline Subnet Notes:</h5>
+                      <p class="mb-0">
+                        Every row includes an editable
+                        <strong>Note</strong> input field. Use it to record VLAN
+                        IDs, CIDR names, server cluster tags, or security zone
+                        notes. Notes are automatically preserved across splits
+                        and joins, and are serialized into shared URL links,
+                        JSON configurations, CSV spreadsheets, and Plain Text
+                        exports.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 6: Sharing & Import/Export -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading6">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse6"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse6"
+                    >
+                      <i
+                        class="fa-solid fa-share-nodes text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >How do I share designs, collaborate, or export my
+                        configuration?</span
+                      >
+                      <span
+                        class="badge bg-info-subtle text-info-emphasis border border-info-subtle ms-auto me-2"
+                        >Collaboration</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse6" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <h5>Share via Compressed URL Hash:</h5>
+                      <p>
+                        Click the share button in the bottom navigation toolbar
+                        to copy a direct shareable URL to your clipboard. The
+                        entire state—base network, prefix length, all splits and
+                        joins, color assignments, notes, and cloud operating
+                        mode—is compressed via <strong>LZ-String</strong> into a
+                        URL hash parameter (<code>#?c=...</code>). Anyone
+                        opening the link will instantly view your exact network
+                        design without requiring an account.
+                      </p>
+                      <h5>
+                        Multi-Format Import &amp; Export (JSON, CSV, Plain
+                        Text):
+                      </h5>
+                      <p>
+                        In the <strong>Tools</strong> menu, select
+                        <strong>Import / Export</strong>. Visual Subnet
+                        Calculator supports 3 comprehensive data formats:
+                      </p>
+                      <ul>
+                        <li>
+                          <strong>JSON (<code>.json</code>):</strong> Complete
+                          hierarchical representation of your subnet tree,
+                          notes, colors, IP version, and cloud mode for backup,
+                          IaC (Terraform, CloudFormation), or Git tracking.
+                        </li>
+                        <li>
+                          <strong>CSV (<code>.csv</code>):</strong> Strict RFC
+                          4180 compliant comma-separated values format with
+                          double-quoted fields (Subnet Address, Address Range,
+                          Usable IPs, Hosts, Note, Color), ready for Excel,
+                          Google Sheets, LibreOffice Calc, or IPAM tools.
+                        </li>
+                        <li>
+                          <strong>Plain Text (<code>.txt</code>):</strong>
+                          Dynamically aligned ASCII text tables with metadata
+                          comments for network design documentation, Git pull
+                          requests, runbooks, and change tickets.
+                        </li>
+                      </ul>
+                      <h5>Modal Workflow Actions:</h5>
+                      <ul class="mb-0">
+                        <li>
+                          <strong>Format Switcher:</strong> Switch between
+                          <code>JSON</code>, <code>CSV</code>, and
+                          <code>Plain Text</code> with instantaneous live
+                          re-formatting.
+                        </li>
+                        <li>
+                          <strong>Load File (Upload):</strong> Upload local
+                          <code>.json</code>, <code>.csv</code>, or
+                          <code>.txt</code> files directly via the browser's
+                          HTML5 <code>FileReader</code> API.
+                        </li>
+                        <li>
+                          <strong>Download File:</strong> Save exported
+                          configurations to disk via in-memory <code>Blob</code>
+                          download triggers.
+                        </li>
+                        <li>
+                          <strong>Copy to Clipboard:</strong> Copy formatted
+                          text with visual "Copied!" confirmation.
+                        </li>
+                        <li>
+                          <strong>Automatic Tree Reconstruction:</strong>
+                          Importing flat CIDR lists calculates the minimal
+                          common supernet ($32 - \lfloor \log_2(\text{xor}) + 1
+                          \rfloor$) and reconstructs the entire binary tree
+                          dynamically.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 7: Privacy & Security -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading7">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse7"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse7"
+                    >
+                      <i
+                        class="fa-solid fa-shield-halved text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >Is my network architecture data private and
+                        secure?</span
+                      >
+                      <span
+                        class="badge bg-success-subtle text-success border border-success-subtle ms-auto me-2"
+                        >Privacy &amp; Security</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse7" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        <strong>Yes, 100%.</strong> Visual Subnet Calculator
+                        operates entirely within your web browser's local
+                        JavaScript runtime:
+                      </p>
+                      <ul class="mb-0">
+                        <li>
+                          <strong>Zero Data Transmission:</strong> Your IP
+                          addresses, subnet schemes, labels, notes, and
+                          topologies are never sent over the network to any
+                          remote server (0 bytes network egress).
+                        </li>
+                        <li>
+                          <strong>Zero Analytics &amp; Cookies:</strong> No
+                          Google Analytics, no tracking pixels, no telemetry
+                          beacons, and zero tracking cookies.
+                        </li>
+                        <li>
+                          <strong>Offline &amp; Air-Gapped Operation:</strong>
+                          Once loaded, the tool functions completely offline
+                          without an active internet connection. It can be
+                          self-hosted locally or deployed in air-gapped
+                          enterprise data centers.
+                        </li>
+                        <li>
+                          <strong>Security Hardened:</strong> Context-aware HTML
+                          entity encoding (<code>escapeHtml()</code>) prevents
+                          stored Cross-Site Scripting (XSS), dynamic boundary
+                          modals bind data using safe text nodes
+                          (<code>.text()</code>), and all assets are verified
+                          with Subresource Integrity (SRI) hashes. Passed GitHub
+                          CodeQL with 0 alerts.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 8: Device Support & Responsiveness -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading8">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse8"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse8"
+                    >
+                      <i
+                        class="fa-solid fa-mobile-screen text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >What devices, browsers, and screen resolutions are
+                        supported?</span
+                      >
+                      <span
+                        class="badge bg-primary-subtle text-primary border border-primary-subtle ms-auto me-2"
+                        >Responsiveness</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse8" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        Visual Subnet Calculator is engineered with fluid CSS
+                        tokens and responsive container rules supporting a
+                        diverse spectrum of displays:
+                      </p>
+                      <ul class="mb-0">
+                        <li>
+                          <strong>Resolutions:</strong> Fluid layout scales from
+                          legacy <strong>VGA (640&times;480)</strong> displays
+                          up to <strong>2K (2560&times;1440)</strong> and
+                          <strong>4K UHD</strong> ultrawide monitors.
+                        </li>
+                        <li>
+                          <strong>Device Spectrum:</strong> Workstations,
+                          laptops (MacBook, Windows, Linux), tablets (iPad
+                          portrait and landscape, Samsung Galaxy Tab), and
+                          smartphones (iPhone, Samsung, Xiaomi, Google Pixel,
+                          Android).
+                        </li>
+                        <li>
+                          <strong>Responsive Toolbar Chips:</strong> Preset
+                          buttons wrap cleanly (<code>flex-wrap: wrap</code>)
+                          without breaking table alignment or clipping buttons.
+                        </li>
+                        <li>
+                          <strong>Mobile Accessibility:</strong> Smooth
+                          horizontal scrolling on tables with sticky headers,
+                          scoped IPv6 font scaling (<code>0.74rem</code>), and
+                          accessible touch targets conforming to WCAG 2.2 Level
+                          AA (minimum 44&times;44px interactive areas).
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 9: Input Tips & Shortcuts -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading9">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse9"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse9"
+                    >
+                      <i
+                        class="fa-solid fa-lightbulb text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >What input shortcuts, tips, and validation features are
+                        available?</span
+                      >
+                      <span
+                        class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle ms-auto me-2"
+                        >Tips &amp; Tricks</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse9" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <ul class="mb-0">
+                        <li>
+                          <strong>Fast CIDR Input:</strong> You can type or
+                          paste a complete CIDR notation (e.g.
+                          <code>172.16.0.0/12</code> or
+                          <code>2001:db8:1::/48</code>) directly into the
+                          <strong>Network Address</strong> field and press
+                          <code>Enter</code> or click <strong>Go</strong>. The
+                          tool automatically parses and separates the IP and
+                          prefix length into their respective fields.
+                        </li>
+                        <li>
+                          <strong>Instant Validation Tooltips:</strong>
+                          Real-time input validation flags invalid octets
+                          (outside 0–255), illegal characters, or out-of-range
+                          prefix lengths before calculation errors can occur.
+                        </li>
+                        <li>
+                          <strong>Two-Way Presets Sync:</strong> Clicking any
+                          preset button in the toolbar immediately recalculates
+                          the root network and synchronizes the network size
+                          input field, and vice versa.
+                        </li>
+                        <li>
+                          <strong>Dynamic Table Filtering:</strong> Use the
+                          search input in the bottom toolbar to filter visible
+                          subnets by prefix or note in large, complex CIDR
+                          trees.
+                        </li>
+                        <li>
+                          <strong>$O(1)$ Constant-Time Math:</strong> All
+                          calculations execute through a deterministic bitwise
+                          mask (<code
+                            >(0xffffffff &lt;&lt; (32 - netSize)) &gt;&gt;&gt;
+                            0</code
+                          >), ensuring zero jitter or lag during rapid edits.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 10: Standards & RFC 2119 Rules -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading10">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse10"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse10"
+                    >
+                      <i
+                        class="fa-solid fa-scale-balanced text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >What Engineering Standards &amp; RFC 2119 Rules (MUST,
+                        SHOULD, MAY, AVOID) govern the tool?</span
+                      >
+                      <span
+                        class="badge bg-primary-subtle text-primary border border-primary-subtle ms-auto me-2"
+                        >Standards</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse10" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        Visual Subnet Calculator is governed by formal
+                        architectural criteria defined under
+                        <strong>RFC 2119 / RFC 8174</strong> to guarantee
+                        deterministic computation, zero data leakage, and
+                        production stability:
+                      </p>
+                      <h5>🔴 MUST (Mandatory Invariants):</h5>
+                      <ul>
+                        <li>
+                          <strong>MUST Execute Purely Client-Side:</strong> All
+                          computations, tree splits, joins, and format
+                          conversions MUST occur in the local browser runtime.
+                          Zero topology data may ever be transmitted to external
+                          servers.
+                        </li>
+                        <li>
+                          <strong
+                            >MUST Use 128-Bit Lossless Math (BigInt):</strong
+                          >
+                          IPv6 calculations MUST utilize native
+                          <code>BigInt</code> arithmetic and MUST NOT be cast to
+                          standard JavaScript <code>Number</code> types.
+                        </li>
+                        <li>
+                          <strong>MUST Sanitize Dynamic HTML Inputs:</strong>
+                          All user notes, labels, and imported configurations
+                          MUST be HTML entity encoded
+                          (<code>escapeHtml()</code>) prior to DOM rendering.
+                        </li>
+                        <li>
+                          <strong>MUST Use Safe Text Sinks:</strong> Dynamic
+                          boundary alerts MUST bind data using safe text nodes
+                          (<code>.text()</code>), eliminating DOM XSS sinks.
+                        </li>
+                        <li>
+                          <strong>MUST Enforce RFC 4180 for CSV:</strong> CSV
+                          exports MUST escape internal quotes as
+                          <code>""</code> and enclose all fields with double
+                          quotes.
+                        </li>
+                        <li>
+                          <strong>MUST Provide Accessible Form Labels:</strong>
+                          All interactive controls (including
+                          <code>#importFileInput</code>) MUST have semantic
+                          <code>&lt;label&gt;</code> elements and descriptive
+                          titles meeting WCAG 2.2 AA.
+                        </li>
+                        <li>
+                          <strong>MUST Run as Unprivileged User:</strong> Docker
+                          production containers MUST execute under numeric
+                          non-root context (<code>USER 101</code>).
+                        </li>
+                      </ul>
+                      <h5>🟡 SHOULD (Strong Recommendations):</h5>
+                      <ul>
+                        <li>
+                          <strong>SHOULD Use LZ-String Compression:</strong>
+                          Share state via compact URL query hashes
+                          (<code>#?c=...</code>) for serverless peer
+                          collaboration.
+                        </li>
+                        <li>
+                          <strong
+                            >SHOULD Enforce Production HTTPS with HSTS:</strong
+                          >
+                          Deploy with TLSv1.2/v1.3 and HSTS headers
+                          (<code>max-age=31536000</code>).
+                        </li>
+                        <li>
+                          <strong>SHOULD Configure Healthchecks:</strong> Docker
+                          containers SHOULD declare active HTTP healthcheck
+                          probes.
+                        </li>
+                        <li>
+                          <strong>SHOULD Apply Color-Coded Tiering:</strong>
+                          Segment multi-tier infrastructure visually for rapid
+                          auditing.
+                        </li>
+                      </ul>
+                      <h5>🟢 MAY (Permissible Options):</h5>
+                      <ul>
+                        <li>
+                          <strong>MAY Export to Plain Text:</strong> Download or
+                          copy formatted ASCII tables for Git pull requests and
+                          RFC runbooks.
+                        </li>
+                        <li>
+                          <strong>MAY Use Python 3 or Caddy:</strong> Run
+                          lightweight local servers for air-gapped testing.
+                        </li>
+                        <li>
+                          <strong>MAY Allocate /127 Subnets:</strong> Split IPv6
+                          down to <code>/127</code> for router point-to-point
+                          inter-links (RFC 6164).
+                        </li>
+                      </ul>
+                      <h5 class="mb-1">⛔ AVOID (Strict Anti-Patterns):</h5>
+                      <p class="mb-0">
+                        AVOID inline HTML <code>style="..."</code> attributes,
+                        AVOID floating-point math for IPv6, AVOID unsanitized
+                        <code>innerHTML</code> sinks, AVOID splitting past
+                        <code>/64</code> SLAAC without RFC 7421 justification,
+                        and AVOID unscoped global CSS selector pollution.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 11: Ecosystem Integration -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading11">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse11"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse11"
+                    >
+                      <i
+                        class="fa-solid fa-diagram-project text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >How does Visual Subnet Calculator integrate with
+                        adjacent infrastructure tools?</span
+                      >
+                      <span
+                        class="badge bg-success-subtle text-success border border-success-subtle ms-auto me-2"
+                        >Ecosystem</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse11" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        Visual Subnet Calculator functions as the foundational
+                        IP planning and allocation engine for broader production
+                        networking systems:
+                      </p>
+                      <ul class="mb-0">
+                        <li>
+                          <strong>Netplan Interface Automation:</strong>
+                          Calculated subnets, gateways, and netmasks directly
+                          inform automated Netplan YAML configuration profiles
+                          for Ubuntu and Debian production hosts.
+                        </li>
+                        <li>
+                          <strong>Network Routing &amp; Diagnostics:</strong>
+                          Correlate subnet boundaries with live diagnostics
+                          using Ping, Traceroute, and MTR to quickly pinpoint
+                          gateway hops and routing anomalies.
+                        </li>
+                        <li>
+                          <strong>DNS Zone Administration:</strong> Export exact
+                          CIDR boundaries to populate forward (A/AAAA) and
+                          reverse (<code>in-addr.arpa</code> and
+                          <code>ip6.arpa</code>) PTR zone delegation records.
+                        </li>
+                        <li>
+                          <strong>Security Audits &amp; Discovery:</strong>
+                          Define precise target IP ranges for Nmap port scans,
+                          IPERF3 throughput benchmarking, and WHOIS compliance
+                          verification.
+                        </li>
+                        <li>
+                          <strong>Zero-Trust Access Control (ACLs):</strong>
+                          Establish granular subnet-level IP access control
+                          rules across Nginx reverse proxies, HAProxy, and cloud
+                          security group policies.
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- FAQ Item 12: Maintainer & Contributions -->
+                <div class="accordion-item">
+                  <h4 class="accordion-header" id="faqHeading12">
+                    <button
+                      class="accordion-button collapsed"
+                      type="button"
+                      data-bs-toggle="collapse"
+                      data-bs-target="#faqCollapse12"
+                      aria-expanded="false"
+                      aria-controls="faqCollapse12"
+                    >
+                      <i
+                        class="fa-solid fa-code-branch text-primary me-2"
+                        aria-hidden="true"
+                      ></i>
+                      <span class="fw-semibold"
+                        >Who maintains Visual Subnet Calculator and how can I
+                        contribute?</span
+                      >
+                      <span
+                        class="badge bg-secondary-subtle text-secondary border border-secondary-subtle ms-auto me-2"
+                        >Community</span
+                      >
+                    </button>
+                  </h4>
+                  <div id="faqCollapse12" class="accordion-collapse collapse">
+                    <div class="accordion-body">
+                      <p>
+                        Visual Subnet Calculator is actively maintained,
+                        enhanced, and engineered by
+                        <strong>HARRY DERTIN SUTISNA</strong> (<a
+                          href="https://github.com/alsyundawy"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="fw-semibold text-decoration-none"
+                          >@alsyundawy</a
+                        >) under
+                        <a
+                          href="https://alsyundawy.com"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="fw-semibold text-decoration-none"
+                          >ALSYUNDAWY IT SOLUTION</a
+                        >. The project builds upon foundational open-source work
+                        by Caesar Kabalan, bl4ckfir3, and David C.
+                      </p>
+                      <h5>Maintainer Channels &amp; Links:</h5>
+                      <ul>
+                        <li>
+                          <strong>Official Website:</strong>
+                          <a
+                            href="https://alsyundawy.com"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >https://alsyundawy.com</a
+                          >
+                          (ALSYUNDAWY IT SOLUTION)
+                        </li>
+                        <li>
+                          <strong>GitHub Profile:</strong>
+                          <a
+                            href="https://github.com/alsyundawy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >https://github.com/alsyundawy</a
+                          >
+                        </li>
+                        <li>
+                          <strong>X (formerly Twitter):</strong>
+                          <a
+                            href="https://x.com/alsyundawy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >https://x.com/alsyundawy</a
+                          >
+                          (@alsyundawy)
+                        </li>
+                        <li>
+                          <strong>Telegram:</strong>
+                          <a
+                            href="https://t.me/alsyundawy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >https://t.me/alsyundawy</a
+                          >
+                          (@alsyundawy)
+                        </li>
+                        <li>
+                          <strong>Repository:</strong>
+                          <a
+                            href="https://github.com/alsyundawy/visualsubnetcalc"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >https://github.com/alsyundawy/visualsubnetcalc</a
+                          >
+                        </li>
+                        <li>
+                          <strong>Bug Reports &amp; Feature Requests:</strong>
+                          <a
+                            href="https://github.com/alsyundawy/visualsubnetcalc/issues"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >GitHub Issues</a
+                          >
+                        </li>
+                        <li>
+                          <strong>Email:</strong>
+                          <a href="mailto:alsyundawy@gmail.com"
+                            >alsyundawy@gmail.com</a
+                          >
+                        </li>
+                        <li>
+                          <strong>Support &amp; Donations:</strong>
+                          <a
+                            href="https://paypal.me/alsyundawy"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Donate via PayPal</a
+                          >
+                        </li>
+                      </ul>
+                      <p class="mb-0">
+                        Visual Subnet Calculator is licensed under the
+                        open-source <strong>MIT License</strong>. Community
+                        contributions, pull requests, and feedback are always
+                        welcome!
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button
@@ -759,8 +2342,19 @@
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
             <div class="modal-header">
-              <h3 class="modal-title" id="aboutModalLabel">
-                About Visual Subnet Calculator
+              <h3
+                class="modal-title d-flex align-items-center gap-2"
+                id="aboutModalLabel"
+              >
+                <i
+                  class="fa-solid fa-circle-info text-primary me-2"
+                  aria-hidden="true"
+                ></i>
+                <span>About Visual Subnet Calculator</span>
+                <span
+                  class="badge bg-primary-subtle text-primary border border-primary-subtle ms-2 fs-6"
+                  >v1.4.2</span
+                >
               </h3>
               <button
                 type="button"
@@ -770,11 +2364,16 @@
               ></button>
             </div>
             <div class="modal-body">
-              Visual Subnet Calculator strives to be a tool for quickly
-              designing networks and collaborating on that design with others.
-              It focuses on expediting the work of network administrators, not
-              academic subnetting math.<br />
-              <br />
+              <p class="lead text-secondary mb-3">
+                Visual Subnet Calculator is an industrial-grade, client-side
+                visual IP planning engine designed for high-availability
+                enterprise network operations, cloud VPC/VNet topologies (AWS,
+                Azure, OCI), and dual-stack IPv4/IPv6 architectures. It focuses
+                on expediting the work of network administrators, DevOps
+                architects, and systems engineers through visual intuition,
+                deterministic precision, and zero data leakage.
+              </p>
+
               <h4>Design Tenets</h4>
               <ul>
                 <li>
@@ -791,7 +2390,7 @@
                 <li>
                   <span class="fw-bold">Users control the data.</span>
                   We store nothing, but provide convenient ways for users to
-                  save and share their designs.
+                  save, export (JSON, CSV, Plain Text), and share their designs.
                 </li>
                 <li>
                   <span class="fw-bold">Embrace community contributions.</span>
@@ -799,58 +2398,192 @@
                   context of these tenets.
                 </li>
               </ul>
-              <h4 class="mt-4">Credits</h4>
-              Developed by
-              <a
-                href="https://www.caesarkabalan.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Caesar Kabalan</a
-              >
-              with help from
-              <a
-                href="https://github.com/alsyundawy/visualsubnetcalc/graphs/contributors"
-                target="_blank"
-                rel="noopener noreferrer"
-                >GitHub Contributors</a
-              >!<br />
-              <br />
-              Special thanks to
-              <a
-                href="https://www.davidc.net/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >davidc</a
-              >
-              for the
-              <a
-                href="https://www.davidc.net/sites/default/subnets/subnets.html"
-                target="_blank"
-                rel="noopener noreferrer"
-                >original tool</a
-              >
-              this website is inspired by.<br />
-              <br />
-              Split icon made by
-              <a
-                href="https://www.flaticon.com/authors/freepik"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Freepik</a
-              >
-              from
-              <a
-                href="https://www.flaticon.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                >Flaticon</a
-              >.<br />
-              <br />
-              All contributions, even suggestions or bug reports, are welcome
-              at:<br />
+
+              <h4 class="mt-4">
+                <i
+                  class="fa-solid fa-layer-group text-primary me-2"
+                  aria-hidden="true"
+                ></i>
+                Core Capabilities &amp; Architectural Highlights (v1.4.2)
+              </h4>
               <ul>
                 <li>
-                  GitHub:
+                  <strong>Dual-Stack IPv4 &amp; IPv6:</strong> Native support
+                  for 32-bit IPv4 and 128-bit lossless <code>BigInt</code> IPv6
+                  arithmetic with RFC 5952 canonical formatting.
+                </li>
+                <li>
+                  <strong>Multi-Format Import &amp; Export:</strong> RFC 4180
+                  CSV spreadsheets, dynamically aligned Plain Text ASCII tables,
+                  and hierarchical JSON state snapshots with in-memory
+                  <code>Blob</code> downloading and HTML5
+                  <code>FileReader</code> upload parsing.
+                </li>
+                <li>
+                  <strong>Rapid Preset Toolbars:</strong> 17 IPv4 presets (<code
+                    >/16</code
+                  >
+                  through <code>/32</code>) and 12 IPv6 tier presets (<code
+                    >/32</code
+                  >
+                  through <code>/128</code>) with real-time two-way
+                  synchronization.
+                </li>
+                <li>
+                  <strong>Cloud Reservation Engines:</strong> Real-time usable
+                  host adjustments for AWS VPC (5 reserved), Azure VNet (5
+                  reserved), Oracle Cloud OCI (3 reserved), and Standard RFC
+                  networks (2 reserved).
+                </li>
+                <li>
+                  <strong>Constant-Time Mask Optimization O(1):</strong>
+                  Foundational network masking executes in a single
+                  deterministic bitwise operation (<code
+                    >(0xffffffff &lt;&lt; (32 - netSize)) &gt;&gt;&gt; 0</code
+                  >), eliminating legacy loop iterations.
+                </li>
+                <li>
+                  <strong>Visual Organization:</strong> 10-swatch pastel palette
+                  and persistent inline notes per subnet row for clear
+                  functional tiering (DMZ, Web, App, Database, Management).
+                </li>
+                <li>
+                  <strong>Zero-Trust Client-Side Privacy:</strong> 100%
+                  client-side execution; 0 bytes transmitted over the network,
+                  zero cookies, and zero third-party telemetry.
+                </li>
+                <li>
+                  <strong>Universal Responsive Design:</strong> Fluid scaling
+                  from legacy VGA (640&times;480) up to 2K/Ultrawide monitors
+                  with WCAG 2.2 Level AA accessibility compliance.
+                </li>
+              </ul>
+
+              <h4 class="mt-4">
+                <i
+                  class="fa-solid fa-scale-balanced text-primary me-2"
+                  aria-hidden="true"
+                ></i>
+                Engineering Standards &amp; RFC 2119 Invariants
+              </h4>
+              <p>
+                Visual Subnet Calculator strictly implements formal engineering
+                criteria:
+              </p>
+              <ul>
+                <li>
+                  <span class="badge bg-danger me-1">MUST</span> Execute purely
+                  client-side, use 128-bit <code>BigInt</code> for IPv6,
+                  sanitize dynamic HTML entities (<code>escapeHtml()</code>),
+                  bind modal warnings via safe text nodes
+                  (<code>.text()</code>), format CSV to RFC 4180, provide
+                  accessible form labels, and execute Docker containers under
+                  unprivileged context (<code>USER 101</code>).
+                </li>
+                <li>
+                  <span class="badge bg-warning text-dark me-1">SHOULD</span>
+                  Compress state via LZ-String URL hashes
+                  (<code>#?c=...</code>), enforce production HTTPS with HSTS,
+                  declare container healthcheck probes, and apply color-coded
+                  tiering.
+                </li>
+                <li>
+                  <span class="badge bg-success me-1">MAY</span> Export ASCII
+                  Plain Text tables for Git pull requests, run lightweight
+                  Python 3 / Caddy servers, and allocate <code>/127</code> P2P
+                  links (RFC 6164).
+                </li>
+                <li>
+                  <span class="badge bg-dark me-1">AVOID</span> Inline styles
+                  (<code>style="..."</code>), floating-point math for IPv6,
+                  unsanitized <code>innerHTML</code> sinks, and arbitrary
+                  splitting past <code>/64</code> SLAAC without RFC 7421
+                  justification.
+                </li>
+              </ul>
+
+              <h4 class="mt-4">
+                <i
+                  class="fa-solid fa-user-gear text-primary me-2"
+                  aria-hidden="true"
+                ></i>
+                Maintainer &amp; Engineering
+              </h4>
+              <p>
+                Visual Subnet Calculator is actively maintained, enhanced, and
+                engineered by
+                <strong>HARRY DERTIN SUTISNA</strong> (<a
+                  href="https://github.com/alsyundawy"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fw-bold text-decoration-none"
+                  >@alsyundawy</a
+                >) under
+                <a
+                  href="https://alsyundawy.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="fw-bold text-decoration-none"
+                  ><i class="fa-solid fa-globe me-1" aria-hidden="true"></i
+                  >ALSYUNDAWY IT SOLUTION</a
+                >.
+              </p>
+              <h5>Maintainer Contacts &amp; Resources</h5>
+              <ul>
+                <li>
+                  <strong>Official Website:</strong>
+                  <a
+                    href="https://alsyundawy.com"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >https://alsyundawy.com</a
+                  >
+                  (ALSYUNDAWY IT SOLUTION)
+                </li>
+                <li>
+                  <strong>GitHub Profile:</strong>
+                  <a
+                    href="https://github.com/alsyundawy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >https://github.com/alsyundawy</a
+                  >
+                </li>
+                <li>
+                  <strong>X (formerly Twitter):</strong>
+                  <a
+                    href="https://x.com/alsyundawy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >https://x.com/alsyundawy</a
+                  >
+                  (@alsyundawy)
+                </li>
+                <li>
+                  <strong>Telegram:</strong>
+                  <a
+                    href="https://t.me/alsyundawy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >https://t.me/alsyundawy</a
+                  >
+                  (@alsyundawy)
+                </li>
+                <li>
+                  <strong>Email:</strong>
+                  <a href="mailto:alsyundawy@gmail.com">alsyundawy@gmail.com</a>
+                </li>
+                <li>
+                  <strong>Donate via PayPal:</strong>
+                  <a
+                    href="https://paypal.me/alsyundawy"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >https://paypal.me/alsyundawy</a
+                  >
+                </li>
+                <li>
+                  <strong>Repository:</strong>
                   <a
                     href="https://github.com/alsyundawy/visualsubnetcalc"
                     target="_blank"
@@ -859,15 +2592,69 @@
                   >
                 </li>
                 <li>
-                  Original Author LinkedIn:
+                  <strong>Issues &amp; Discussions:</strong>
                   <a
-                    href="https://www.linkedin.com/in/caesarkabalan/"
+                    href="https://github.com/alsyundawy/visualsubnetcalc/issues"
                     target="_blank"
                     rel="noopener noreferrer"
-                    >Caesar Kabalan</a
+                    >https://github.com/alsyundawy/visualsubnetcalc/issues</a
                   >
                 </li>
               </ul>
+
+              <h4 class="mt-4">Credits</h4>
+              <p>
+                Originally created by
+                <a
+                  href="https://www.caesarkabalan.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Caesar Kabalan</a
+                >
+                with contributions from the open-source community.
+              </p>
+              <p>
+                Special thanks to
+                <a
+                  href="https://www.davidc.net/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >davidc</a
+                >
+                for the
+                <a
+                  href="https://www.davidc.net/sites/default/subnets/subnets.html"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >original tool</a
+                >
+                this website is inspired by.
+              </p>
+              <p>
+                Icons provided by
+                <a
+                  href="https://fontawesome.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Font Awesome Free v7.3.1</a
+                >
+                and
+                <a
+                  href="https://www.flaticon.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >Flaticon</a
+                >.
+              </p>
+              <p class="mb-0">
+                Licensed under the open-source
+                <a
+                  href="https://opensource.org/licenses/MIT"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >MIT License</a
+                >.
+              </p>
             </div>
             <div class="modal-footer">
               <button

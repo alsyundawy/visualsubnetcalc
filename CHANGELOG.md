@@ -1,9 +1,58 @@
 # Changelog
 
+<!-- markdownlint-disable MD024 -->
+
 All notable changes to Visual Subnet Calculator will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [1.4.2] - 2026-09-16
+
+### Added
+
+- Interactive segmented IP version toolbar (`#ip_version_toolbar`) with semantic `<fieldset>` grouping, hidden `<legend>`, and keyboard-accessible `#btn_ipv4` and `#btn_ipv6` toggles conforming to WCAG 2.2 AA (`aria-pressed`).
+- Interactive IPv4 prefix preset toolbar (`#ipv4_tier_info`) featuring 17 one-click CIDR presets from `/16` up to `/32` with real-time two-way synchronization between toolbar buttons and the prefix length input field. Default: `/16` (`10.0.0.0/16`).
+- Interactive IPv6 prefix preset toolbar (`#ipv6_tier_info`) with 12 standard network engineering tiers: `/32` (default), `/48`, `/56`, `/60`, `/64`, `/80`, `/96`, `/112`, `/120`, `/124`, `/127`, and `/128`, featuring real-time bidirectional synchronization with the prefix length input field. Default: `/32` (`2001:db8::/32`).
+- Overhauled in-app FAQ system into an interactive, accessible Bootstrap Accordion (`#faqAccordion`) detailing 10 comprehensive architectural topics: Overview, Split/Join mechanics, Dual-Stack IPv4/IPv6, Cloud reservation profiles (Standard, AWS, Azure, OCI) with comparison matrix, 10-swatch color coding & notes, LZ-String URL sharing & JSON import/export, client-side privacy & offline reliability, universal device support (VGA to 2K/4K), input shortcuts & validation, and official maintainer contacts.
+- Integrated one-click "Expand All" (`#faq_expand_all`) and "Collapse All" (`#faq_collapse_all`) accordion toolbar controls with smooth Bootstrap collapse animations.
+- Upgraded entire visual iconography to the latest Font Awesome Free v7 (`@fortawesome/fontawesome-free` v7.3.1) across header navigation, toolbars, color palette, modals, and sticky footer.
+- Engineered elegant sticky maintainer footer (`#app_footer`) anchored permanently at the viewport bottom, featuring maintainer profile for HARRY DERTIN SUTISNA (`@alsyundawy`) and ALSYUNDAWY IT SOLUTION (`https://alsyundawy.com`), social media channels (X and Telegram), quick contact channels, and PayPal sponsorship.
+- Added high-contrast Font Awesome `fa-network-wired` icon directly preceding the main title "Visual Subnet Calculator" across application headers (`dist/index.html`, `dist/404.html`).
+- Enhanced interactive hover and selection effects ("pilihan / SOROT") across the entire interface: subtle table row inspection highlight (`box-shadow: inset` preserving custom subnet pastel colors), active Split and Join interactive cell hover feedback, smooth preset CIDR chip hover with elevation, palette picker selected-color indicator (`.selected-color`), dropdown item hover styling, and custom text selection (`::selection`).
+- Universal multi-resolution responsive design with `flex-wrap: wrap`, compact chip padding, and 2px spacing for preset buttons, preventing horizontal layout overflow across VGA (640×480), mobile devices (iPhone, Samsung, Xiaomi, Android), tablets (iPad), laptops (MacBook), and high-resolution 2K/4K displays.
+- Comprehensive 128-bit `BigInt` IPv6 subnetting engine (`parseIpv6`, `formatIpv6`, `getIpv6Network`, `getIpv6End`, `getIpv6Capacity`) preventing integer overflow and precision loss.
+- Canonical IPv6 address compression strictly following IETF RFC 5952 (zero compression with `::`, suppression of leading zeros, lowercase hexadecimal rendering).
+- Standard hierarchical IPv6 tier progression (`/32 -> /48 -> /56 -> /60 -> /64`) and granular sub-delegation steps (`/80 -> /96 -> /112 -> /120 -> /124 -> /127 -> /128`) allowing clean allocation modeling from ISP transit blocks down to local link and point-to-point subnets.
+- RFC 6164 point-to-point router inter-link support (`/127`, 2 usable host IPs), with active splitting into individual `/128` host/loopback subnets.
+- RFC 4291 host/loopback boundary enforcement (`/128`), designated as an immutable leaf node preventing further splitting.
+- Dynamic table adaptation for users starting with any custom or preset tier (`/32`, `/48`, `/56`, `/60`, `/64`, `/80`, `/96`, `/112`, `/120`, `/124`, `/127`, or `/128`).
+- SLAAC leaf prefix protection conforming to IETF RFC 4291 and RFC 7421: marks `/64` subnets as non-splittable leaf nodes (`.split-disabled`) and displays an educational boundary notification modal upon click.
+- Automatic IP version detection on clipboard paste: pasting an IPv6 CIDR automatically activates IPv6 mode, while pasting an IPv4 CIDR activates IPv4 mode.
+- Context-aware dynamic table headers adapting dynamically between IPv4 (`Range of Addresses`, `Usable IPs`, `Hosts`) and IPv6 (`Subnet Range`, `Subnet / Interface ID`, `Subnet Capacity`).
+- Scoped responsive CSS layout rules (`#calc.ipv6-mode`) providing optimal font scaling (`0.74rem`), automatic word-breaking (`word-break: break-all`), and horizontal alignment across mobile, tablet, and desktop viewports.
+- Multi-format Import & Export Engine (`#importExportModal`) supporting RFC 4180-compliant CSV and aligned Plain Text tables alongside hierarchical JSON configurations.
+- Interactive format selector toolbar buttons (`#btn_format_json`, `#btn_format_csv`, `#btn_format_txt`) allowing seamless 1-click switching between JSON, CSV, and Plain Text views.
+- Quick Copy button (`#btn_copy_export`) with transient "Copied!" visual status feedback for immediate clipboard export across all formats.
+- Direct File Download feature (`#btn_download_export`) exporting `.json`, `.csv`, or `.txt` files directly to the user's computer via standard `Blob` and object URL triggers.
+- File Upload integration (`#btn_upload_file`, `#importFileInput`) supporting loading `.json`, `.csv`, and `.txt` files directly into the calculator with automatic format detection.
+- Mathematical minimal supernet calculation (`Math.min`, bitwise `xor`, `Math.log2`) and recursive binary tree reconstruction (`insertSubnetIntoTree`) converting flat CSV/TXT CIDR lists into full hierarchical `subnetMap` trees with note and color restoration.
+- Expanded automated Playwright test suite in `src/tests/import-export.spec.ts` covering CSV export, Plain Text export, CSV import, and Plain Text import across Chromium and Firefox (114 total passing tests).
+- Automated end-to-end Playwright test suite (`src/tests/ipv6-subnet.spec.ts`, `src/tests/subnet-basic.spec.ts`, and `src/tests/ui-usage.spec.ts`) validating toolbar switching, presets, tier splitting, boundary alerts, FAQ accordion interactions, and reverse state preservation across Chromium and Firefox (114 total passing tests).
+
+### Fixed
+
+- Modernized application header layout from `float-end` to semantic flex header (`<header id="app_header">`), resolving layout overlap where dismissible alert banners covered the GitHub repository icon.
+- Fixed responsive table header disparity on viewports `< 576px`: synchronized `#rangeHeader` and `#useableHeader` visibility with row data cells to eliminate column mismatch on mobile screens.
+- Fixed configuration export key order and conditional `ip_version` property serialization, preserving 100% byte-for-byte backwards compatibility with legacy IPv4 v1/v2 schema parsers.
+- Fixed form element accessibility on `#importFileInput` by providing an explicit `<label for="importFileInput" class="visually-hidden">` and `title` attribute, ensuring 100% compliance with HTML form labeling standards and WCAG 2.2 AA without redundant `aria-label` warnings.
+- Optimized `get_network()` IPv4 network address calculation from an $O(N)$ loop to an $O(1)$ constant-time bitwise mask calculation (`(0xffffffff << (32 - netSize)) >>> 0`), dramatically accelerating subnet tree mutations and large table recalculations.
+- Modernized legacy ES5 patterns across helper routines (`ip2int`, `has_network_sub_keys`, `get_matching_network_list`, `get_property_values`) using ES6 arrow functions, `for...of`, and spread syntax.
+
+### Changed
+
+- Updated Schema.org `WebApplication` structured data `softwareVersion` to `1.4.2`.
+- Updated application footer release badge and changelog link to Visual Subnet Calculator `v1.4.2`.
 
 ## [1.4.1] - 2026-09-16
 

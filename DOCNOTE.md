@@ -66,4 +66,5 @@ Visual Subnet Calculator serves as the foundational IP planning engine within th
 
 - Client-Side Isolation: All calculations occur entirely in the browser runtime. No user data, IP schemas, or notes are transmitted to any backend server.
 - XSS Prevention: All dynamic text values inserted into the DOM (including note contents loaded from imported configurations or shared URLs) are strictly sanitized using character entity encoding before string interpolation.
+- DOM XSS Prevention (CodeQL Alert #5): Boundary correction inputs from the DOM are strictly isolated in a dedicated `show_boundary_warning_modal()` function utilizing safe `.text()` node bindings, preventing DOM values from flowing into `.html()` or `innerHTML` interpretation sinks.
 - Content Security Policy (CSP): The application requires no external script origins beyond local distribution assets, allowing strict `script-src 'self'` policy enforcement in production reverse proxies.

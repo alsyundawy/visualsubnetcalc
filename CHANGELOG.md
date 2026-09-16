@@ -24,6 +24,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Remediated CodeQL security alert #5 (`js/xss-through-dom`): isolated network boundary correction into a dedicated `show_boundary_warning_modal()` handler using strict `.text()` DOM text node insertion, eliminating DOM value taint propagation into jQuery `.html()` sinks.
+
 - Fixed missing `id` and `name` attributes on form field elements and redundant `for` attributes on parent `<label>` tags.
 - Fixed WCAG H32 compliance error by setting `<form id="input_form">` action button `#btn_go` to `type="submit"` with default prevention.
 - Fixed HTML validation entity encoding: replaced raw `&` with `&amp;` and trimmed `<title>` length within standard 70-character limits.

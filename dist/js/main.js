@@ -247,7 +247,7 @@ function reset() {
   const rootNetwork = get_network($("#network").val(), $("#netsize").val());
   const rootCidr = rootNetwork + "/" + $("#netsize").val();
   if (cidrInput !== rootCidr) {
-    show_warning_modal($("#network").val(), rootNetwork);
+    show_boundary_warning_modal($("#network").val(), rootNetwork);
     $("#network").val(rootNetwork);
     cidrInput = $("#network").val() + "/" + $("#netsize").val();
   }
@@ -862,24 +862,30 @@ function set_usable_ips_title(operatingMode) {
   $('[data-bs-toggle="tooltip"]').tooltip();
 }
 
-function show_warning_modal(originalValue, correctedValue) {
+function show_boundary_warning_modal(originalValue, correctedValue) {
   const notifyModal = bootstrap.Modal.getOrCreateInstance(
     document.getElementById("notifyModal"),
   );
   const modalBody = $("#notifyModal .modal-body");
   modalBody.empty();
-  if (typeof correctedValue !== "undefined") {
-    $("<div></div>")
-      .text(
-        "Your network input is not on a network boundary for this network size. It has been automatically changed:",
-      )
-      .appendTo(modalBody);
-    $('<div class="font-monospace pt-2"></div>')
-      .text(originalValue + " -> " + correctedValue)
-      .appendTo(modalBody);
-  } else {
-    modalBody.html(originalValue);
-  }
+  $("<div></div>")
+    .text(
+      "Your network input is not on a network boundary for this network size. It has been automatically changed:",
+    )
+    .appendTo(modalBody);
+  $('<div class="font-monospace pt-2"></div>')
+    .text(originalValue + " -> " + correctedValue)
+    .appendTo(modalBody);
+  notifyModal.show();
+}
+
+function show_warning_modal(messageHtml) {
+  const notifyModal = bootstrap.Modal.getOrCreateInstance(
+    document.getElementById("notifyModal"),
+  );
+  const modalBody = $("#notifyModal .modal-body");
+  modalBody.empty();
+  modalBody.html(messageHtml);
   notifyModal.show();
 }
 

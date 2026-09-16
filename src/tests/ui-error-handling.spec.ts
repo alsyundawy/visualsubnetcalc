@@ -48,41 +48,23 @@ test('Network Boundary Correction', async ({ page }) => {
   await expect(page.getByLabel('123.45.64.0/20', { exact: true }).getByLabel('Split', { exact: true })).toContainText('/20');
 });
 
-test('Subnet Too Small for AWS Mode', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('#useableHeader')).toContainText('Usable IPs');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - AWS' }).click();
-  await page.getByLabel('Network Size').click();
-  await page.getByLabel('Network Size').fill('29');
-  await page.getByRole('button', { name: 'Go' }).click();
-  await expect(page.locator('#notifyModalLabel')).toContainText('Warning!');
-  await expect(page.locator('#notifyModalDescription')).toContainText('Please correct the errors in the form!');
-  await expect(page.getByText('AWS Mode - Smallest size is /28')).toBeVisible();
-});
+const subnetTooSmallCases = [
+  { mode: 'AWS', size: '29', message: 'AWS Mode - Smallest size is /28' },
+  { mode: 'Azure', size: '30', message: 'Azure Mode - Smallest size is /29' },
+  { mode: 'OCI', size: '31', message: 'OCI Mode - Smallest size is /30' },
+];
 
-test('Subnet Too Small for Azure Mode', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('#useableHeader')).toContainText('Usable IPs');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - Azure' }).click();
-  await page.getByLabel('Network Size').click();
-  await page.getByLabel('Network Size').fill('30');
-  await page.getByRole('button', { name: 'Go' }).click();
-  await expect(page.locator('#notifyModalLabel')).toContainText('Warning!');
-  await expect(page.locator('#notifyModalDescription')).toContainText('Please correct the errors in the form!');
-  await expect(page.getByText('Azure Mode - Smallest size is /29')).toBeVisible();
-});
-
-test('Subnet Too Small for OCI Mode', async ({ page }) => {
-  await page.goto('/');
-  await expect(page.locator('#useableHeader')).toContainText('Usable IPs');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - OCI' }).click();
-  await page.getByLabel('Network Size').click();
-  await page.getByLabel('Network Size').fill('31');
-  await page.getByRole('button', { name: 'Go' }).click();
-  await expect(page.locator('#notifyModalLabel')).toContainText('Warning!');
-  await expect(page.locator('#notifyModalDescription')).toContainText('Please correct the errors in the form!');
-  await expect(page.getByText('OCI Mode - Smallest size is /30')).toBeVisible();
-});
+for (const { mode, size, message } of subnetTooSmallCases) {
+  test(`Subnet Too Small for ${mode} Mode`, async ({ page }) => {
+    await page.goto('/');
+    await expect(page.locator('#useableHeader')).toContainText('Usable IPs');
+    await page.getByRole('button', { name: 'Tools' }).click();
+    await page.getByRole('link', { name: `Mode - ${mode}` }).click();
+    await page.getByLabel('Network Size').click();
+    await page.getByLabel('Network Size').fill(size);
+    await page.getByRole('button', { name: 'Go' }).click();
+    await expect(page.locator('#notifyModalLabel')).toContainText('Warning!');
+    await expect(page.locator('#notifyModalDescription')).toContainText('Please correct the errors in the form!');
+    await expect(page.getByText(message)).toBeVisible();
+  });
+}

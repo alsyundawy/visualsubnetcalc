@@ -21,14 +21,14 @@ should align to these tenets, or propose an adjustment to the tenets.
 
 ## Cloud Subnet Notes
 
-### Standard mode:
+### Standard mode
 
 - Smallest subnet: /32
 - Two reserved addresses per subnet of size <= 30:
   - Network Address (network + 0)
   - Broadcast Address (last network address)
 
-### AWS mode ([docs](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html)):
+### AWS mode ([docs](https://docs.aws.amazon.com/vpc/latest/userguide/subnet-sizing.html))
 
 - Smallest subnet: /28
 - Five reserved addresses per subnet:
@@ -38,7 +38,7 @@ should align to these tenets, or propose an adjustment to the tenets.
   - AWS Reserved - Future Use
   - Broadcast Address (last network address)
 
-### Azure mode ([docs](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets)):
+### Azure mode ([docs](https://learn.microsoft.com/en-us/azure/virtual-network/virtual-networks-faq#are-there-any-restrictions-on-using-ip-addresses-within-these-subnets))
 
 - Smallest subnet: /29
 - Five reserved addresses per subnet:
@@ -48,7 +48,7 @@ should align to these tenets, or propose an adjustment to the tenets.
   - Azure Reserved - DNS Mapping
   - Broadcast Address (last network address)
 
-### OCI mode ([docs](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet)):
+### OCI mode ([docs](https://docs.oracle.com/en-us/iaas/Content/Network/Concepts/overview.htm#Reserved__reserved_subnet))
 
 - Smallest subnet: /30
 - Three reserved addresses per subnet:
@@ -107,7 +107,7 @@ The full application should then be available within `./dist/`, open `./dist/ind
 
 ## Running in a container
 
-The application is also available as a container from https://hub.docker.com/r/ckabalan/visualsubnetcalc.
+The application is also available as a container from [Docker Hub](https://hub.docker.com/r/ckabalan/visualsubnetcalc).
 The container is built automatically and pushed to dockerhub on pushes to the develop branch and when when a new git tag is created.
 
 ### Available Image Tags

@@ -104,33 +104,21 @@ test('Deep /32 Split', async ({ page }) => {
   await expect(page.getByLabel('99.0.176.0/32', { exact: true }).getByLabel('Split', { exact: true })).toContainText('/32');
 });
 
-test('Usable IPs - Standard', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - Standard' }).click();
-  await expect(page.getByLabel('10.0.0.0/16', { exact: true }).getByLabel('Usable IPs')).toContainText('10.0.0.1 - 10.0.255.254');
-});
+const usableIpCases = [
+  { mode: 'Standard', expectedIps: '10.0.0.1 - 10.0.255.254' },
+  { mode: 'AWS', expectedIps: '10.0.0.4 - 10.0.255.254' },
+  { mode: 'Azure', expectedIps: '10.0.0.4 - 10.0.255.254' },
+  { mode: 'OCI', expectedIps: '10.0.0.2 - 10.0.255.254' },
+];
 
-test('Usable IPs - AWS', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - AWS' }).click();
-  await expect(page.getByLabel('10.0.0.0/16', { exact: true }).getByLabel('Usable IPs')).toContainText('10.0.0.4 - 10.0.255.254');
-});
-
-test('Usable IPs - Azure', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - Azure' }).click();
-  await expect(page.getByLabel('10.0.0.0/16', { exact: true }).getByLabel('Usable IPs')).toContainText('10.0.0.4 - 10.0.255.254');
-});
-
-test('Usable IPs - OCI', async ({ page }) => {
-  await page.goto('/');
-  await page.getByRole('button', { name: 'Tools' }).click();
-  await page.getByRole('link', { name: 'Mode - OCI' }).click();
-  await expect(page.getByLabel('10.0.0.0/16', { exact: true }).getByLabel('Usable IPs')).toContainText('10.0.0.2 - 10.0.255.254');
-});
+for (const { mode, expectedIps } of usableIpCases) {
+  test(`Usable IPs - ${mode}`, async ({ page }) => {
+    await page.goto('/');
+    await page.getByRole('button', { name: 'Tools' }).click();
+    await page.getByRole('link', { name: `Mode - ${mode}` }).click();
+    await expect(page.getByLabel('10.0.0.0/16', { exact: true }).getByLabel('Usable IPs')).toContainText(expectedIps);
+  });
+}
 
 test('Note Splitting', async ({ page }) => {
   await page.goto('/');

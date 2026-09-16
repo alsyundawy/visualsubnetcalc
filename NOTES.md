@@ -16,11 +16,11 @@ Combine both of these values into a single binary string that is 32+5 bits. Roun
 
 Example for 10.0.0.0/8 and representing the network 10.0.15.0/24:
 Find the offset:
-    10.0.0.0 (decimal):
-        00001010 00000000 00000000 00000000 → 167772160
-    10.0.15.0 (decimal):
-        00001010 00000000 00001111 00000000 → 167775232
-    Offset: 167775232 - 167772160 = 3072
+10.0.0.0 (decimal):
+00001010 00000000 00000000 00000000 → 167772160
+10.0.15.0 (decimal):
+00001010 00000000 00001111 00000000 → 167775232
+Offset: 167775232 - 167772160 = 3072
 
 Hmmm, this above works good for close together smaller networks but gets ugly when you're dealing with larger networks
 because the offset is huge.
@@ -54,4 +54,3 @@ I then for efficienty I could use this format:
 
 So lets say you're wanting to represent the 0th /24 in a /20 you would represent it as `00`, always knowing the last
 digit is the network size. Or the 0th /32 would be `07` (32 in base32 is 7). or the 5th /28 would be `54`.
-

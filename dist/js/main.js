@@ -406,9 +406,7 @@ function addRow(
     "</td>\n" +
     '                <td class="note" style="width:' +
     notesWidth +
-    '"><label for="note_' +
-    rowId +
-    '"><input id="note_' +
+    '"><label><input id="note_' +
     rowId +
     '" name="note_' +
     rowId +

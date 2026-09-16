@@ -18,13 +18,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Robust JSON parse error handling for configuration imports with descriptive alert feedback.
 - MegaLinter configuration (`.mega-linter.yml`) and YAML linter configuration (`.yamllint.yml`) establishing unified linting governance across repository code.
 - Safari and iOS compatibility styles adding `-webkit-user-select: none;` alongside standard `user-select: none;` for interactive split/join cells.
-- Standardized form field identifiers: added unique `id` and `name` attributes and matching `<label for="...">` to note inputs (both static template and dynamic JavaScript row generation) and `importExportArea` textarea to guarantee browser autofill compatibility and adhere to WCAG/HTML standards.
+- Standardized form field identifiers: added unique `id` and `name` attributes to note inputs (both static template and dynamic JavaScript row generation) and `importExportArea` textarea while eliminating redundant `for` attributes on parent `<label>` elements.
 - Enhanced SEO architecture: integrated Schema.org `WebApplication` JSON-LD structured data, canonical URL tags, Open Graph card definitions, Twitter Cards (`summary_large_image`), and search engine indexing directives.
 - Multi-resolution responsive scaling: comprehensive CSS token system with responsive breakpoints covering mobile portrait/landscape, tablets, MacBooks, desktops, and 2K displays (VGA 640x480 to 2560x1440).
 
 ### Fixed
 
-- Fixed missing `id` and `name` attributes on form field elements flagged by accessibility audits and browser autofill validators.
+- Fixed missing `id` and `name` attributes on form field elements and redundant `for` attributes on parent `<label>` tags.
+- Fixed WCAG H32 compliance error by setting `<form id="input_form">` action button `#btn_go` to `type="submit"` with default prevention.
+- Fixed HTML validation entity encoding: replaced raw `&` with `&amp;` and trimmed `<title>` length within standard 70-character limits.
 - Fixed cross-browser CSS warnings by removing obsolete and non-standard `-webkit-overflow-scrolling: touch;` property from `.table-responsive`.
 - Fixed browser compatibility warnings in Firefox and Opera by removing deprecated `<meta name="theme-color">` while maintaining PWA theme configuration in `site.webmanifest`.
 - Fixed outdated upstream repository URLs, standardizing all documentation, GitHub icons, issues, and contributor links to `https://github.com/alsyundawy/visualsubnetcalc`.

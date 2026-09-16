@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Semantic table accessibility with `<caption class="visually-hidden">` on the main subnet table.
-- Accessible table cell role attributes (`role="cell"`) on dynamic headers to support automated accessibility auditing and assistive technologies.
+- Semantic HTML5 table column headers with `<th scope="col">` conforming strictly to WCAG 2.2 AA without non-interactive ARIA role overrides.
 - Responsive horizontal scrolling wrapper (`.table-responsive`) enabling smooth scrolling from VGA (640x480) displays up to ultra-wide and 2K screens.
 - Full keyboard navigation and ARIA attributes (`tabindex="0"`, `role="button"`, `aria-label`) for color palette pickers and toolbar actions with `Enter` and `Space` key event listeners.
 - Safe clipboard copying helper with fallback textarea mechanism for non-secure HTTP contexts and strict browser security models.

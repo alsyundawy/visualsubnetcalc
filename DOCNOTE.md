@@ -41,7 +41,7 @@ Visual Subnet Calculator is a client-side visual IP subnet design and calculatio
 ### 3. ALSYUNDAWY Production Fork (`alsyundawy/visualsubnetcalc`)
 
 - Framework & Library Modernization: Upgraded to Bootstrap 5.3.8 and jQuery 3.7.1 with validated SRI hashes and zero external insecure dependencies.
-- Accessibility Hardening (WCAG 2.2 AA): Semantic table captions (`.visually-hidden`), keyboard-navigable color palette swatches with `role="button"` and `tabindex="0"`, explicit `role="cell"` bindings, and screen reader-friendly modal descriptions.
+- Accessibility Hardening (WCAG 2.2 AA): Semantic table captions (`.visually-hidden`), keyboard-navigable color palette swatches with `role="button"` and `tabindex="0"`, semantic `<th scope="col">` column headers, and screen reader-friendly modal descriptions.
 - Security Hardening: Context-aware HTML escaping (`escapeHtml()`) on dynamic note rendering to mitigate stored and reflected Cross-Site Scripting (XSS) via maliciously crafted shared URLs.
 - CSS Scoping Resolution: Elimination of global selector pollution (`#calc .note label, input`) and eradication of all inline `style="..."` attributes in HTML markup.
 - Modal Lifecycle Stabilization: Migration from raw `new bootstrap.Modal()` instantiations to `bootstrap.Modal.getOrCreateInstance()` to eradicate backdrop deadlocks and transition race conditions.

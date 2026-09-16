@@ -75,9 +75,9 @@ test("Table Header AWS Mode", async ({ page }) => {
   await expect(page.locator("#useableHeader")).toContainText("Usable IPs");
   await page.getByRole("button", { name: "Tools" }).click();
   await page.getByRole("link", { name: "Mode - AWS" }).click();
-  await expect(
-    page.getByRole("cell", { name: "Usable IPs", exact: true }),
-  ).toContainText("Usable IPs (AWS)");
+  await expect(page.locator("#useableHeader")).toContainText(
+    "Usable IPs (AWS)",
+  );
   await page.getByRole("link", { name: "AWS" }).hover();
   await expect(page.getByText("AWS reserves 5 addresses in")).toBeVisible();
 });
@@ -87,9 +87,9 @@ test("Table Header Azure Mode", async ({ page }) => {
   await expect(page.locator("#useableHeader")).toContainText("Usable IPs");
   await page.getByRole("button", { name: "Tools" }).click();
   await page.getByRole("link", { name: "Mode - Azure" }).click();
-  await expect(
-    page.getByRole("cell", { name: "Usable IPs", exact: true }),
-  ).toContainText("Usable IPs (Azure)");
+  await expect(page.locator("#useableHeader")).toContainText(
+    "Usable IPs (Azure)",
+  );
   await page.getByRole("link", { name: "Azure" }).hover();
   await expect(page.getByText("Azure reserves 5 addresses in")).toBeVisible();
 });
@@ -99,9 +99,9 @@ test("Table Header OCI Mode", async ({ page }) => {
   await expect(page.locator("#useableHeader")).toContainText("Usable IPs");
   await page.getByRole("button", { name: "Tools" }).click();
   await page.getByRole("link", { name: "Mode - OCI" }).click();
-  await expect(
-    page.getByRole("cell", { name: "Usable IPs", exact: true }),
-  ).toContainText("Usable IPs (OCI)");
+  await expect(page.locator("#useableHeader")).toContainText(
+    "Usable IPs (OCI)",
+  );
   await page.getByRole("link", { name: "OCI" }).hover();
   await expect(page.getByText("OCI reserves 3 addresses in")).toBeVisible();
 });
@@ -111,17 +111,13 @@ test("Table Header AWS then Standard", async ({ page }) => {
   await expect(page.locator("#useableHeader")).toContainText("Usable IPs");
   await page.getByRole("button", { name: "Tools" }).click();
   await page.getByRole("link", { name: "Mode - AWS" }).click();
-  await expect(
-    page.getByRole("cell", { name: "Usable IPs", exact: true }),
-  ).toContainText("Usable IPs (AWS)");
+  await expect(page.locator("#useableHeader")).toContainText(
+    "Usable IPs (AWS)",
+  );
   await page.getByRole("button", { name: "Tools" }).click();
   await page.getByRole("link", { name: "Mode - Standard" }).click();
-  await expect(
-    page.getByRole("cell", { name: "Usable IPs", exact: true }),
-  ).toContainText("Usable IPs");
-  await expect(
-    page.getByRole("cell", { name: "Usable IPs", exact: true }),
-  ).not.toContainText("(AWS)");
+  await expect(page.locator("#useableHeader")).toContainText("Usable IPs");
+  await expect(page.locator("#useableHeader")).not.toContainText("(AWS)");
 });
 
 test("Color Palette", async ({ page }) => {

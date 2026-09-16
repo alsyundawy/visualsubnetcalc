@@ -4,7 +4,6 @@
     "doctype-style": ["error", { "style": "lowercase" }],
     "void-style": ["error", { "style": "selfclose" }],
     "no-trailing-whitespace": "off",
-    "compat": "off",
-    "prefer-native-element": "off"
+    "compat": "off"
   }
 }

@@ -1,5 +1,10 @@
 {
   "files.associations": {
     ".repomixignore": "ignore"
-  }
+  },
+  "php.linkedEditing.variables": true,
+  "editor.linkedEditing": true,
+  "files.autoSave": "afterDelay",
+  "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
+  "vscode-edge-devtools.browserFlavor": "Default"
 }

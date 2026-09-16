@@ -1,0 +1,24 @@
+---
+# MegaLinter configuration file
+# Reference: https://megalinter.io/configuration/
+
+APPLY_FIXES: none
+VALIDATE_ALL_CODEBASE: true
+
+# Ignore vendor files and binary builds
+FILTER_REGEX_EXCLUDE: (node_modules|dist/css/bootstrap.min.css|dist/js/lz-string.min.js|src/certs)
+
+# Disable non-applicable linter categories
+DISABLE:
+  - COPYPASTE
+  - SPELL
+
+# Disable specific linters that conflict with repo tooling
+DISABLE_LINTERS:
+  - JAVASCRIPT_STANDARD
+  - TYPESCRIPT_STANDARD
+  - CSS_STYLELINT
+  - HTML_HTMLHINT
+  - REPOSITORY_DEVSKIM
+  - REPOSITORY_TRIVY
+  - ACTION_ZIZMOR

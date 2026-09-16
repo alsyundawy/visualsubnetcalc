@@ -12,7 +12,7 @@
     --vermilion: #ef3c2dff;
     --engineering-orange: #cb1b16ff;
     --rosewood: #65010cff;
-     */
+  */
   --split-foreground: #000000;
   /* Combination of Salmon/Tomato */
   --split-background: #f27f64;
@@ -20,13 +20,7 @@
   /* Combination of Light/Celestial Blue */
   --join-background: #6fb0d6;
 
-  /* Color Palettes for subnet highlights
-    https://coolors.co/palette/f0d7df-f9e0e2-f8eaec-f7ddd9-f7e6da-e3e9dd-c4dbd9-d4e5e3-cae0e4-c8c7d6
-    https://coolors.co/palette/54478c-2c699a-048ba8-0db39e-16db93-83e377-b9e769-efea5a-f1c453-f29e4c
-    https://coolors.co/palette/e2e2df-d2d2cf-e2cfc4-f7d9c4-faedcb-c9e4de-c6def1-dbcdf0-f2c6de-f9c6c9
-    https://coolors.co/palette/54478c-2c699a-048ba8-0db39e-16db93-83e377-b9e769-efea5a-f1c453-f29e4c
-    https://coolors.co/palette/ffadad-ffd6a5-fdffb6-caffbf-9bf6ff-a0c4ff-bdb2ff-ffc6ff-e6e6e6
-     */
+  /* Color Palettes for subnet highlights */
   --subpal-1-1: #ffadadff;
   --subpal-1-2: #ffd6a5ff;
   --subpal-1-3: #fdffb6ff;
@@ -44,22 +38,21 @@
 }
 
 #bottom_nav {
-  height: 2rem;
-}
-
-#bottom_nav span {
-  border-bottom: 1px black dotted;
+  min-height: 2rem;
+  height: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 #whats_new {
   cursor: pointer !important;
   text-align: right;
-  width: 15rem;
-  float: right;
+  margin-left: auto;
 }
 
 #whats_new a {
-  width: 15rem;
   text-align: right;
   text-decoration: none;
   border-bottom: 1px var(--bs-success) dotted;
@@ -68,40 +61,43 @@
 #copy_url {
   cursor: pointer !important;
   text-align: center;
-  width: 11rem;
 }
 
 #copy_url span {
-  width: 11rem;
   text-align: center;
 }
 
 #color_palette {
-  min-width: 0rem;
+  min-width: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
-#color_palette #colors_word_close {
-  line-height: 2rem;
-  cursor: pointer;
-}
-
-#color_palette #colors_word_open {
+#color_palette button {
   display: inline-block;
   height: 2rem;
   cursor: pointer;
   white-space: nowrap;
+  background: none;
+  border: none;
+  padding: 0;
 }
 
-#color_palette div {
-  display: inline-block;
-  height: 2rem;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-#color_palette div[id^="palette_picker_"] {
+#color_palette button[id^="palette_picker_"] {
   width: 2rem;
-  border: 1px solid;
+  border: 1px solid rgba(0, 0, 0, 0.35) !important;
+  border-radius: 0.25rem;
+  transition:
+    transform 0.15s ease-in-out,
+    box-shadow 0.15s ease-in-out;
+}
+
+#color_palette button[id^="palette_picker_"]:hover,
+#color_palette button[id^="palette_picker_"]:focus-visible {
+  transform: scale(1.15);
+  box-shadow: 0 0 0 2px var(--bs-primary);
+  outline: none;
 }
 
 #color_palette #palette_picker_1 {
@@ -135,11 +131,39 @@
   background-color: var(--subpal-1-10);
 }
 
-.container-xxl {
-  min-width: 576px;
+.bottom-nav-btn {
+  display: inline-block;
+  padding: 0;
+  color: inherit;
+  text-decoration: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-#navigation a {
+.bottom-nav-btn span {
+  border-bottom: 1px black dotted;
+}
+
+.container-xxl {
+  min-width: 320px;
+  max-width: 100%;
+}
+
+@media (min-width: 576px) {
+  .container-xxl {
+    min-width: 576px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .container-xxl {
+    max-width: 2400px;
+  }
+}
+
+#navigation a,
+#navigation button {
   color: #000000;
   text-decoration: none;
 }
@@ -163,22 +187,10 @@
 #calc > tfoot > tr > th,
 #calc > thead > tr > td,
 #calc > thead > tr > th {
-  /* Equivalent to p-1 */
   padding: 0.25rem;
-  /* Equivalent to p-2 */
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
 }
-
-/*
-#joinHeader {
-    border:none;
-}
-
-#calc thead {
-    border-right-width: 1px;
-    border-bottom-width: 0px;
-}*/
 
 #calc span.split {
   color: var(--split-background);
@@ -195,6 +207,8 @@
   min-width: 2.3rem;
   width: 1%;
   font-size: 1rem;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 #notifyModal .modal-content {
@@ -208,6 +222,18 @@
   min-width: 2.3rem;
   width: 1%;
   font-size: 1rem;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#importExportArea {
+  height: 510px;
+}
+
+.reserved-info-link {
+  color: #000000;
+  border-bottom: 1px dotted #000000;
+  text-decoration: dotted;
 }
 
 #calc td.split,
@@ -225,7 +251,7 @@
 }
 
 #calc .note label,
-input {
+#calc .note input {
   width: 100%;
 }
 
@@ -236,17 +262,11 @@ input {
 }
 
 #calc .row_range {
-  /* TODO: Make this a checkbox?
-    white-space: nowrap;
-     */
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
 
 #calc .row_usable {
-  /* TODO: Make this a checkbox?
-    white-space: nowrap;
-     */
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
@@ -264,7 +284,6 @@ input {
   background-color: transparent;
 }
 
-/* https://stackoverflow.com/a/47245068/606974 */
 .rotate {
   vertical-align: middle;
   text-align: end;
@@ -275,4 +294,9 @@ input {
   writing-mode: vertical-rl;
   white-space: nowrap;
   padding-top: 0.25rem;
+}
+
+:focus-visible {
+  outline: 2px solid var(--bs-primary);
+  outline-offset: 2px;
 }

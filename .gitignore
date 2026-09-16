@@ -3,3 +3,7 @@
 **/certs/*
 **/.DS_Store
 .kilo/
+test-results/
+playwright-report/
+src/bin/
+src/lib/

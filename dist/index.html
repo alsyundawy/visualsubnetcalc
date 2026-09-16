@@ -66,9 +66,10 @@
   <body>
     <div class="container-xxl mt-3">
       <div class="float-end" id="navigation">
-        <a
-          href="#"
+        <button
+          type="button"
           id="faq_icon"
+          class="btn btn-link p-1"
           data-bs-toggle="modal"
           data-bs-target="#faqModal"
           aria-label="FAQ"
@@ -88,10 +89,11 @@
               d="M5.255 5.786a.237.237 0 0 0 .241.247h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286m1.557 5.763c0 .533.425.927 1.01.927.609 0 1.028-.394 1.028-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94"
             />
           </svg>
-        </a>
-        <a
-          href="#"
+        </button>
+        <button
+          type="button"
           id="info_icon"
+          class="btn btn-link p-1"
           data-bs-toggle="modal"
           data-bs-target="#aboutModal"
           aria-label="About"
@@ -111,7 +113,7 @@
               d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533L8.93 6.588zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0z"
             />
           </svg>
-        </a>
+        </button>
         <a
           href="https://github.com/ckabalan/visualsubnetcalc"
           target="_blank"
@@ -150,7 +152,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <form id="input_form" class="row g-2 mb-3">
+      <form id="input_form" class="row g-2 mb-3 align-items-end">
         <div class="font-monospace col-lg-2 col-md-3 col-4">
           <div>
             <label for="network" class="form-label mb-0 ms-1"
@@ -169,14 +171,12 @@
               type="text"
               class="form-control"
               value="10.0.0.0"
-              aria-label="Network Address"
-              pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)"
+              pattern="^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$"
               required
             />
           </div>
         </div>
-        <div class="font-monospace col-auto">
-          <div style="height: 2rem"></div>
+        <div class="font-monospace col-auto pb-2">
           <div>/</div>
         </div>
         <div class="font-monospace col-lg-2 col-md-3 col-4">
@@ -197,19 +197,17 @@
               type="text"
               class="form-control w-10"
               value="16"
-              aria-label="Network Size"
               pattern="^([0-9]|[12][0-9]|3[0-2])$"
               required
             />
           </div>
         </div>
-        <div class="col-lg-2 col-md-3 col-3 font-">
-          <div style="height: 1.5rem"></div>
+        <div class="col-lg-2 col-md-3 col-3">
           <div>
             <button
               id="btn_go"
               class="btn btn-success mb-0 mt-auto"
-              type="button"
+              type="submit"
             >
               Go
             </button>
@@ -281,137 +279,176 @@
         </div>
       </form>
 
-      <table
-        id="calc"
-        class="table table-bordered font-monospace"
-        aria-label="Subnet Table"
-      >
-        <thead>
-          <tr>
-            <th
-              aria-label="Subnet Address"
-              id="subnetHeader"
-              style="display: table-cell"
-            >
-              Subnet Address
-            </th>
-            <th
-              aria-label="Range of Addresses"
-              id="rangeHeader"
-              style="display: table-cell"
-            >
-              Range of Addresses
-            </th>
-            <th
-              aria-label="Usable IPs"
-              id="useableHeader"
-              style="display: table-cell"
-            >
-              Usable IPs
-            </th>
-            <th aria-label="Hosts" id="hostsHeader" style="display: table-cell">
-              Hosts
-            </th>
-            <th
-              aria-label="Note"
-              id="noteHeader"
-              colspan="100%"
-              style="display: table-cell"
-            >
-              Note
-              <div style="float: right">
-                <span id="splitHeader" aria-label="Split" class="split"
-                  >Split</span
-                >/<span id="joinHeader" aria-label="Join" class="join"
-                  >Join</span
-                >
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody id="calcbody">
-          <tr id="row_10-0-0-0_16" aria-label="10.0.0.0/16">
-            <td aria-labelledby="subnetHeader" class="row_address">
-              Loading...
-            </td>
-            <td aria-labelledby="rangeHeader" class="row_range"></td>
-            <td aria-labelledby="useableHeader" class="row_usable"></td>
-            <td aria-labelledby="hostsHeader" class="row_hosts"></td>
-            <td class="note">
-              <label
-                ><input
-                  aria-labelledby="noteHeader"
-                  type="text"
-                  class="form-control shadow-none p-0"
-              /></label>
-            </td>
-            <td
-              aria-labelledby="splitHeader"
-              rowspan="1"
-              colspan="13"
-              class="split rotate"
-            >
-              <span></span>
-            </td>
-            <td
-              aria-labelledby="joinHeader"
-              rowspan="14"
-              colspan="1"
-              class="join rotate"
-            >
-              <span></span>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div class="table-responsive">
+        <table
+          id="calc"
+          class="table table-bordered font-monospace"
+          aria-label="Subnet Table"
+        >
+          <caption class="visually-hidden">
+            Subnet Table detailing addresses, address ranges, usable IPs, hosts
+            count, and split/join hierarchy
+          </caption>
+          <thead>
+            <tr>
+              <th scope="col" id="subnetHeader">Subnet Address</th>
+              <th scope="col" id="rangeHeader">Range of Addresses</th>
+              <th scope="col" id="useableHeader">Usable IPs</th>
+              <th scope="col" id="hostsHeader">Hosts</th>
+              <th scope="col" id="noteHeader">
+                Note
+                <div class="float-end">
+                  <span id="splitHeader" class="split">Split</span>/<span
+                    id="joinHeader"
+                    class="join"
+                    >Join</span
+                  >
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody id="calcbody">
+            <tr id="row_10-0-0-0_16">
+              <td aria-labelledby="subnetHeader" class="row_address">
+                Loading...
+              </td>
+              <td aria-labelledby="rangeHeader" class="row_range"></td>
+              <td aria-labelledby="useableHeader" class="row_usable"></td>
+              <td aria-labelledby="hostsHeader" class="row_hosts"></td>
+              <td class="note">
+                <label
+                  ><input
+                    aria-labelledby="noteHeader"
+                    type="text"
+                    class="form-control shadow-none p-0"
+                /></label>
+              </td>
+              <td
+                aria-labelledby="splitHeader"
+                rowspan="1"
+                colspan="13"
+                class="split rotate"
+              >
+                <span></span>
+              </td>
+              <td
+                aria-labelledby="joinHeader"
+                rowspan="14"
+                colspan="1"
+                class="join rotate"
+              >
+                <span></span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
       <div id="bottom_nav">
-        <div
-          class="d-inline-block align-top pt-1"
+        <button
+          type="button"
+          class="btn btn-link bottom-nav-btn"
           id="colors_word_open"
           aria-label="Change Colors"
         >
           <span>Change Colors &#187;</span>
-        </div>
+        </button>
         <div
-          class="d-inline-block d-none"
+          class="d-inline-flex align-items-center d-none"
           id="color_palette"
+          role="toolbar"
           aria-label="Color Palette"
         >
-          <div role="button" aria-label="Color 1" id="palette_picker_1"></div>
-          <div role="button" aria-label="Color 2" id="palette_picker_2"></div>
-          <div role="button" aria-label="Color 3" id="palette_picker_3"></div>
-          <div role="button" aria-label="Color 4" id="palette_picker_4"></div>
-          <div role="button" aria-label="Color 5" id="palette_picker_5"></div>
-          <div role="button" aria-label="Color 6" id="palette_picker_6"></div>
-          <div role="button" aria-label="Color 7" id="palette_picker_7"></div>
-          <div role="button" aria-label="Color 8" id="palette_picker_8"></div>
-          <div role="button" aria-label="Color 9" id="palette_picker_9"></div>
-          <div role="button" aria-label="Color 10" id="palette_picker_10"></div>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 1"
+            id="palette_picker_1"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 2"
+            id="palette_picker_2"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 3"
+            id="palette_picker_3"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 4"
+            id="palette_picker_4"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 5"
+            id="palette_picker_5"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 6"
+            id="palette_picker_6"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 7"
+            id="palette_picker_7"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 8"
+            id="palette_picker_8"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 9"
+            id="palette_picker_9"
+          ></button>
+          <button
+            type="button"
+            class="palette-picker"
+            aria-label="Color 10"
+            id="palette_picker_10"
+          ></button>
+          <button
+            type="button"
+            class="btn btn-link bottom-nav-btn"
+            id="colors_word_close"
+            aria-label="Stop Changing Colors"
+          >
+            <span>&#171; Stop Changing Colors</span>
+          </button>
         </div>
-        <div
-          class="d-inline-block align-top align-top pt-1 ps-2 d-none"
-          id="colors_word_close"
-          aria-label="Stop Changing Colors"
+        <button
+          type="button"
+          class="btn btn-link bottom-nav-btn"
+          id="copy_url"
+          aria-label="Copy Shareable URL"
         >
-          <span>&#171; Stop Changing Colors</span>
-        </div>
-        <div class="d-inline-block align-top pt-1 ps-3" id="copy_url">
           <span>Copy Shareable URL</span>
-        </div>
+        </button>
         <div class="d-inline-block align-top pt-1 ps-3" id="whats_new">
           <a
-            title="Released 2025-05-19"
+            title="Released 2026-09-16"
             class="link-success"
-            href="https://github.com/ckabalan/visualsubnetcalc/releases"
+            href="https://github.com/alsyundawy/visualsubnetcalc/releases"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="What's New"
-            >v1.4.0 (What's New?)</a
+            >v1.4.1 (What&#39;s New?)</a
           >
         </div>
       </div>
 
-      <div class="modal fade" id="notifyModal" tabindex="-1" aria-hidden="true">
+      <div class="modal fade" id="notifyModal" tabindex="-1">
         <div class="modal-dialog modal-md">
           <div
             class="modal-content alert-warning"
@@ -435,12 +472,7 @@
         </div>
       </div>
 
-      <div
-        class="modal fade"
-        id="importExportModal"
-        tabindex="-1"
-        aria-hidden="true"
-      >
+      <div class="modal fade" id="importExportModal" tabindex="-1">
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div
             class="modal-content"
@@ -472,10 +504,11 @@
                 <textarea
                   class="form-control pt-3"
                   id="importExportArea"
-                  style="height: 510px"
                   aria-label="Import/Export Content"
                 ></textarea>
-                <label for="importExportArea"></label>
+                <label for="importExportArea" class="visually-hidden"
+                  >Subnet Configuration Data (JSON)</label
+                >
               </div>
             </div>
             <div class="modal-footer">
@@ -504,7 +537,6 @@
         id="faqModal"
         tabindex="-1"
         aria-labelledby="faqModalLabel"
-        aria-hidden="true"
       >
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
@@ -563,8 +595,8 @@
                 the host portion, which identifies individual devices within
                 that network. Using a subnet mask, administrators indicate
                 exactly which bits belong to each part, and with CIDR (Classless
-                Inter-Domain Routing) this division is expressed as a “slash
-                number” appended to the IP address (for example, /24). This
+                Inter-Domain Routing) this division is expressed as a "slash
+                number" appended to the IP address (for example, /24). This
                 slash number indicates the number of bits reserved for the
                 network ID; the remaining bits define the host addresses
                 available within the subnet.
@@ -638,7 +670,6 @@
         id="aboutModal"
         tabindex="-1"
         aria-labelledby="aboutModalLabel"
-        aria-hidden="true"
       >
         <div class="modal-dialog modal-xl modal-dialog-centered">
           <div class="modal-content">
@@ -662,27 +693,23 @@
               <h4>Design Tenets</h4>
               <ul>
                 <li>
-                  <span style="font-weight: bold">Simplicity is king.</span>
+                  <span class="fw-bold">Simplicity is king.</span>
                   Network admins are busy and Visual Subnet Calculator should
                   always be easy for FIRST TIME USERS to quickly and intuitively
                   use.
                 </li>
                 <li>
-                  <span style="font-weight: bold"
-                    >Subnetting is design work.</span
-                  >
+                  <span class="fw-bold">Subnetting is design work.</span>
                   Promote features that enhance visual clarity and easy mental
                   processing of even the most complex architectures.
                 </li>
                 <li>
-                  <span style="font-weight: bold">Users control the data.</span>
+                  <span class="fw-bold">Users control the data.</span>
                   We store nothing, but provide convenient ways for users to
                   save and share their designs.
                 </li>
                 <li>
-                  <span style="font-weight: bold"
-                    >Embrace community contributions.</span
-                  >
+                  <span class="fw-bold">Embrace community contributions.</span>
                   Consider and respond to all feedback and pull requests in the
                   context of these tenets.
                 </li>
@@ -740,14 +767,14 @@
                 <li>
                   GitHub:
                   <a
-                    href="https://github.com/ckabalan/visualsubnetcalc"
+                    href="https://github.com/alsyundawy/visualsubnetcalc"
                     target="_blank"
                     rel="noopener noreferrer"
-                    >https://github.com/ckabalan/visualsubnetcalc</a
+                    >https://github.com/alsyundawy/visualsubnetcalc</a
                   >
                 </li>
                 <li>
-                  LinkedIn:
+                  Original Author LinkedIn:
                   <a
                     href="https://www.linkedin.com/in/caesarkabalan/"
                     target="_blank"
@@ -770,8 +797,8 @@
         </div>
       </div>
       <script
-        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO"
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
         crossorigin="anonymous"
       ></script>
       <script

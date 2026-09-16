@@ -1,0 +1,11 @@
+---
+extends: default
+
+rules:
+  document-start: disable
+  truthy: disable
+  line-length: disable
+  comments-indentation: disable
+  comments: disable
+  braces:
+    max-spaces-inside: 1

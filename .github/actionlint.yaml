@@ -8,7 +8,5 @@ config-variables:
   - AWS_DEPLOY_S3_BUCKET_NAME
   - AWS_DEPLOY_CLOUDFRONT_DISTRIBUTION_ID
 
-paths:
-  .github/workflows/**/*.yml:
-    ignore:
-      - Context access might be invalid
+ignore:
+  - Context access might be invalid

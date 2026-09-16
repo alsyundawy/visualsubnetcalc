@@ -7,11 +7,12 @@
 [![WCAG](https://img.shields.io/badge/WCAG%202.2-Level%20AA%20Compliant-blue?style=for-the-badge&logo=w3c)](https://www.w3.org/WAI/standards-guidelines/wcag/)
 [![Tests](https://img.shields.io/badge/Playwright%20E2E-36%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Responsive](https://img.shields.io/badge/Responsive-VGA%20to%202K-purple?style=for-the-badge)](https://github.com/alsyundawy/visualsubnetcalc)
+[![Donate PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
 
 > **An interactive, accessible, visual IPv4 CIDR subnet planning engine for network engineers, cloud architects, and DevOps professionals.**
 > Optimized and maintained by **[@alsyundawy](https://github.com/alsyundawy)** — Built upon foundational work by **[@ckabalan](https://github.com/ckabalan)**, **[@bl4ckfir3](https://github.com/bl4ckfir3)**, and **[@davidc](https://github.com/davidc)**.
 >
-> 📖 **[Architecture & Integration Notes (DOCNOTE.md)](DOCNOTE.md)** &nbsp;|&nbsp; 📜 **[Full Release Changelog (CHANGELOG.md)](CHANGELOG.md)** &nbsp;|&nbsp; 🚀 **[Releases](https://github.com/alsyundawy/visualsubnetcalc/releases)**
+> 📖 **[Architecture & Integration Notes (DOCNOTE.md)](DOCNOTE.md)** &nbsp;|&nbsp; 📜 **[Full Release Changelog (CHANGELOG.md)](CHANGELOG.md)** &nbsp;|&nbsp; 💖 **[Support via PayPal](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[Releases](https://github.com/alsyundawy/visualsubnetcalc/releases)**
 
 ---
 
@@ -26,6 +27,7 @@
 - [📚 Documentation & Engineering Notes](#-documentation--engineering-notes)
 - [📜 Version History & Changelog](#-version-history--changelog)
 - [🤝 Credits & Original Authors](#-credits--original-authors)
+- [💖 Support & Donation](#-support--donation)
 - [📄 License](#-license)
 
 ---
@@ -248,6 +250,16 @@ Visual Subnet Calculator is built upon the collaborative spirit of the open-sour
 - 👤 **David C ([@davidc](https://github.com/davidc))** — _Inspiration & Concept Pioneer._ Authored the original open-source visual subnetting concept ([davidc/subnets](https://github.com/davidc/subnets)) that inspired the modern tool.
 - 👤 **Alsyundawy ([@alsyundawy](https://github.com/alsyundawy))** — _Modernized & Hardened Edition Maintainer._ Spearheaded the comprehensive security hardening (CodeQL DOM XSS remediation), WCAG 2.2 AA accessibility compliance, universal responsive scaling (VGA to 2K), SEO structured data, modern dependency upgrades, and release engineering for `v1.4.1+`.
 - 🎨 **Iconography**: Split icon designed by [Freepik](https://www.flaticon.com/authors/freepik) from [Flaticon](https://www.flaticon.com/).
+
+---
+
+## 💖 Support & Donation
+
+If **Visual Subnet Calculator** has helped you design, optimize, or troubleshoot your network architectures, consider supporting its continuous maintenance, security audits, and hosting infrastructure:
+
+[![Donate with PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
+
+Your generosity directly supports open-source development, security hardening, and future tooling for the network engineering community.
 
 ---
 

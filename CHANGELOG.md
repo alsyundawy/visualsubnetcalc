@@ -18,9 +18,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Robust JSON parse error handling for configuration imports with descriptive alert feedback.
 - MegaLinter configuration (`.mega-linter.yml`) and YAML linter configuration (`.yamllint.yml`) establishing unified linting governance across repository code.
 - Safari and iOS compatibility styles adding `-webkit-user-select: none;` alongside standard `user-select: none;` for interactive split/join cells.
+- Standardized form field identifiers: added unique `id` and `name` attributes and matching `<label for="...">` to note inputs (both static template and dynamic JavaScript row generation) and `importExportArea` textarea to guarantee browser autofill compatibility and adhere to WCAG/HTML standards.
+- Enhanced SEO architecture: integrated Schema.org `WebApplication` JSON-LD structured data, canonical URL tags, Open Graph card definitions, Twitter Cards (`summary_large_image`), and search engine indexing directives.
+- Multi-resolution responsive scaling: comprehensive CSS token system with responsive breakpoints covering mobile portrait/landscape, tablets, MacBooks, desktops, and 2K displays (VGA 640x480 to 2560x1440).
 
 ### Fixed
 
+- Fixed missing `id` and `name` attributes on form field elements flagged by accessibility audits and browser autofill validators.
+- Fixed cross-browser CSS warnings by removing obsolete and non-standard `-webkit-overflow-scrolling: touch;` property from `.table-responsive`.
+- Fixed browser compatibility warnings in Firefox and Opera by removing deprecated `<meta name="theme-color">` while maintaining PWA theme configuration in `site.webmanifest`.
+- Fixed outdated upstream repository URLs, standardizing all documentation, GitHub icons, issues, and contributor links to `https://github.com/alsyundawy/visualsubnetcalc`.
 - Fixed global CSS selector pollution where `#calc .note label, input` inadvertently stretched all text input fields across the application to 100% width.
 - Fixed modal lifecycle lockup and backdrop deadlocks by adopting `bootstrap.Modal.getOrCreateInstance()`.
 - Fixed boundary correction alert text rendering bug where passing custom warning messages displayed an unformatted `undefined` string.

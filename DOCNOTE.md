@@ -46,6 +46,9 @@ Visual Subnet Calculator is a client-side visual IP subnet design and calculatio
 - CSS Scoping Resolution: Elimination of global selector pollution (`#calc .note label, input`) and eradication of all inline `style="..."` attributes in HTML markup.
 - Modal Lifecycle Stabilization: Migration from raw `new bootstrap.Modal()` instantiations to `bootstrap.Modal.getOrCreateInstance()` to eradicate backdrop deadlocks and transition race conditions.
 - Strict Linter and CI/CD Compliance: End-to-end repository adherence to Trunk, MegaLinter, Prettier, Markdownlint, and automated Playwright browser test coverage across Chromium, Firefox, and WebKit engines.
+- Form Field Autofill & Standard Compliance: All form fields (`#network`, `#netsize`, `#importExportArea`, and every dynamic `#note_*` element) possess unique `id` and `name` attributes with explicit label associations, meeting HTML autofill and WCAG accessibility standards.
+- Cross-Browser Standards & Compatibility: Removed deprecated `-webkit-overflow-scrolling` properties and non-standard HTML meta tags (`theme-color`), consolidating PWA theme attributes within `site.webmanifest` for flawless rendering across Firefox, Safari, Chrome, Edge, and Opera.
+- SEO & Metadata Architecture: Comprehensive search engine optimization incorporating Schema.org `WebApplication` JSON-LD structured data, Open Graph protocol metadata, Twitter summary cards, canonical links, and crawler instructions referencing `https://github.com/alsyundawy/visualsubnetcalc`.
 
 ## Technical Context in ALSYUNDAWY Infrastructure Environment
 

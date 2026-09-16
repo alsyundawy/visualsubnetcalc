@@ -109,7 +109,15 @@ $("#calcbody").on(
   },
 );
 
-$("#btn_go").on("click", function () {
+$("#input_form").on("submit", function (e) {
+  e.preventDefault();
+  $("#btn_go").trigger("click");
+});
+
+$("#btn_go").on("click", function (e) {
+  if (e && typeof e.preventDefault === "function") {
+    e.preventDefault();
+  }
   $("#input_form").removeClass("was-validated");
   $("#input_form").validate();
   if ($("#input_form").valid()) {
@@ -398,7 +406,13 @@ function addRow(
     "</td>\n" +
     '                <td class="note" style="width:' +
     notesWidth +
-    '"><label><input aria-labelledby="' +
+    '"><label for="note_' +
+    rowId +
+    '"><input id="note_' +
+    rowId +
+    '" name="note_' +
+    rowId +
+    '" aria-labelledby="' +
     rowId +
     ' noteHeader" type="text" class="form-control shadow-none p-0" data-subnet="' +
     rowCIDR +

@@ -3,44 +3,121 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Visual Subnet Calculator - Split/Join</title>
-    <link rel="stylesheet" href="css/bootstrap.min.css" />
-    <link href="css/main.css" rel="stylesheet" />
+
+    <!-- ═══ Primary SEO ═══════════════════════════════════════════════════ -->
+    <title>Visual Subnet Calculator - Free IP Subnet Planner & CIDR Tool</title>
     <meta
       name="description"
-      content="Quickly and easily design network layouts. Split and join subnets, add notes and color, then collaborate with others by sharing a custom link to your design."
+      content="Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes, and share designs via a custom link. Supports AWS, Azure, and OCI cloud IP reservations."
     />
-    <meta name="robots" content="index, follow" />
+    <meta
+      name="keywords"
+      content="subnet calculator, CIDR calculator, IP subnet planner, network design tool, IPv4 subnetting, AWS VPC subnetting, Azure CIDR, OCI networking, visual subnetting, subnet split join"
+    />
+    <meta name="author" content="alsyundawy" />
+    <meta
+      name="robots"
+      content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1"
+    />
+    <link
+      rel="canonical"
+      href="https://github.com/alsyundawy/visualsubnetcalc"
+    />
 
-    <!-- Open Graph / Facebook -->
+    <!-- ═══ Open Graph (Facebook, LinkedIn, WhatsApp) ═══════════════════ -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Visual Subnet Calculator" />
     <meta property="og:url" content="__DEPLOY_URL__" />
-    <meta property="og:title" content="Visual Subnet Calculator - Split/Join" />
+    <meta
+      property="og:title"
+      content="Visual Subnet Calculator - Free IP Subnet Planner & CIDR Tool"
+    />
     <meta
       property="og:description"
-      content="Quickly and easily design network layouts. Split and join subnets, add notes and color, then collaborate with others by sharing a custom link to your design."
+      content="Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes, and share designs via a custom link. Supports AWS, Azure, and OCI cloud IP reservations."
     />
     <meta
       property="og:image"
       content="__DEPLOY_URL__/icon/social_1200x630.png"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta
+      property="og:image:alt"
+      content="Visual Subnet Calculator screenshot showing subnet split/join interface"
+    />
+    <meta property="og:locale" content="en_US" />
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary" />
+    <!-- ═══ Twitter / X Card ════════════════════════════════════════════ -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@alsyundawy" />
     <meta name="twitter:url" content="__DEPLOY_URL__" />
     <meta
       name="twitter:title"
-      content="Visual Subnet Calculator - Split/Join"
+      content="Visual Subnet Calculator - Free IP Subnet Planner & CIDR Tool"
     />
     <meta
       name="twitter:description"
-      content="Quickly and easily design network layouts. Split and join subnets, add notes and color, then collaborate with others by sharing a custom link to your design."
+      content="Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes. Supports AWS, Azure, OCI cloud IP reservations."
     />
     <meta
       name="twitter:image"
       content="__DEPLOY_URL__/icon/social_1200x600.png"
     />
+    <meta
+      name="twitter:image:alt"
+      content="Visual Subnet Calculator - subnet split/join interface"
+    />
 
+    <!-- ═══ JSON-LD Structured Data ══════════════════════════════════════ -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Visual Subnet Calculator",
+        "url": "__DEPLOY_URL__",
+        "description": "Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes, and share designs via a custom link.",
+        "applicationCategory": "NetworkingApplication",
+        "operatingSystem": "Any",
+        "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
+        "offers": {
+          "@type": "Offer",
+          "price": "0",
+          "priceCurrency": "USD"
+        },
+        "author": {
+          "@type": "Person",
+          "name": "alsyundawy",
+          "url": "https://github.com/alsyundawy"
+        },
+        "codeRepository": "https://github.com/alsyundawy/visualsubnetcalc",
+        "softwareVersion": "1.4.1",
+        "license": "https://github.com/alsyundawy/visualsubnetcalc/blob/main/LICENSE",
+        "screenshot": "__DEPLOY_URL__/icon/social_1200x630.png",
+        "featureList": [
+          "IPv4 subnet split and join",
+          "CIDR notation support",
+          "Color-coded subnet notes",
+          "Shareable URL state",
+          "AWS VPC IP reservation mode",
+          "Azure IP reservation mode",
+          "Oracle Cloud (OCI) IP reservation mode",
+          "JSON import/export"
+        ]
+      }
+    </script>
+
+    <!-- ═══ Performance: DNS prefetch & preconnect ═══════════════════════ -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" />
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net" />
+    <link rel="preconnect" href="https://code.jquery.com" />
+    <link rel="dns-prefetch" href="https://code.jquery.com" />
+
+    <!-- ═══ Stylesheets ══════════════════════════════════════════════════ -->
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <link href="css/main.css" rel="stylesheet" />
+
+    <!-- ═══ Icons & PWA ══════════════════════════════════════════════════ -->
     <link
       rel="apple-touch-icon"
       sizes="180x180"
@@ -61,10 +138,9 @@
     <link rel="manifest" href="icon/site.webmanifest" />
     <link rel="mask-icon" href="icon/safari-pinned-tab.svg" color="#5bbad5" />
     <meta name="msapplication-TileColor" content="#da532c" />
-    <meta name="theme-color" content="#ffffff" />
   </head>
   <body>
-    <div class="container-xxl mt-3">
+    <div class="container-xxl mt-2">
       <div class="float-end" id="navigation">
         <button
           type="button"
@@ -76,8 +152,8 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
+            width="36"
+            height="36"
             fill="currentColor"
             class="bi bi-question-circle"
             viewBox="0 0 16 16"
@@ -100,8 +176,8 @@
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
+            width="36"
+            height="36"
             fill="currentColor"
             class="bi bi-info-circle"
             viewBox="0 0 16 16"
@@ -115,15 +191,15 @@
           </svg>
         </button>
         <a
-          href="https://github.com/ckabalan/visualsubnetcalc"
+          href="https://github.com/alsyundawy/visualsubnetcalc"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="GitHub"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            width="48"
-            height="48"
+            width="36"
+            height="36"
             fill="currentColor"
             class="bi bi-github"
             viewBox="0 0 16 16"
@@ -134,8 +210,8 @@
           </svg>
         </a>
       </div>
-      <h1>Visual Subnet Calculator</h1>
-      <div class="alert alert-primary alert-dismissible show mt-3" role="alert">
+      <h1 class="mb-1">Visual Subnet Calculator</h1>
+      <div class="alert alert-primary alert-dismissible show mt-1" role="alert">
         <p class="mb-1">
           Quickly and easily design network layouts. Split and join subnets, add
           notes and color, then collaborate with others by sharing a custom link
@@ -152,7 +228,7 @@
           aria-label="Close"
         ></button>
       </div>
-      <form id="input_form" class="row g-2 mb-3 align-items-end">
+      <form id="input_form" class="row g-2 mb-2 align-items-end">
         <div class="font-monospace col-lg-2 col-md-3 col-4">
           <div>
             <label for="network" class="form-label mb-0 ms-1"
@@ -207,7 +283,7 @@
             <button
               id="btn_go"
               class="btn btn-success mb-0 mt-auto"
-              type="submit"
+              type="button"
             >
               Go
             </button>
@@ -291,11 +367,22 @@
           </caption>
           <thead>
             <tr>
-              <th scope="col" id="subnetHeader">Subnet Address</th>
-              <th scope="col" id="rangeHeader">Range of Addresses</th>
-              <th scope="col" id="useableHeader">Usable IPs</th>
-              <th scope="col" id="hostsHeader">Hosts</th>
-              <th scope="col" id="noteHeader">
+              <th scope="col" aria-label="Subnet Address" id="subnetHeader">
+                Subnet Address
+              </th>
+              <th scope="col" aria-label="Range of Addresses" id="rangeHeader">
+                Range of Addresses
+              </th>
+              <th
+                scope="col"
+                role="cell"
+                aria-label="Usable IPs"
+                id="useableHeader"
+              >
+                Usable IPs
+              </th>
+              <th scope="col" aria-label="Hosts" id="hostsHeader">Hosts</th>
+              <th scope="col" aria-label="Note" id="noteHeader">
                 Note
                 <div class="float-end">
                   <span id="splitHeader" class="split">Split</span>/<span
@@ -316,8 +403,10 @@
               <td aria-labelledby="useableHeader" class="row_usable"></td>
               <td aria-labelledby="hostsHeader" class="row_hosts"></td>
               <td class="note">
-                <label
+                <label for="note_10-0-0-0_16"
                   ><input
+                    id="note_10-0-0-0_16"
+                    name="note_10-0-0-0_16"
                     aria-labelledby="noteHeader"
                     type="text"
                     class="form-control shadow-none p-0"
@@ -504,6 +593,7 @@
                 <textarea
                   class="form-control pt-3"
                   id="importExportArea"
+                  name="importExportArea"
                   aria-label="Import/Export Content"
                 ></textarea>
                 <label for="importExportArea" class="visually-hidden"
@@ -724,7 +814,7 @@
               >
               with help from
               <a
-                href="https://github.com/ckabalan/visualsubnetcalc/graphs/contributors"
+                href="https://github.com/alsyundawy/visualsubnetcalc/graphs/contributors"
                 target="_blank"
                 rel="noopener noreferrer"
                 >GitHub Contributors</a

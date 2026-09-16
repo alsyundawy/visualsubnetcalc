@@ -1,2 +1,6 @@
 User-Agent: *
 Allow: /
+Disallow: /icon/
+
+# Sitemap
+Sitemap: https://github.com/alsyundawy/visualsubnetcalc/sitemap.xml

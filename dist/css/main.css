@@ -31,25 +31,138 @@
   --subpal-1-8: #ffc6ffff;
   --subpal-1-9: #e6e6e6ff;
   --subpal-1-10: #ffffffff;
+
+  /* Compact scale tokens */
+  --nav-icon-size: 36px;
+  --cell-pad: 0.2rem;
+  --form-font-size: 0.875rem;
+  --table-font-size: 0.8rem;
+  --btn-font-size: 0.8125rem;
+}
+
+/* ─── Reset / Base ──────────────────────────────────────── */
+html {
+  font-size: 15px;
+}
+
+body {
+  font-size: var(--form-font-size);
+  line-height: 1.4;
 }
 
 .table > :not(caption) > * > * {
   background-color: unset;
 }
 
+/* ─── Page Container ─────────────────────────────────────── */
+.container-xxl {
+  min-width: 320px;
+  max-width: 100%;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
+@media (min-width: 576px) {
+  .container-xxl {
+    min-width: 576px;
+  }
+}
+
+@media (min-width: 2560px) {
+  .container-xxl {
+    max-width: 2400px;
+  }
+}
+
+/* ─── Navigation Icons ───────────────────────────────────── */
+#navigation {
+  display: flex;
+  align-items: center;
+  gap: 0.1rem;
+}
+
+#navigation a,
+#navigation button {
+  color: #000000;
+  text-decoration: none;
+}
+
+#navigation svg {
+  width: var(--nav-icon-size);
+  height: var(--nav-icon-size);
+}
+
+/* ─── Page Heading ───────────────────────────────────────── */
+h1 {
+  font-size: 1.35rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  margin-top: 0.1rem;
+  line-height: 1.2;
+}
+
+/* ─── Alert Banner ───────────────────────────────────────── */
+.alert {
+  padding: 0.5rem 0.75rem;
+  font-size: 0.8125rem;
+  margin-bottom: 0.5rem !important;
+}
+
+.alert p {
+  margin-bottom: 0.2rem;
+}
+
+/* ─── Input Form Row ─────────────────────────────────────── */
+#input_form {
+  row-gap: 0.35rem !important;
+  column-gap: 0.35rem !important;
+  margin-bottom: 0.5rem !important;
+}
+
+#input_form .form-label {
+  font-size: 0.75rem;
+  margin-bottom: 0.1rem;
+}
+
+#input_form .form-control {
+  font-size: var(--form-font-size);
+  padding: 0.25rem 0.4rem;
+  height: auto;
+}
+
+#subnet_input #network {
+  flex-grow: 0;
+  flex-basis: 10rem;
+}
+
+#subnet_input #netsize {
+  flex-grow: 0;
+  flex-basis: 3.8rem;
+}
+
+.btn {
+  font-size: var(--btn-font-size);
+  padding: 0.25rem 0.6rem;
+}
+
+/* ─── Bottom Navigation Bar ──────────────────────────────── */
 #bottom_nav {
-  min-height: 2rem;
+  min-height: 1.75rem;
   height: auto;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.35rem;
+  font-size: 0.8rem;
+  margin-bottom: 0.4rem;
+  margin-top: 0.25rem;
 }
 
 #whats_new {
   cursor: pointer !important;
   text-align: right;
   margin-left: auto;
+  font-size: 0.78rem;
 }
 
 #whats_new a {
@@ -61,33 +174,36 @@
 #copy_url {
   cursor: pointer !important;
   text-align: center;
+  font-size: 0.8rem;
 }
 
 #copy_url span {
   text-align: center;
 }
 
+/* ─── Color Palette ──────────────────────────────────────── */
 #color_palette {
   min-width: 0;
   display: inline-flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 
 #color_palette button {
   display: inline-block;
-  height: 2rem;
+  height: 1.6rem;
   cursor: pointer;
   white-space: nowrap;
   background: none;
   border: none;
   padding: 0;
+  font-size: 0.8rem;
 }
 
 #color_palette button[id^="palette_picker_"] {
-  width: 2rem;
+  width: 1.6rem;
   border: 1px solid rgba(0, 0, 0, 0.35) !important;
-  border-radius: 0.25rem;
+  border-radius: 0.2rem;
   transition:
     transform 0.15s ease-in-out,
     box-shadow 0.15s ease-in-out;
@@ -131,6 +247,7 @@
   background-color: var(--subpal-1-10);
 }
 
+/* ─── Bottom Nav Button ──────────────────────────────────── */
 .bottom-nav-btn {
   display: inline-block;
   padding: 0;
@@ -139,46 +256,22 @@
   background: none;
   border: none;
   cursor: pointer;
+  font-size: 0.8rem;
 }
 
 .bottom-nav-btn span {
   border-bottom: 1px black dotted;
 }
 
-.container-xxl {
-  min-width: 320px;
-  max-width: 100%;
-}
-
-@media (min-width: 576px) {
-  .container-xxl {
-    min-width: 576px;
-  }
-}
-
-@media (min-width: 2560px) {
-  .container-xxl {
-    max-width: 2400px;
-  }
-}
-
-#navigation a,
-#navigation button {
-  color: #000000;
-  text-decoration: none;
-}
-
-#subnet_input #network {
-  flex-grow: 0;
-  flex-basis: 11rem;
-}
-#subnet_input #netsize {
-  flex-grow: 0;
-  flex-basis: 4rem;
-}
-
+/* ─── Main Calc Table ────────────────────────────────────── */
 #calc {
   vertical-align: middle;
+  font-size: var(--table-font-size);
+}
+
+/* Responsive horizontal scroll wrapper */
+.table-responsive {
+  overflow-x: auto;
 }
 
 #calc > tbody > tr > td,
@@ -187,9 +280,9 @@
 #calc > tfoot > tr > th,
 #calc > thead > tr > td,
 #calc > thead > tr > th {
-  padding: 0.25rem;
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+  padding: var(--cell-pad);
+  padding-top: var(--cell-pad);
+  padding-bottom: var(--cell-pad);
 }
 
 #calc span.split {
@@ -204,36 +297,22 @@
   background-color: var(--split-background);
   color: var(--split-foreground);
   cursor: pointer;
-  min-width: 2.3rem;
+  min-width: 2rem;
   width: 1%;
-  font-size: 1rem;
+  font-size: 0.78rem;
   -webkit-user-select: none;
   user-select: none;
-}
-
-#notifyModal .modal-content {
-  background-color: var(--bs-alert-bg);
 }
 
 #calc td.join {
   background-color: var(--join-background);
   color: var(--join-foreground);
   cursor: pointer;
-  min-width: 2.3rem;
+  min-width: 2rem;
   width: 1%;
-  font-size: 1rem;
+  font-size: 0.78rem;
   -webkit-user-select: none;
   user-select: none;
-}
-
-#importExportArea {
-  height: 510px;
-}
-
-.reserved-info-link {
-  color: #000000;
-  border-bottom: 1px dotted #000000;
-  text-decoration: dotted;
 }
 
 #calc td.split,
@@ -243,11 +322,12 @@
 
 #calc td.split span,
 #calc td.join span {
-  padding-right: 0.4rem;
+  padding-right: 0.3rem;
 }
+
 #calc .note {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
 }
 
 #calc .note label,
@@ -257,46 +337,273 @@
 
 #calc .row_address {
   white-space: nowrap;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+  font-size: 0.78rem;
 }
 
 #calc .row_range {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+  font-size: 0.78rem;
 }
 
 #calc .row_usable {
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+  font-size: 0.78rem;
 }
 
 #calc .row_hosts {
   width: 1%;
   white-space: nowrap;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.35rem;
+  padding-right: 0.35rem;
+  font-size: 0.78rem;
 }
 
 #calc .note input {
   border: none !important;
   border-color: transparent !important;
   background-color: transparent;
+  font-size: 0.78rem;
+}
+
+/* ─── Modal Styles ───────────────────────────────────────── */
+#notifyModal .modal-content {
+  background-color: var(--bs-alert-bg);
+}
+
+#importExportArea {
+  height: 420px;
+}
+
+/* ─── Misc ───────────────────────────────────────────────── */
+.reserved-info-link {
+  color: #000000;
+  border-bottom: 1px dotted #000000;
+  text-decoration: dotted;
 }
 
 .rotate {
   vertical-align: middle;
   text-align: end;
 }
+
 .rotate span {
   -ms-writing-mode: tb-rl;
   -webkit-writing-mode: vertical-rl;
   writing-mode: vertical-rl;
   white-space: nowrap;
-  padding-top: 0.25rem;
+  padding-top: 0.2rem;
 }
 
 :focus-visible {
   outline: 2px solid var(--bs-primary);
   outline-offset: 2px;
+}
+
+/* ─── Responsive Breakpoints ─────────────────────────────── */
+
+/* ── Mobile Portrait  ≤ 575px ─── */
+@media (max-width: 575.98px) {
+  :root {
+    --nav-icon-size: 28px;
+    --table-font-size: 0.72rem;
+    --cell-pad: 0.15rem;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.05rem;
+    padding-right: 6rem; /* avoid icon overlap */
+  }
+
+  .alert {
+    font-size: 0.75rem;
+    padding: 0.4rem 0.6rem;
+  }
+
+  /* Stack form to single column */
+  #input_form .col-4,
+  #input_form .col-md-3,
+  #input_form .col-lg-2 {
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  #input_form .col-auto {
+    padding-bottom: 0.2rem;
+  }
+
+  .btn {
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+  }
+
+  #bottom_nav {
+    font-size: 0.72rem;
+    gap: 0.25rem;
+  }
+
+  .bottom-nav-btn,
+  #copy_url,
+  #whats_new {
+    font-size: 0.72rem;
+  }
+
+  #color_palette button {
+    height: 1.35rem;
+    font-size: 0.72rem;
+  }
+
+  #color_palette button[id^="palette_picker_"] {
+    width: 1.35rem;
+  }
+
+  #importExportArea {
+    height: 300px;
+  }
+
+  /* Hide non-essential table columns on tiny screens */
+  #calc .row_range,
+  #calc .row_usable {
+    display: none;
+  }
+
+  #calc .row_address,
+  #calc .row_hosts,
+  #calc .note {
+    font-size: 0.7rem;
+  }
+}
+
+/* ── Mobile Landscape / Small Tablet  576–767px ─── */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  :root {
+    --nav-icon-size: 30px;
+    --table-font-size: 0.75rem;
+    --cell-pad: 0.18rem;
+  }
+
+  html {
+    font-size: 14px;
+  }
+
+  h1 {
+    font-size: 1.15rem;
+    padding-right: 7rem;
+  }
+}
+
+/* ── Tablet Portrait  768–991px ─── */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  :root {
+    --nav-icon-size: 32px;
+    --table-font-size: 0.78rem;
+    --cell-pad: 0.2rem;
+  }
+
+  html {
+    font-size: 14.5px;
+  }
+
+  h1 {
+    font-size: 1.2rem;
+  }
+}
+
+/* ── Tablet Landscape / Small Desktop  992–1199px ─── */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  :root {
+    --nav-icon-size: 34px;
+    --table-font-size: 0.8rem;
+  }
+
+  html {
+    font-size: 14.5px;
+  }
+
+  h1 {
+    font-size: 1.25rem;
+  }
+}
+
+/* ── Standard Desktop  1200–1919px ─── */
+@media (min-width: 1200px) and (max-width: 1919.98px) {
+  html {
+    font-size: 15px;
+  }
+}
+
+/* ── Full HD+  1920–2559px ─── */
+@media (min-width: 1920px) and (max-width: 2559.98px) {
+  html {
+    font-size: 15.5px;
+  }
+
+  :root {
+    --nav-icon-size: 38px;
+  }
+
+  .container-xxl {
+    max-width: 1800px;
+  }
+}
+
+/* ── 2K / QHD  2560px+ ─── */
+@media (min-width: 2560px) {
+  html {
+    font-size: 16px;
+  }
+
+  :root {
+    --nav-icon-size: 40px;
+    --table-font-size: 0.85rem;
+  }
+
+  .container-xxl {
+    max-width: 2400px;
+  }
+}
+
+/* ─── Touch Device Enhancements ──────────────────────────── */
+@media (hover: none) and (pointer: coarse) {
+  /* Increase tap target size on touch devices */
+  #calc td.split,
+  #calc td.join {
+    min-width: 2.5rem;
+  }
+
+  .btn {
+    min-height: 36px;
+  }
+
+  #color_palette button[id^="palette_picker_"] {
+    min-width: 28px;
+    min-height: 28px;
+  }
+}
+
+/* ─── Print ───────────────────────────────────────────────── */
+@media print {
+  #navigation,
+  #bottom_nav,
+  #input_form,
+  .alert,
+  .btn,
+  .dropdown {
+    display: none !important;
+  }
+
+  .table-responsive {
+    overflow: visible;
+  }
+
+  #calc {
+    font-size: 0.7rem;
+  }
 }

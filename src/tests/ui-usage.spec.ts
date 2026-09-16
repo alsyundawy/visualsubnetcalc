@@ -61,7 +61,7 @@ test("GitHub Link", async ({ page }) => {
   await page.getByLabel("GitHub").click();
   const page1 = await page1Promise;
   await expect(page1.locator("#repository-container-header")).toContainText(
-    "ckabalan / visualsubnetcalc Public",
+    "alsyundawy / visualsubnetcalc",
   );
 });
 

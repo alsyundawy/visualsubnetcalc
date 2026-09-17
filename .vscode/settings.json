@@ -6,5 +6,20 @@
   "editor.linkedEditing": true,
   "files.autoSave": "afterDelay",
   "liveServer.settings.CustomBrowser": "chrome:PrivateMode",
-  "vscode-edge-devtools.browserFlavor": "Default"
+  "vscode-edge-devtools.browserFlavor": "Default",
+  "terminal.integrated.defaultProfile.osx": "bash",
+  "terminal.integrated.profiles.osx": {
+    "bash": {
+      "path": "/usr/local/bin/bash",
+      "args": ["-l"],
+      "icon": "terminal-bash"
+    },
+    "zsh": {
+      "path": "/bin/zsh"
+    }
+  },
+  "terminal.integrated.automationProfile.osx": {
+    "path": "/usr/local/bin/bash",
+    "args": ["-l"]
+  }
 }

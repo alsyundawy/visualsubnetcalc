@@ -26,7 +26,7 @@ export default defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    baseURL: "https://localhost:8443",
+    baseURL: process.env.BASE_URL || "https://localhost:8443",
     ignoreHTTPSErrors: true,
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: "on-first-retry",
@@ -91,10 +91,12 @@ export default defineConfig({
   ],
 
   /* Run your local dev server before starting the tests */
-  webServer: {
-    command: "npm run build && npm run local-secure-start",
-    url: "https://localhost:8443",
-    ignoreHTTPSErrors: true,
-    reuseExistingServer: !process.env.CI,
-  },
+  webServer: process.env.NO_WEBSERVER
+    ? undefined
+    : {
+        command: "npm run build && npm run local-secure-start",
+        url: "https://localhost:8443",
+        ignoreHTTPSErrors: true,
+        reuseExistingServer: !process.env.CI,
+      },
 });

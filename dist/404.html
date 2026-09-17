@@ -2,7 +2,31 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+
+    <script>
+      (function () {
+        var t = "light";
+        try {
+          var s =
+            localStorage.getItem("site-theme") || localStorage.getItem("theme");
+          if (s === "dark" || s === "light") {
+            t = s;
+          } else if (
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches
+          ) {
+            t = "dark";
+          }
+        } catch (e) {}
+        document.documentElement.setAttribute("data-theme", t);
+        document.documentElement.setAttribute("data-bs-theme", t);
+      })();
+    </script>
+
     <title>404 - Page Not Found | Visual Subnet Calculator</title>
     <meta
       name="description"
@@ -10,10 +34,14 @@
     />
     <meta name="robots" content="noindex, nofollow" />
     <meta name="googlebot" content="noindex, nofollow" />
+    <!-- ═══ Icons & Favicons (alsyundawy.com suite) ═════════════════════ -->
+    <link rel="icon" type="image/svg+xml" href="icon/favicon.svg" />
+    <link rel="icon" type="image/x-icon" href="icon/favicon.ico" />
     <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="icon/apple-touch-icon.png"
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="icon/favicon-16x16.png"
     />
     <link
       rel="icon"
@@ -22,14 +50,74 @@
       href="icon/favicon-32x32.png"
     />
     <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="icon/apple-touch-icon.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="icon/apple-touch-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="icon/apple-touch-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="icon/apple-touch-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="icon/apple-touch-icon-114x114.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="76x76"
+      href="icon/apple-touch-icon-76x76.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="72x72"
+      href="icon/apple-touch-icon-72x72.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="60x60"
+      href="icon/apple-touch-icon-60x60.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="57x57"
+      href="icon/apple-touch-icon-57x57.png"
+    />
+    <link
       rel="icon"
       type="image/png"
-      sizes="16x16"
-      href="icon/favicon-16x16.png"
+      sizes="192x192"
+      href="icon/android-chrome-192x192.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="512x512"
+      href="icon/android-chrome-512x512.png"
     />
     <link rel="manifest" href="icon/site.webmanifest" />
-    <link rel="mask-icon" href="icon/safari-pinned-tab.svg" color="#5bbad5" />
-    <meta name="msapplication-TileColor" content="#da532c" />
+    <link rel="mask-icon" href="icon/safari-pinned-tab.svg" color="#004499" />
+    <meta name="msapplication-TileImage" content="icon/mstile-144x144.png" />
+    <meta name="msapplication-config" content="icon/browserconfig.xml" />
+    <meta name="theme-color" content="#0f172a" />
+    <!-- ═══ Typography ═══════════════════════════════════════════════════ -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="css/bootstrap.min.css" />
     <link rel="stylesheet" href="css/fontawesome.min.css" />
     <link href="css/main.css" rel="stylesheet" />
@@ -40,22 +128,41 @@
         class="d-flex align-items-center justify-content-between flex-wrap gap-2 mb-2"
         id="app_header"
       >
-        <h1 class="mb-0 d-inline-flex align-items-center gap-2">
+        <h1
+          class="mb-0 d-inline-flex align-items-center flex-wrap gap-2 app-title"
+        >
           <i
             class="fa-solid fa-network-wired text-primary"
             aria-hidden="true"
           ></i>
-          <span>Visual Subnet Calculator | 404 - Page Not Found</span>
+          <span class="app-title-text">Visual Subnet Calculator</span>
+          <span
+            class="badge bg-primary text-white rounded-pill px-2.5 py-1 fs-6 fw-bold fork-badge"
+            >Fork</span
+          >
+          <span class="text-secondary fs-5 fw-medium"
+            >| 404 - Page Not Found</span
+          >
         </h1>
-        <div class="d-flex align-items-center gap-1" id="navigation">
+        <div class="d-flex align-items-center gap-2" id="navigation">
+          <button
+            type="button"
+            id="themeToggle"
+            class="theme-toggle nav-action-btn"
+            aria-label="Toggle dark/light mode"
+            title="Toggle dark/light mode"
+          >
+            <i id="themeIcon" class="fa-regular fa-sun" aria-hidden="true"></i>
+          </button>
           <a
             href="https://github.com/alsyundawy/visualsubnetcalc"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="GitHub"
-            class="p-1 text-dark text-decoration-none d-inline-flex align-items-center"
+            title="GitHub Repository"
+            class="nav-action-btn"
           >
-            <i class="fa-brands fa-github fa-2xl" aria-hidden="true"></i>
+            <i class="fa-brands fa-github" aria-hidden="true"></i>
           </a>
         </div>
       </header>
@@ -88,12 +195,12 @@
                 class="fa-solid fa-network-wired text-primary fs-5"
                 aria-hidden="true"
               ></i>
-              <span class="fw-bold text-dark fs-6"
+              <span class="fw-bold fs-6 app-footer-title"
                 >Visual Subnet Calculator</span
               >
               <span
-                class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill"
-                >v1.4.3</span
+                class="badge bg-primary-subtle text-primary border border-primary-subtle rounded-pill fork-version-badge"
+                >Fork v1.4.3</span
               >
             </div>
             <p class="mb-0 text-secondary">
@@ -127,92 +234,106 @@
               </div>
             </div>
             <div
-              class="d-flex justify-content-center align-items-center gap-2 flex-wrap"
+              class="footer-social-group d-flex justify-content-center align-items-center gap-2 flex-wrap"
             >
               <a
                 href="https://alsyundawy.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-website"
                 aria-label="ALSYUNDAWY IT SOLUTION Website"
                 title="ALSYUNDAWY IT SOLUTION Official Website"
               >
-                <i class="fa-solid fa-globe me-1" aria-hidden="true"></i
-                >alsyundawy.com
+                <i class="fa-solid fa-globe" aria-hidden="true"></i
+                ><span>alsyundawy.com</span>
               </a>
               <a
                 href="https://github.com/alsyundawy"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-github"
                 aria-label="Maintainer Profile (@alsyundawy)"
                 title="GitHub Profile (@alsyundawy)"
               >
-                <i class="fa-brands fa-github me-1" aria-hidden="true"></i
-                >GitHub
+                <i class="fa-brands fa-github" aria-hidden="true"></i
+                ><span>GitHub</span>
               </a>
               <a
                 href="https://x.com/alsyundawy"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-dark btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-x"
                 aria-label="X (Twitter) Profile"
                 title="X (Twitter) Profile (@alsyundawy)"
               >
-                <i class="fa-brands fa-x-twitter me-1" aria-hidden="true"></i>X
+                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i
+                ><span>X</span>
               </a>
               <a
                 href="https://t.me/alsyundawy"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-info btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-telegram"
                 aria-label="Telegram Profile"
                 title="Telegram Contact (@alsyundawy)"
               >
-                <i class="fa-brands fa-telegram me-1" aria-hidden="true"></i
-                >Telegram
+                <i class="fa-brands fa-telegram" aria-hidden="true"></i
+                ><span>Telegram</span>
               </a>
               <a
                 href="https://wa.me/6285658515212"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-success btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-whatsapp"
                 aria-label="WhatsApp Contact"
                 title="Direct WhatsApp Contact"
               >
-                <i class="fa-brands fa-whatsapp me-1" aria-hidden="true"></i
-                >WhatsApp
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i
+                ><span>WhatsApp</span>
               </a>
               <a
                 href="mailto:alsyundawy@gmail.com"
-                class="btn btn-outline-secondary btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-email"
                 aria-label="Email Maintainer"
                 title="Send Email to Maintainer"
               >
-                <i class="fa-solid fa-envelope me-1" aria-hidden="true"></i
-                >Email
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i
+                ><span>Email</span>
               </a>
               <a
                 href="https://paypal.me/alsyundawy"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="btn btn-outline-primary btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-paypal"
                 aria-label="Donate via PayPal"
                 title="Support via PayPal"
               >
-                <i class="fa-brands fa-paypal me-1" aria-hidden="true"></i
-                >PayPal
+                <i class="fa-brands fa-paypal" aria-hidden="true"></i
+                ><span>PayPal</span>
               </a>
               <button
                 type="button"
-                class="btn btn-outline-danger btn-sm rounded-pill px-3 py-1 footer-btn shadow-sm"
+                class="footer-social-btn footer-btn btn-qris"
                 data-bs-toggle="modal"
                 data-bs-target="#qrisModal"
                 aria-label="Dukungan Donasi QRIS"
                 title="Dukungan Donasi QRIS (Scan QR)"
               >
-                <i class="fa-solid fa-qrcode me-1" aria-hidden="true"></i
-                >QRIS
+                <i class="fa-solid fa-qrcode" aria-hidden="true"></i
+                ><span>QRIS</span>
+              </button>
+            </div>
+            <!-- ═══ Visitor Counter Button (Dynamic via counter.txt) ═════════ -->
+            <div class="footer-counter-wrap mt-2 d-flex justify-content-center">
+              <button
+                type="button"
+                class="footer-social-btn footer-btn btn-counter"
+                id="visitor_counter_btn"
+                aria-label="Jumlah Pengunjung"
+                title="Jumlah Pengunjung (Terkoneksi ke counter.txt)"
+              >
+                <i class="fa-solid fa-users" aria-hidden="true"></i
+                ><span>Pengunjung: <strong id="visitor_count_val">1,248</strong></span>
               </button>
             </div>
           </div>
@@ -356,5 +477,16 @@
       <script src="js/lz-string.min.js"></script>
       <script src="js/main.js"></script>
     </div>
+
+    <!-- ═══ Back to Top Floating Button ══════════════════════════════════ -->
+    <button
+      type="button"
+      id="btn_scroll_top"
+      class="btn-scroll-top"
+      aria-label="Kembali ke atas"
+      title="Kembali ke atas"
+    >
+      <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+    </button>
   </body>
 </html>

@@ -22,6 +22,13 @@ const infoColumnCount = 5;
 //     - Net+2 = Reserved - DNS Mapping
 //     - Net+3 = Reserved - DNS Mapping
 //     - Last = Broadcast Address
+// GCP mode:
+//   - Smallest subnet: /29
+//   - Four reserved addresses per subnet:
+//     - Net+0 = Network Address
+//     - Net+1 = GCP Reserved - Default Gateway
+//     - Last-1 = GCP Reserved - Future Use
+//     - Last = Broadcast Address
 // OCI mode:
 //   - Smallest subnet: /30
 //   - Three reserved addresses per subnet:
@@ -33,6 +40,7 @@ let operatingMode = "Standard";
 let previousOperatingMode = "Standard";
 let inflightColor = "NONE";
 let ipVersion = "IPv4";
+let showParentHeaders = false;
 const urlVersion = "1";
 const configVersion = "2";
 
@@ -73,8 +81,62 @@ function escapeHtml(str) {
  */
 function sanitizeColor(color) {
   if (typeof color !== "string" || color === "") return "";
-  return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(color.trim()) ? color.trim() : "";
+  return /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/.test(
+    color.trim(),
+  )
+    ? color.trim()
+    : "";
 }
+
+/**
+ * 15-Minute Temporary Cookie Storage System (RFC 6265 compliant)
+ * Manages transient session states such as subnet drafts and visit deduplication.
+ */
+const TemporaryCookieStore = {
+  DEFAULT_MAX_AGE: 900, // 15 minutes = 900 seconds
+
+  set: function (name, value, maxAgeSeconds) {
+    try {
+      const age =
+        typeof maxAgeSeconds === "number"
+          ? maxAgeSeconds
+          : this.DEFAULT_MAX_AGE;
+      const encodedKey = encodeURIComponent(String(name).trim());
+      const encodedVal = encodeURIComponent(String(value));
+      const isSecure =
+        window.location.protocol === "https:" ? "; Secure" : "";
+      document.cookie = `${encodedKey}=${encodedVal}; max-age=${age}; path=/; SameSite=Lax${isSecure}`;
+    } catch (e) {
+      console.warn("TemporaryCookieStore.set failed:", e);
+    }
+  },
+
+  get: function (name) {
+    try {
+      const target = encodeURIComponent(String(name).trim()) + "=";
+      const cookies = document.cookie ? document.cookie.split("; ") : [];
+      for (let i = 0; i < cookies.length; i++) {
+        if (cookies[i].indexOf(target) === 0) {
+          return decodeURIComponent(cookies[i].substring(target.length));
+        }
+      }
+    } catch (e) {
+      console.warn("TemporaryCookieStore.get failed:", e);
+    }
+    return null;
+  },
+
+  remove: function (name) {
+    try {
+      const encodedKey = encodeURIComponent(String(name).trim());
+      const isSecure =
+        window.location.protocol === "https:" ? "; Secure" : "";
+      document.cookie = `${encodedKey}=; max-age=0; path=/; SameSite=Lax${isSecure}`;
+    } catch (e) {
+      console.warn("TemporaryCookieStore.remove failed:", e);
+    }
+  },
+};
 
 function parseIpv6(str) {
   if (typeof str !== "string") return 0n;
@@ -331,12 +393,106 @@ $("#btn_ipv6").on("click", function () {
   switchIpVersion("IPv6");
 });
 
+function isRfc1918(ip) {
+  if (!ip || typeof ip !== "string") return false;
+  const parts = ip.trim().split(".");
+  if (parts.length !== 4) return false;
+  const octets = parts.map(Number);
+  if (octets.some((o) => isNaN(o) || o < 0 || o > 255)) return false;
+
+  // 10.0.0.0/8 (10.0.0.0 to 10.255.255.255)
+  if (octets[0] === 10) return true;
+
+  // 172.16.0.0/12 (172.16.0.0 to 172.31.255.255)
+  if (octets[0] === 172 && octets[1] >= 16 && octets[1] <= 31) return true;
+
+  // 192.168.0.0/16 (192.168.0.0 to 192.168.255.255)
+  if (octets[0] === 192 && octets[1] === 168) return true;
+
+  return false;
+}
+
+function getRfc1918Info(ip) {
+  if (!ip || typeof ip !== "string") return null;
+  const parts = ip.trim().split(".");
+  if (parts.length !== 4) return null;
+  const octets = parts.map(Number);
+  if (octets.some((o) => isNaN(o) || o < 0 || o > 255)) return null;
+
+  if (octets[0] === 10) {
+    return { block: "10.0.0.0/8", name: "RFC 1918 (24-bit block)" };
+  }
+  if (octets[0] === 172 && octets[1] >= 16 && octets[1] <= 31) {
+    return { block: "172.16.0.0/12", name: "RFC 1918 (20-bit block)" };
+  }
+  if (octets[0] === 192 && octets[1] === 168) {
+    return { block: "192.168.0.0/16", name: "RFC 1918 (16-bit block)" };
+  }
+  return null;
+}
+
+function updateRfc1918Indicator() {
+  const net = ($("#network").val() || "").trim();
+  const info = getRfc1918Info(net);
+  const indicator = $("#rfc1918_indicator");
+  if (!indicator.length) return;
+
+  if (ipVersion === "IPv6") {
+    indicator.addClass("d-none");
+    return;
+  }
+  indicator.removeClass("d-none");
+  if (info) {
+    indicator
+      .removeClass("bg-secondary-subtle text-secondary border-secondary-subtle")
+      .addClass("bg-success-subtle text-success border border-success-subtle")
+      .html(
+        `<i class="fa-solid fa-shield-halved me-1" aria-hidden="true"></i>${info.name}`,
+      );
+  } else {
+    indicator
+      .removeClass("bg-success-subtle text-success border-success-subtle")
+      .addClass(
+        "bg-secondary-subtle text-secondary border border-secondary-subtle",
+      )
+      .html(
+        '<i class="fa-solid fa-globe me-1" aria-hidden="true"></i>Non-RFC 1918',
+      );
+  }
+
+  $(".rfc1918-chip").removeClass("active");
+  if (info) {
+    if (info.block.startsWith("10.")) {
+      $('.rfc1918-chip[data-net="10.0.0.0"]').addClass("active");
+    } else if (info.block.startsWith("172.")) {
+      $('.rfc1918-chip[data-net="172.16.0.0"]').addClass("active");
+    } else if (info.block.startsWith("192.")) {
+      $('.rfc1918-chip[data-net="192.168.0.0"]').addClass("active");
+    }
+  }
+}
+
+$(document).on("click", ".rfc1918-chip", function () {
+  const net = $(this).attr("data-net");
+  const size = $(this).attr("data-size") || "16";
+  if (ipVersion !== "IPv4") {
+    switchIpVersion("IPv4");
+  }
+  $("#network").val(net);
+  $("#netsize").val(size);
+  updateActiveIpv4Preset(size);
+  $(".rfc1918-chip").removeClass("active");
+  $(this).addClass("active");
+  $("#btn_go").trigger("click");
+});
+
 function updateActiveIpv4Preset(prefix) {
   const p = String(
     prefix !== undefined ? prefix : $("#netsize").val() || "",
   ).trim();
   $(".ipv4-preset-btn").removeClass("active");
   $(`.ipv4-preset-btn[data-prefix="${p}"]`).addClass("active");
+  updateRfc1918Indicator();
 }
 
 $(document).on("click", ".ipv4-preset-btn", function () {
@@ -401,6 +557,8 @@ $("input#network,input#netsize").on("input", function () {
     } else {
       updateActiveIpv4Preset($(this).val());
     }
+  } else if (this.id === "network") {
+    updateRfc1918Indicator();
   }
 });
 
@@ -585,7 +743,7 @@ async function copyTextToClipboard(text) {
 }
 
 $("#bottom_nav #copy_url").on("click", async function () {
-  const url = window.location.origin + getConfigUrl();
+  const url = window.location.origin + getLiveUrl();
   await copyTextToClipboard(url);
   $("#bottom_nav #copy_url span").text("Copied!");
   setTimeout(function () {
@@ -1166,6 +1324,7 @@ function reset() {
   }
   maxNetSize = parseInt($("#netsize").val(), 10);
   renderTable(operatingMode);
+  updateRfc1918Indicator();
 }
 
 function changeBaseNetwork(newBaseNetwork) {
@@ -1206,6 +1365,7 @@ function renderTable(operatingMode) {
   $("#calcbody").empty();
   const maxDepth = get_dict_max_depth(subnetMap, 0);
   addRowTree(subnetMap, 0, maxDepth, operatingMode);
+  syncUrlState();
 }
 
 function addRowTree(subnetTree, depth, maxDepth, operatingMode) {
@@ -1214,6 +1374,9 @@ function addRowTree(subnetTree, depth, maxDepth, operatingMode) {
       continue;
     }
     if (has_network_sub_keys(subnetTree[mapKey])) {
+      if (showParentHeaders) {
+        addParentHeaderRow(mapKey, depth, maxDepth);
+      }
       addRowTree(subnetTree[mapKey], depth + 1, maxDepth, operatingMode);
     } else {
       const subnet_split = mapKey.split("/");
@@ -1290,11 +1453,7 @@ function addRow(
       netSize,
       operatingMode,
     );
-    const usableLast = subnet_usable_last(
-      addressFirst,
-      netSize,
-      operatingMode,
-    );
+    const usableLast = subnet_usable_last(addressFirst, netSize, operatingMode);
     hostCount = 1 + usableLast - usableFirst;
     if (netSize < 32) {
       rangeCol = int2ip(addressFirst) + " - " + int2ip(addressLast);
@@ -1876,7 +2035,11 @@ function set_usable_ips_title(operatingMode) {
       $("#useableHeader").html("Usable IPs");
       break;
   }
-  $('[data-bs-toggle="tooltip"]').tooltip();
+  $('[data-bs-toggle="tooltip"]').each(function () {
+    const existing = bootstrap.Tooltip.getInstance(this);
+    if (existing) existing.dispose();
+    new bootstrap.Tooltip(this);
+  });
 }
 
 function show_boundary_warning_modal(originalValue, correctedValue) {
@@ -1935,9 +2098,12 @@ $(document).ready(function () {
     errorPlacement: function (error, element) {
       if (error[0].innerHTML !== "") {
         if (!element.data("errorIsVisible")) {
-          bootstrap.Tooltip.getInstance(element).setContent({
-            ".tooltip-inner": error[0].innerHTML,
-          });
+          const tooltipInstance = bootstrap.Tooltip.getInstance(element[0]);
+          if (tooltipInstance) {
+            tooltipInstance.setContent({
+              ".tooltip-inner": error[0].innerHTML,
+            });
+          }
           element.tooltip("show");
           element.data("errorIsVisible", true);
         }
@@ -1957,8 +2123,31 @@ $(document).ready(function () {
 
   const autoConfigResult = processConfigUrl();
   if (!autoConfigResult) {
-    reset();
+    let draftRestored = false;
+    try {
+      if (typeof TemporaryCookieStore !== "undefined") {
+        const draftUrl = TemporaryCookieStore.get("vsc_draft_15m");
+        if (draftUrl && draftUrl.includes("?")) {
+          const queryString = draftUrl.split("?")[1];
+          if (queryString) {
+            const tempParams = new URLSearchParams(queryString);
+            if (tempParams.has("network") && tempParams.has("mask")) {
+              if (window.history && window.history.replaceState) {
+                window.history.replaceState(null, "", draftUrl);
+              }
+              draftRestored = processConfigUrl();
+            }
+          }
+        }
+      }
+    } catch (e) {
+      console.warn("Draft restore failed:", e);
+    }
+    if (!draftRestored) {
+      reset();
+    }
   }
+  updateRfc1918Indicator();
 
   $("#faq_expand_all").on("click", function () {
     $("#faqAccordion .accordion-collapse").each(function () {
@@ -1977,7 +2166,269 @@ $(document).ready(function () {
       bsCollapse.hide();
     });
   });
+
+  $("#toggle_parent_headers").on("click", function (e) {
+    e.preventDefault();
+    showParentHeaders = !showParentHeaders;
+    const text = showParentHeaders
+      ? "Hide Parent Headers"
+      : "Show Parent Headers";
+    $("#parent_headers_text").text(text);
+    $(this).toggleClass("active", showParentHeaders);
+    renderTable(operatingMode);
+  });
 });
+
+function binToAscii(str) {
+  let curOut = "";
+  let curBit = 0;
+  let curChar = 0;
+
+  for (let i = 0; i < str.length; i++) {
+    if (str.charAt(i) === "1") {
+      curChar |= 1 << curBit;
+    }
+    curBit++;
+    if (curBit > 3) {
+      curOut += curChar.toString(16);
+      curChar = 0;
+      curBit = 0;
+    }
+  }
+  if (curBit > 0) {
+    curOut += curChar.toString(16);
+  }
+  return str.length + "." + curOut;
+}
+
+function asciiToBin(str) {
+  const re = /([0-9]+)\.([0-9a-f]+)/i;
+  const res = re.exec(str);
+  if (!res) return "";
+  const len = parseInt(res[1], 10);
+  const encoded = res[2];
+  let out = "";
+  for (let i = 0; i < len; i++) {
+    const ch = parseInt(encoded.charAt(Math.floor(i / 4)), 16);
+    const pos = i % 4;
+    out += ch & (1 << pos) ? "1" : "0";
+  }
+  return out;
+}
+
+function decodeDivisionTree(baseNet, baseMask, divisionStr) {
+  const bin = asciiToBin(divisionStr);
+  let ptr = 0;
+  const rootCidr = baseNet + "/" + baseMask;
+  const newMap = {};
+  newMap[rootCidr] = {};
+
+  function buildNode(netStr, maskNum, targetObj) {
+    if (ptr >= bin.length) return;
+    const bit = bin.charAt(ptr++);
+    if (bit === "1") {
+      let children = [];
+      if (ipVersion === "IPv6" || netStr.includes(":")) {
+        children = splitIpv6Network(netStr, maskNum);
+      } else {
+        children = split_network(netStr, maskNum);
+      }
+      if (children.length >= 2) {
+        for (const child of children) {
+          targetObj[child] = {};
+          const childParts = child.split("/");
+          buildNode(
+            childParts[0],
+            parseInt(childParts[1], 10),
+            targetObj[child],
+          );
+        }
+      }
+    }
+  }
+
+  buildNode(baseNet, baseMask, newMap[rootCidr]);
+  return newMap;
+}
+
+function encodeDivisionTree(map) {
+  const rootKey = Object.keys(map)[0];
+  if (!rootKey) return "";
+  let bin = "";
+
+  function traverse(nodeObj) {
+    const subKeys = Object.keys(nodeObj).filter(
+      (k) => !k.startsWith("_") && k !== "n" && k !== "c",
+    );
+    if (subKeys.length >= 2) {
+      bin += "1";
+      if (ipVersion === "IPv6" || rootKey.includes(":")) {
+        subKeys.sort((a, b) => {
+          const intA = parseIpv6(a.split("/")[0]);
+          const intB = parseIpv6(b.split("/")[0]);
+          return intA < intB ? -1 : intA > intB ? 1 : 0;
+        });
+      } else {
+        subKeys.sort((a, b) => {
+          const ipA = ip2int(a.split("/")[0]);
+          const ipB = ip2int(b.split("/")[0]);
+          return ipA - ipB;
+        });
+      }
+      for (const key of subKeys) {
+        traverse(nodeObj[key]);
+      }
+    } else {
+      bin += "0";
+    }
+  }
+
+  traverse(map[rootKey]);
+  return binToAscii(bin);
+}
+
+function extractNotesAndColors(map) {
+  const meta = {};
+  function traverse(node) {
+    for (const k of Object.keys(node)) {
+      if (k.startsWith("_")) continue;
+      const sub = node[k];
+      if (sub && (sub._note || sub._color)) {
+        meta[k] = {};
+        if (sub._note) meta[k].n = sub._note;
+        if (sub._color) meta[k].c = sub._color;
+      }
+      if (typeof sub === "object") {
+        traverse(sub);
+      }
+    }
+  }
+  traverse(map);
+  return meta;
+}
+
+function applyNotesAndColors(map, meta) {
+  if (!meta || typeof meta !== "object") return;
+  function traverse(node) {
+    for (const k of Object.keys(node)) {
+      if (k.startsWith("_")) continue;
+      if (meta[k]) {
+        if (meta[k].n) node[k]._note = meta[k].n;
+        if (meta[k].c) node[k]._color = meta[k].c;
+      }
+      if (typeof node[k] === "object") {
+        traverse(node[k]);
+      }
+    }
+  }
+  traverse(map);
+}
+
+function getLiveUrl() {
+  const rootKey = Object.keys(subnetMap)[0];
+  if (!rootKey) return window.location.pathname;
+  const rootParts = rootKey.split("/");
+  const params = new URLSearchParams();
+
+  if (ipVersion === "IPv6") {
+    params.set("ipv", "6");
+  }
+  params.set("network", rootParts[0]);
+  params.set("mask", rootParts[1]);
+
+  const division = encodeDivisionTree(subnetMap);
+  if (division) {
+    params.set("division", division);
+  }
+  if (operatingMode && operatingMode !== "Standard") {
+    params.set("mode", operatingMode);
+  }
+  if (showParentHeaders) {
+    params.set("parent_headers", "1");
+  }
+  const meta = extractNotesAndColors(subnetMap);
+  if (Object.keys(meta).length > 0) {
+    params.set(
+      "meta",
+      LZString.compressToEncodedURIComponent(JSON.stringify(meta)),
+    );
+  }
+
+  const query = params.toString();
+  return window.location.pathname + (query ? "?" + query : "");
+}
+
+function syncUrlState() {
+  try {
+    const liveUrl = getLiveUrl();
+    if (window.history && window.history.replaceState) {
+      window.history.replaceState(null, "", liveUrl);
+    }
+    const liveLink = document.getElementById("live_shareable_url");
+    if (liveLink) {
+      const fullUrl = window.location.origin + liveUrl;
+      liveLink.href = fullUrl;
+      liveLink.textContent = fullUrl;
+    }
+    if (typeof TemporaryCookieStore !== "undefined") {
+      TemporaryCookieStore.set("vsc_draft_15m", liveUrl, 900);
+      const cookieBadge = document.getElementById("cookie_session_badge");
+      if (cookieBadge) {
+        cookieBadge.style.display = "inline-flex";
+        const badgeText = document.getElementById("cookie_session_badge_text");
+        if (badgeText) {
+          badgeText.textContent = "Kuki Sesi: 15 Menit";
+        }
+      }
+    }
+  } catch (err) {
+    console.warn("syncUrlState failed:", err);
+  }
+}
+
+function addParentHeaderRow(cidr, depth, maxDepth) {
+  const parts = cidr.split("/");
+  const net = parts[0];
+  const netSize = parseInt(parts[1], 10);
+  let rangeStr = "";
+  let hostStr = "";
+  if (ipVersion === "IPv6") {
+    const netInt = parseIpv6(net);
+    const endStr = getIpv6End(net, netSize);
+    rangeStr = formatIpv6(netInt) + " - " + endStr;
+    hostStr = getIpv6Capacity(netSize);
+  } else {
+    const addressFirst = ip2int(net);
+    const addressLast = subnet_last_address(addressFirst, netSize);
+    rangeStr = int2ip(addressFirst) + " - " + int2ip(addressLast);
+    hostStr = (1 + addressLast - addressFirst).toLocaleString();
+  }
+
+  const indent = "&nbsp;".repeat(depth * 3);
+  const parentRow =
+    '<tr class="parent-header-row" aria-label="Parent ' +
+    cidr +
+    '">\n' +
+    '  <td class="row_address text-muted font-monospace"><span class="badge bg-secondary me-1"><i class="fa-solid fa-folder-tree me-1" aria-hidden="true"></i>Parent</span> ' +
+    indent +
+    cidr +
+    "</td>\n" +
+    '  <td class="row_range text-muted font-monospace">' +
+    rangeStr +
+    "</td>\n" +
+    '  <td class="row_usable text-muted fst-italic">Consolidated Parent</td>\n' +
+    '  <td class="row_hosts text-muted">' +
+    hostStr +
+    "</td>\n" +
+    '  <td class="note text-muted fst-italic">(Subnet Group Header)</td>\n' +
+    '  <td colspan="' +
+    (maxDepth > 0 ? maxDepth + 1 : 2) +
+    '" class="text-muted text-center small bg-light-subtle"><span>/' +
+    netSize +
+    "</span></td>\n" +
+    "</tr>\n";
+  $("#calcbody").append(parentRow);
+}
 
 function exportConfig(isMinified = true) {
   const baseNetwork = Object.keys(subnetMap)[0];
@@ -2021,8 +2472,17 @@ function getConfigUrl() {
     renameKey(defaultExport, "ip_version", "ipv");
   }
   renameKey(defaultExport, "subnets", "s");
+
+  let basePath = window.location.pathname || "/index.html";
+  if (basePath.endsWith("/")) {
+    basePath += "index.html";
+  } else if (!basePath.endsWith(".html")) {
+    basePath += "/index.html";
+  }
+
   return (
-    "/index.html?c=" +
+    basePath +
+    "?c=" +
     urlVersion +
     LZString.compressToEncodedURIComponent(JSON.stringify(defaultExport))
   );
@@ -2032,6 +2492,67 @@ function processConfigUrl() {
   const params = new Proxy(new URLSearchParams(window.location.search), {
     get: (searchParams, prop) => searchParams.get(prop),
   });
+
+  if (params["network"] !== null && params["mask"] !== null) {
+    const net = params["network"].trim();
+    const mask = parseInt(params["mask"].trim(), 10);
+    if (!isNaN(mask)) {
+      if (params["ipv"] === "6" || net.includes(":")) {
+        switchIpVersion("IPv6");
+      } else if (ipVersion !== "IPv4") {
+        switchIpVersion("IPv4");
+      }
+
+      $("#network").val(net);
+      $("#netsize").val(mask);
+      maxNetSize = mask;
+
+      if (params["mode"]) {
+        const modeVal = params["mode"].toUpperCase();
+        if (["STANDARD", "AWS", "AZURE", "GCP", "OCI"].includes(modeVal)) {
+          operatingMode = modeVal === "STANDARD" ? "Standard" : modeVal;
+          $(
+            "#dropdown_standard, #dropdown_aws, #dropdown_azure, #dropdown_gcp, #dropdown_oci",
+          ).removeClass("active");
+          $("#dropdown_" + operatingMode.toLowerCase()).addClass("active");
+          set_usable_ips_title(operatingMode);
+        }
+      }
+
+      if (params["parent_headers"] === "1") {
+        showParentHeaders = true;
+        $("#parent_headers_text").text("Hide Parent Headers");
+        $("#toggle_parent_headers").addClass("active");
+      }
+
+      if (params["division"]) {
+        subnetMap = decodeDivisionTree(net, mask, params["division"]);
+      } else {
+        subnetMap = {};
+        const rootNet =
+          ipVersion === "IPv6"
+            ? getIpv6Network(net, mask)
+            : get_network(net, mask);
+        subnetMap[rootNet + "/" + mask] = {};
+      }
+
+      if (params["meta"]) {
+        try {
+          const metaObj = JSON.parse(
+            LZString.decompressFromEncodedURIComponent(params["meta"]),
+          );
+          applyNotesAndColors(subnetMap, metaObj);
+        } catch (e) {
+          console.warn("Could not parse meta param:", e);
+        }
+      }
+
+      renderTable(operatingMode);
+      updateRfc1918Indicator();
+      return true;
+    }
+  }
+
   if (params["c"] !== null) {
     const urlData = params["c"].substring(1);
     const urlConfig = JSON.parse(
@@ -2235,3 +2756,218 @@ const rgba2hex = (rgba) => {
     )
     .join("")}`;
 };
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Theme Toggle System (ns1.orion.net.id style)
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function initTheme() {
+  const root = document.documentElement;
+  const toggle = document.getElementById("themeToggle");
+  const icon = document.getElementById("themeIcon");
+
+  function updateIcon(t) {
+    const icon = document.getElementById("themeIcon");
+    const toggle = document.getElementById("themeToggle");
+    if (!icon) return;
+    if (t === "dark") {
+      // In dark mode: Show Font Awesome regular sun icon with tooltip to switch to light mode
+      icon.className = "fa-regular fa-sun";
+      if (toggle) {
+        toggle.setAttribute("title", "Switch to Light Mode");
+        toggle.setAttribute("aria-label", "Switch to Light Mode");
+      }
+    } else {
+      // In light mode: Show Font Awesome regular moon icon with tooltip to switch to dark mode
+      icon.className = "fa-regular fa-moon";
+      if (toggle) {
+        toggle.setAttribute("title", "Switch to Dark Mode");
+        toggle.setAttribute("aria-label", "Switch to Dark Mode");
+      }
+    }
+  }
+
+  function getSystemTheme() {
+    try {
+      if (
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches
+      ) {
+        return "dark";
+      }
+    } catch (e) {}
+    return "light";
+  }
+
+  function updateThemeColor(t) {
+    try {
+      const meta = document.querySelector('meta[name="theme-color"]');
+      if (meta) {
+        meta.setAttribute("content", t === "dark" ? "#0f172a" : "#ffffff");
+      }
+    } catch (e) {}
+  }
+
+  function applyTheme(t, persist) {
+    if (t !== "dark" && t !== "light") {
+      t = getSystemTheme();
+    }
+    root.setAttribute("data-theme", t);
+    root.setAttribute("data-bs-theme", t);
+    if (persist) {
+      try {
+        localStorage.setItem("site-theme", t);
+        localStorage.setItem("theme", t);
+      } catch (e) {}
+    }
+    updateIcon(t);
+    updateThemeColor(t);
+  }
+
+  function getStoredTheme() {
+    try {
+      const s =
+        localStorage.getItem("site-theme") || localStorage.getItem("theme");
+      if (s === "dark" || s === "light") return s;
+    } catch (e) {}
+    return null;
+  }
+
+  const storedTheme = getStoredTheme();
+  const initial = storedTheme || getSystemTheme();
+  applyTheme(initial, Boolean(storedTheme));
+
+  if (toggle) {
+    toggle.addEventListener("click", function (e) {
+      e.preventDefault();
+      const cur = root.getAttribute("data-theme") || "light";
+      const next = cur === "dark" ? "light" : "dark";
+      applyTheme(next, true);
+    });
+  }
+})();
+
+/**
+ * Dynamic Visitor Counter connected to counter.txt
+ * Tracks visits dynamically and synchronizes with counter.txt baseline
+ */
+(function initVisitorCounter() {
+  const counterVal = document.getElementById("visitor_count_val");
+  const counterBtn = document.getElementById("visitor_counter_btn");
+  if (!counterVal) return;
+
+  const COOKIE_VISIT_15M = "vsc_visitor_15m_session";
+  const LOCAL_VISIT_OFFSET_KEY = "vsc_visitor_local_offset";
+
+  let isNewVisit = false;
+  try {
+    if (typeof TemporaryCookieStore !== "undefined") {
+      const existingSession = TemporaryCookieStore.get(COOKIE_VISIT_15M);
+      if (!existingSession) {
+        TemporaryCookieStore.set(COOKIE_VISIT_15M, Date.now().toString(), 900); // 15 mins (RFC 6265)
+        isNewVisit = true;
+      }
+    } else {
+      if (!sessionStorage.getItem("vsc_visitor_session_recorded")) {
+        sessionStorage.setItem("vsc_visitor_session_recorded", "1");
+        isNewVisit = true;
+      }
+    }
+  } catch (e) {}
+
+  let localOffset = 0;
+  try {
+    localOffset = parseInt(
+      localStorage.getItem(LOCAL_VISIT_OFFSET_KEY) || "0",
+      10,
+    );
+    if (isNaN(localOffset)) localOffset = 0;
+    if (isNewVisit) {
+      localOffset += 1;
+      localStorage.setItem(LOCAL_VISIT_OFFSET_KEY, localOffset.toString());
+    }
+  } catch (e) {}
+
+  function formatCount(num) {
+    return Number(num).toLocaleString("id-ID");
+  }
+
+  function fetchCounter() {
+    fetch("counter.txt?t=" + Date.now())
+      .then(function (res) {
+        if (!res.ok) throw new Error("counter.txt unavailable");
+        return res.text();
+      })
+      .then(function (text) {
+        const fileCount = parseInt(text.trim(), 10);
+        if (!isNaN(fileCount)) {
+          const total = fileCount + localOffset;
+          counterVal.textContent = formatCount(total);
+          // If server supports POST to counter.txt, update it
+          if (isNewVisit) {
+            try {
+              fetch("counter.txt", {
+                method: "POST",
+                headers: { "Content-Type": "text/plain" },
+                body: total.toString(),
+              }).catch(function () {});
+            } catch (e) {}
+          }
+        } else {
+          counterVal.textContent = formatCount(1248 + localOffset);
+        }
+      })
+      .catch(function () {
+        counterVal.textContent = formatCount(1248 + localOffset);
+      });
+  }
+
+  fetchCounter();
+
+  if (counterBtn) {
+    counterBtn.addEventListener("click", function () {
+      const icon = counterBtn.querySelector("i");
+      if (icon) icon.classList.add("fa-spin");
+      fetchCounter();
+      setTimeout(function () {
+        if (icon) icon.classList.remove("fa-spin");
+      }, 600);
+    });
+  }
+})();
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Back to Top Floating Button Controller
+   ═══════════════════════════════════════════════════════════════════════════ */
+(function initBackToTop() {
+  const btnScrollTop = document.getElementById("btn_scroll_top");
+  if (!btnScrollTop) return;
+
+  function handleScroll() {
+    const scrollY =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+    if (scrollY > 220) {
+      btnScrollTop.classList.add("show");
+    } else {
+      btnScrollTop.classList.remove("show");
+    }
+  }
+
+  window.addEventListener("scroll", handleScroll, { passive: true });
+  handleScroll();
+
+  btnScrollTop.addEventListener("click", function (e) {
+    e.preventDefault();
+    try {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    } catch (err) {
+      window.scrollTo(0, 0);
+    }
+  });
+})();
+

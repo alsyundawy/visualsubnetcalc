@@ -108,6 +108,41 @@ function sanitizeColor(color) {
 }
 
 /**
+ * Calculates perceived brightness (luminance) of a hex or rgb color.
+ * Returns true if color is light (luminance > 140), false if dark.
+ */
+function isColorLight(hexOrRgb) {
+  if (!hexOrRgb || typeof hexOrRgb !== "string") return false;
+  let r = 0;
+  let g = 0;
+  let b = 0;
+  const colorStr = hexOrRgb.trim();
+  if (colorStr.startsWith("#")) {
+    const cleanHex = colorStr.slice(1);
+    if (cleanHex.length === 3 || cleanHex.length === 4) {
+      r = parseInt(cleanHex[0] + cleanHex[0], 16);
+      g = parseInt(cleanHex[1] + cleanHex[1], 16);
+      b = parseInt(cleanHex[2] + cleanHex[2], 16);
+    } else if (cleanHex.length >= 6) {
+      r = parseInt(cleanHex.slice(0, 2), 16);
+      g = parseInt(cleanHex.slice(2, 4), 16);
+      b = parseInt(cleanHex.slice(4, 6), 16);
+    }
+  } else if (colorStr.startsWith("rgb")) {
+    const parts = colorStr.match(/\d+/g);
+    if (parts && parts.length >= 3) {
+      r = parseInt(parts[0], 10);
+      g = parseInt(parts[1], 10);
+      b = parseInt(parts[2], 10);
+    }
+  } else {
+    return false;
+  }
+  const luma = 0.299 * r + 0.587 * g + 0.114 * b;
+  return luma > 140;
+}
+
+/**
  * 15-Minute Temporary Cookie Storage System (RFC 6265 compliant)
  * Manages transient session states such as subnet drafts and visit deduplication.
  */
@@ -616,7 +651,11 @@ $("#calcbody").on(
   function (event) {
     if (inflightColor !== "NONE") {
       mutate_subnet_map("color", this.dataset.subnet, "", inflightColor);
-      $(this).closest("tr").css("background-color", inflightColor);
+      const tr = $(this).closest("tr");
+      tr.css("background-color", inflightColor);
+      tr.removeClass("has-light-bg has-dark-bg").addClass(
+        isColorLight(inflightColor) ? "has-light-bg" : "has-dark-bg",
+      );
     }
   },
 );
@@ -1538,19 +1577,24 @@ function addRow(
   }
 
   let styleTag = "";
+  let bgClass = "";
   const safeColor = sanitizeColor(color);
   if (safeColor !== "") {
     styleTag = ' style="background-color: ' + safeColor + '"';
+    bgClass = isColorLight(safeColor) ? "has-light-bg" : "has-dark-bg";
   }
 
   const sanitizedNote = escapeHtml(note);
   const splitClass = isLeaf ? "split rotate split-disabled" : "split rotate";
   const splitLabel = isLeaf ? "/" + netSize + " (Leaf)" : "/" + netSize;
 
+  const classAttr = bgClass !== "" ? ' class="' + bgClass + '"' : "";
+
   let newRow =
     '            <tr id="' +
     rowId +
     '"' +
+    classAttr +
     styleTag +
     '  aria-label="' +
     rowCIDR +

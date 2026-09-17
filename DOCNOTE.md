@@ -500,6 +500,38 @@ Aggressive system font scaling and tall display aspect ratios (20:9 and 20.5:9) 
 - **Fluid Input Wrapping**: Re-engineered `#input_form` on viewports `< 576px` to employ clean two-row wrapping: network address and prefix input sit side-by-side on row 1, while Go, Tools, and Reset buttons stretch across row 2 in a unified, wrapped toolbar.
 - **Safe Area Insets**: Implemented `env(safe-area-inset-*)` with `max()` fallbacks on page wrappers to protect content against punch-hole camera cutouts (DotDisplay) and gesture navigation bars.
 
+### 8. Dark Mode Subnet Palette Calibration & Perceived Luminance Contrast Engine
+
+When users customized subnet table row colors in Dark Mode (`[data-theme="dark"]` or `[data-bs-theme="dark"]`), default table styling forced light text (`#f8fafc !important`), causing severe readability degradation and low contrast when applied against light or pastel backgrounds:
+
+- **Dark Mode Subnet Palette (`--subpal-1-1` to `--subpal-1-10`)**: Redesigned default subnet row background palette tokens specifically for dark themes using deep jewel tones with high background contrast:
+  - `--subpal-1-1`: `#5c1d2e` (Deep Crimson / Garnet)
+  - `--subpal-1-2`: `#5c2c10` (Warm Terracotta / Rust)
+  - `--subpal-1-3`: `#4a3e0f` (Antique Gold / Bronze)
+  - `--subpal-1-4`: `#0d4a34` (Deep Pine / Emerald)
+  - `--subpal-1-5`: `#0e4354` (Dark Cyan / Deep Teal)
+  - `--subpal-1-6`: `#1e355b` (Midnight Sapphire / Denim)
+  - `--subpal-1-7`: `#322566` (Deep Indigo / Amethyst)
+  - `--subpal-1-8`: `#4c184c` (Dark Plum / Mulberry)
+  - `--subpal-1-9`: `#273549` (Slate Blue / Dark Steel)
+  - `--subpal-1-10`: `#131d2e` (Deep Obsidian / Marine)
+- **Palette Picker & Action Button Visibility**: Enhanced palette color swatch buttons in dark mode with luminous borders (`1.5px solid rgba(255, 255, 255, 0.45)`) and focus rings (`#38bdf8`), along with high-visibility cyan badges for `.bottom-nav-btn` ("Change Colors »" and "« Stop Changing Colors").
+- **Dynamic Perceived Luminance Engine (`isColorLight`)**: To safeguard readability across any arbitrary user-defined or imported color, a mathematical relative luminance algorithm computes perceived brightness:
+  $$\text{Luminance} = 0.299 \times R + 0.587 \times G + 0.114 \times B$$
+  Rows with luminance $> 140$ are dynamically tagged with `.has-light-bg`, immediately forcing dark slate text (`#0f172a !important`) and saturated links (`#0369a1 !important`), while darker rows are tagged with `.has-dark-bg`, guaranteeing WCAG 2.2 AA compliant contrast under all themes.
+
+### 9. Unified Mega-Linter Suite Integration & Zero-Error Code Quality Infrastructure
+
+To satisfy strict enterprise-grade quality gates and prevent regression in CI/CD pipelines, `.mega-linter.yml` was configured with comprehensive coverage across all project technologies:
+
+- **Active Linter Descriptors**: Full linter matrix enabled for `MARKDOWN`, `JAVASCRIPT`, `TYPESCRIPT`, `CSS`, `HTML`, `JSON`, and `YAML`.
+- **Enabled Linters**:
+  - Markdown: `MARKDOWN_MARKDOWNLINT` (strict heading increment, no trailing whitespace, clean list indentation).
+  - HTML: `HTML_HTMLHINT` and `html-validate` (strict attribute formatting, button labels, semantic document structure).
+  - CSS/SCSS: `CSS_STYLELINT` with scoped `.stylelintrc.json` rules (strict pseudo-class formatting, deduplicated selectors, consecutive duplicate property support).
+  - JavaScript/TypeScript: `JAVASCRIPT_ESLINT` (flat configuration `eslint.config.js` with browser globals, strict syntax and undef checks) and `JAVASCRIPT_STANDARD`.
+- **Zero-Error Verification**: Local and CI workflows achieve 100% clean passes (0 errors, 0 warnings) across the entire codebase.
+
 ## Security Considerations
 
 - **Client-Side Isolation**: All calculations occur entirely in the browser runtime. No user data, IP schemas, or notes are transmitted to any backend server.

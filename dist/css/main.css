@@ -70,6 +70,46 @@
   --card-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
   --input-bg: #ffffff;
   --input-border: #cbd5e1;
+
+  /* Button Go: Biru cerah bernuansa gelap (Bright Sapphire Blue with deep dark royal undertones) */
+  --btn-calc-go-bg: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
+  --btn-calc-go-border: #1e40af;
+  --btn-calc-go-text: #ffffff;
+  --btn-calc-go-hover-bg: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  --btn-calc-go-hover-border: #1d4ed8;
+  --btn-calc-go-hover-text: #ffffff;
+  --btn-calc-go-shadow:
+    0 2px 6px rgba(30, 64, 175, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --btn-calc-go-hover-shadow:
+    0 4px 14px rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  /* Button Tools: Emerald Green */
+  --btn-pastel-green-bg: linear-gradient(180deg, #10b981 0%, #059669 100%);
+  --btn-pastel-green-border: #047857;
+  --btn-pastel-green-text: #ffffff;
+  --btn-pastel-green-hover-bg: linear-gradient(
+    180deg,
+    #34d399 0%,
+    #059669 100%
+  );
+  --btn-pastel-green-hover-border: #047857;
+  --btn-pastel-green-hover-text: #ffffff;
+  --btn-pastel-green-shadow:
+    0 2px 6px rgba(5, 150, 105, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --btn-pastel-green-hover-shadow:
+    0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+
+  /* Button Reset: Crimson / Rose Red */
+  --btn-pastel-red-bg: linear-gradient(180deg, #f43f5e 0%, #e11d48 100%);
+  --btn-pastel-red-border: #be123c;
+  --btn-pastel-red-text: #ffffff;
+  --btn-pastel-red-hover-bg: linear-gradient(180deg, #fb7185 0%, #be123c 100%);
+  --btn-pastel-red-hover-border: #9f1239;
+  --btn-pastel-red-hover-text: #ffffff;
+  --btn-pastel-red-shadow:
+    0 2px 6px rgba(225, 29, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --btn-pastel-red-hover-shadow:
+    0 4px 14px rgba(244, 63, 94, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 [data-bs-theme="dark"],
@@ -93,6 +133,61 @@
   --split-background: #fb7185; /* Vibrant rose/coral */
   --join-foreground: #020617;
   --join-background: #38bdf8; /* Vibrant sky blue */
+
+  /* Curated Dark mode subnet palette highlights (Rich, vibrant jewel tones with high clarity) */
+  --subpal-1-1: #5c1d2e; /* Deep Rose / Crimson */
+  --subpal-1-2: #5c2c10; /* Warm Burnt Amber */
+  --subpal-1-3: #4a3e0f; /* Deep Olive Gold */
+  --subpal-1-4: #0d4a34; /* Deep Pine Emerald */
+  --subpal-1-5: #0e4354; /* Deep Ocean Teal */
+  --subpal-1-6: #1e355b; /* Midnight Sapphire */
+  --subpal-1-7: #322566; /* Deep Royal Indigo */
+  --subpal-1-8: #4c184c; /* Deep Violet Plum */
+  --subpal-1-9: #273549; /* Deep Slate Blue */
+  --subpal-1-10: #131d2e; /* Deep Navy Obsidian */
+
+  /* Button Go (Dark Mode): Deep midnight navy base with vivid luminous sapphire glow */
+  --btn-calc-go-bg: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%);
+  --btn-calc-go-border: #3b82f6;
+  --btn-calc-go-text: #ffffff;
+  --btn-calc-go-hover-bg: linear-gradient(180deg, #2563eb 0%, #1e3a8a 100%);
+  --btn-calc-go-hover-border: #60a5fa;
+  --btn-calc-go-hover-text: #ffffff;
+  --btn-calc-go-shadow:
+    0 2px 8px rgba(15, 23, 42, 0.6), 0 0 12px rgba(59, 130, 246, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --btn-calc-go-hover-shadow:
+    0 4px 16px rgba(59, 130, 246, 0.5), 0 0 20px rgba(37, 99, 235, 0.35);
+
+  /* Button Tools (Dark Mode): Deep dark emerald base with bright mint glow */
+  --btn-pastel-green-bg: linear-gradient(180deg, #059669 0%, #022c22 100%);
+  --btn-pastel-green-border: #34d399;
+  --btn-pastel-green-text: #ffffff;
+  --btn-pastel-green-hover-bg: linear-gradient(
+    180deg,
+    #10b981 0%,
+    #064e3b 100%
+  );
+  --btn-pastel-green-hover-border: #6ee7b7;
+  --btn-pastel-green-hover-text: #ffffff;
+  --btn-pastel-green-shadow:
+    0 2px 8px rgba(2, 44, 34, 0.6), 0 0 12px rgba(52, 211, 153, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --btn-pastel-green-hover-shadow:
+    0 4px 16px rgba(52, 211, 153, 0.5), 0 0 20px rgba(16, 185, 129, 0.35);
+
+  /* Button Reset (Dark Mode): Deep dark ruby base with bright rose glow */
+  --btn-pastel-red-bg: linear-gradient(180deg, #e11d48 0%, #4c0519 100%);
+  --btn-pastel-red-border: #fb7185;
+  --btn-pastel-red-text: #ffffff;
+  --btn-pastel-red-hover-bg: linear-gradient(180deg, #f43f5e 0%, #881337 100%);
+  --btn-pastel-red-hover-border: #fda4af;
+  --btn-pastel-red-hover-text: #ffffff;
+  --btn-pastel-red-shadow:
+    0 2px 8px rgba(76, 5, 25, 0.6), 0 0 12px rgba(251, 113, 133, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  --btn-pastel-red-hover-shadow:
+    0 4px 16px rgba(251, 113, 133, 0.5), 0 0 20px rgba(244, 63, 94, 0.35);
 }
 
 /* ─── Reset / Base ──────────────────────────────────────── */
@@ -153,7 +248,7 @@ body {
 /* ─── Application Header ─────────────────────────────────── */
 #app_header {
   margin-top: 0.15rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 1.15rem !important;
 }
 
 /* ─── Navigation Icons ───────────────────────────────────── */
@@ -407,10 +502,7 @@ h1 {
   text-shadow: 0 0 8px rgba(14, 165, 233, 0.4);
 }
 
-/* ─── Header Spacing ─────────────────────────────────────── */
-#app_header {
-  margin-bottom: 1.15rem !important;
-}
+
 
 /* ─── Alert Banner ───────────────────────────────────────── */
 .alert {
@@ -1933,14 +2025,38 @@ h1 {
 /* Palette Picker in Dark Mode */
 [data-bs-theme="dark"] #color_palette button[id^="palette_picker_"],
 [data-theme="dark"] #color_palette button[id^="palette_picker_"] {
-  border: 1px solid rgba(255, 255, 255, 0.45) !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.45) !important;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
 }
 
 [data-bs-theme="dark"] #color_palette button[id^="palette_picker_"]:hover,
 [data-theme="dark"] #color_palette button[id^="palette_picker_"]:hover {
+  border-color: #38bdf8 !important;
   box-shadow:
     0 0 0 2.5px #38bdf8,
-    0 3px 8px rgba(0, 0, 0, 0.5) !important;
+    0 3px 8px rgba(0, 0, 0, 0.6) !important;
+}
+
+[data-bs-theme="dark"] #color_palette button[id^="palette_picker_"].active,
+[data-bs-theme="dark"] #color_palette button[id^="palette_picker_"].selected-color,
+[data-theme="dark"] #color_palette button[id^="palette_picker_"].active,
+[data-theme="dark"] #color_palette button[id^="palette_picker_"].selected-color {
+  border-color: #38bdf8 !important;
+  box-shadow:
+    0 0 0 3px #38bdf8,
+    0 3px 10px rgba(56, 189, 248, 0.55) !important;
+}
+
+[data-bs-theme="dark"] .bottom-nav-btn,
+[data-theme="dark"] .bottom-nav-btn {
+  color: #38bdf8 !important;
+  font-weight: 600;
+}
+
+[data-bs-theme="dark"] .bottom-nav-btn:hover,
+[data-theme="dark"] .bottom-nav-btn:hover {
+  color: #7dd3fc !important;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
 }
 
 /* Subnet Calculator Table (#calc) - Maximum clarity and sharpness */
@@ -2074,6 +2190,58 @@ h1 {
   color: #7dd3fc !important;
   font-weight: 700 !important;
   text-shadow: 0 0 8px rgba(56, 189, 248, 0.4);
+}
+
+/* Subnet Row Dynamic Text & Input Contrast Overrides */
+#calc tbody tr.has-light-bg td,
+#calc tbody tr.has-light-bg th,
+#calc tbody tr.has-light-bg .row_range,
+#calc tbody tr.has-light-bg .row_usable,
+#calc tbody tr.has-light-bg .row_hosts {
+  color: #0f172a !important;
+}
+
+#calc tbody tr.has-light-bg .row_address {
+  color: #0369a1 !important;
+  font-weight: 700 !important;
+}
+
+#calc tbody tr.has-light-bg .note input {
+  color: #0f172a !important;
+}
+
+#calc tbody tr.has-light-bg .note input::placeholder {
+  color: #64748b !important;
+}
+
+#calc tbody tr.has-light-bg:hover > td:not(.split):not(.join) {
+  box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.08) !important;
+}
+
+#calc tbody tr.has-light-bg:hover > td.row_address {
+  color: #0284c7 !important;
+  text-shadow: none !important;
+}
+
+#calc tbody tr.has-dark-bg td,
+#calc tbody tr.has-dark-bg th,
+#calc tbody tr.has-dark-bg .row_range,
+#calc tbody tr.has-dark-bg .row_usable,
+#calc tbody tr.has-dark-bg .row_hosts {
+  color: #f8fafc !important;
+}
+
+#calc tbody tr.has-dark-bg .row_address {
+  color: #38bdf8 !important;
+  font-weight: 700 !important;
+}
+
+#calc tbody tr.has-dark-bg .note input {
+  color: #f8fafc !important;
+}
+
+#calc tbody tr.has-dark-bg .note input::placeholder {
+  color: #94a3b8 !important;
 }
 
 /* Modals & FAQ Accordion */
@@ -2952,94 +3120,7 @@ h1 {
   color: #38bdf8;
 }
 
-/* ═══ Unified High-Craft Action Buttons: Dark-Nuanced Sapphire (Go), Emerald (Tools) & Rose (Reset) ═══ */
-:root {
-  /* Button Go: Biru cerah bernuansa gelap (Bright Sapphire Blue with deep dark royal undertones) */
-  --btn-calc-go-bg: linear-gradient(180deg, #2563eb 0%, #1d4ed8 100%);
-  --btn-calc-go-border: #1e40af;
-  --btn-calc-go-text: #ffffff;
-  --btn-calc-go-hover-bg: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
-  --btn-calc-go-hover-border: #1d4ed8;
-  --btn-calc-go-hover-text: #ffffff;
-  --btn-calc-go-shadow:
-    0 2px 6px rgba(30, 64, 175, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  --btn-calc-go-hover-shadow:
-    0 4px 14px rgba(37, 99, 235, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
 
-  /* Button Tools: Emerald Green */
-  --btn-pastel-green-bg: linear-gradient(180deg, #10b981 0%, #059669 100%);
-  --btn-pastel-green-border: #047857;
-  --btn-pastel-green-text: #ffffff;
-  --btn-pastel-green-hover-bg: linear-gradient(
-    180deg,
-    #34d399 0%,
-    #059669 100%
-  );
-  --btn-pastel-green-hover-border: #047857;
-  --btn-pastel-green-hover-text: #ffffff;
-  --btn-pastel-green-shadow:
-    0 2px 6px rgba(5, 150, 105, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  --btn-pastel-green-hover-shadow:
-    0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-
-  /* Button Reset: Crimson / Rose Red */
-  --btn-pastel-red-bg: linear-gradient(180deg, #f43f5e 0%, #e11d48 100%);
-  --btn-pastel-red-border: #be123c;
-  --btn-pastel-red-text: #ffffff;
-  --btn-pastel-red-hover-bg: linear-gradient(180deg, #fb7185 0%, #be123c 100%);
-  --btn-pastel-red-hover-border: #9f1239;
-  --btn-pastel-red-hover-text: #ffffff;
-  --btn-pastel-red-shadow:
-    0 2px 6px rgba(225, 29, 72, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  --btn-pastel-red-hover-shadow:
-    0 4px 14px rgba(244, 63, 94, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.25);
-}
-
-[data-bs-theme="dark"],
-[data-theme="dark"] {
-  /* Button Go (Dark Mode): Deep midnight navy base with vivid luminous sapphire glow */
-  --btn-calc-go-bg: linear-gradient(180deg, #1d4ed8 0%, #0f172a 100%);
-  --btn-calc-go-border: #3b82f6;
-  --btn-calc-go-text: #ffffff;
-  --btn-calc-go-hover-bg: linear-gradient(180deg, #2563eb 0%, #1e3a8a 100%);
-  --btn-calc-go-hover-border: #60a5fa;
-  --btn-calc-go-hover-text: #ffffff;
-  --btn-calc-go-shadow:
-    0 2px 8px rgba(15, 23, 42, 0.6), 0 0 12px rgba(59, 130, 246, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  --btn-calc-go-hover-shadow:
-    0 4px 16px rgba(59, 130, 246, 0.5), 0 0 20px rgba(37, 99, 235, 0.35);
-
-  /* Button Tools (Dark Mode): Deep dark emerald base with bright mint glow */
-  --btn-pastel-green-bg: linear-gradient(180deg, #059669 0%, #022c22 100%);
-  --btn-pastel-green-border: #34d399;
-  --btn-pastel-green-text: #ffffff;
-  --btn-pastel-green-hover-bg: linear-gradient(
-    180deg,
-    #10b981 0%,
-    #064e3b 100%
-  );
-  --btn-pastel-green-hover-border: #6ee7b7;
-  --btn-pastel-green-hover-text: #ffffff;
-  --btn-pastel-green-shadow:
-    0 2px 8px rgba(2, 44, 34, 0.6), 0 0 12px rgba(52, 211, 153, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  --btn-pastel-green-hover-shadow:
-    0 4px 16px rgba(52, 211, 153, 0.5), 0 0 20px rgba(16, 185, 129, 0.35);
-
-  /* Button Reset (Dark Mode): Deep dark ruby base with bright rose glow */
-  --btn-pastel-red-bg: linear-gradient(180deg, #e11d48 0%, #4c0519 100%);
-  --btn-pastel-red-border: #fb7185;
-  --btn-pastel-red-text: #ffffff;
-  --btn-pastel-red-hover-bg: linear-gradient(180deg, #f43f5e 0%, #881337 100%);
-  --btn-pastel-red-hover-border: #fda4af;
-  --btn-pastel-red-hover-text: #ffffff;
-  --btn-pastel-red-shadow:
-    0 2px 8px rgba(76, 5, 25, 0.6), 0 0 12px rgba(251, 113, 133, 0.25),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
-  --btn-pastel-red-hover-shadow:
-    0 4px 16px rgba(251, 113, 133, 0.5), 0 0 20px rgba(244, 63, 94, 0.35);
-}
 
 /* Button Toolbar Container Spacing */
 .btn-toolbar-group {

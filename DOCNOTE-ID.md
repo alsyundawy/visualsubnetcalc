@@ -520,6 +520,38 @@ Fitur inflasi ukuran font sistem yang agresif serta rasio aspek layar yang sanga
 - **Pembungkusan Formulir yang Mengalir (Fluid Wrapping)**: Merancang ulang `#input_form` pada layar `< 576px` menjadi dua baris rapi: alamat jaringan dan prefiks berada bersisian di baris 1, sementara tombol Go, Tools, dan Reset membentang di baris 2 dalam toolbar terpadu.
 - **Penanganan Safe Area Insets**: Menerapkan fungsi `env(safe-area-inset-*)` dengan fallback `max()` pada pembungkus halaman guna melindungi konten dari gangguan potongan kamera depan (_punch hole / DotDisplay_) dan bilah navigasi gestur.
 
+### 8. Kalibrasi Palet Subnet Mode Gelap & Mesin Kontras Luminansi Terpersepsi
+
+Ketika pengguna menyesuaikan warna latar belakang baris tabel subnet pada Mode Gelap (`[data-theme="dark"]` atau `[data-bs-theme="dark"]`), gaya bawaan tabel sebelumnya memaksakan teks terang (`#f8fafc !important`), menyebabkan teks menjadi putih-di-atas-putih/pastel dan tidak terbaca:
+
+- **Palet Subnet Mode Gelap (`--subpal-1-1` hingga `--subpal-1-10`)**: Merancang ulang token palet latar belakang baris tabel subnet khusus tema gelap menggunakan warna permata (_jewel tones_) yang gelap dengan kontras tinggi:
+  - `--subpal-1-1`: `#5c1d2e` (Crimson Gelap / Garnet)
+  - `--subpal-1-2`: `#5c2c10` (Terracotta Hangat / Karat)
+  - `--subpal-1-3`: `#4a3e0f` (Emas Antik / Perunggu)
+  - `--subpal-1-4`: `#0d4a34` (Pinus Gelap / Zamrud)
+  - `--subpal-1-5`: `#0e4354` (Cyan Gelap / Teal Dalam)
+  - `--subpal-1-6`: `#1e355b` (Safir Tengah Malam / Denim)
+  - `--subpal-1-7`: `#322566` (Nila Gelap / Amethyst)
+  - `--subpal-1-8`: `#4c184c` (Plum Gelap / Murbei)
+  - `--subpal-1-9`: `#273549` (Baja Abu-abu / Slate Gelap)
+  - `--subpal-1-10`: `#131d2e` (Obsidian Gelap / Laut Dalam)
+- **Visibilitas Pemilih Palet & Tombol Aksi**: Tombol swatch pemilih warna pada mode gelap ditingkatkan dengan batas luminous (`1.5px solid rgba(255, 255, 255, 0.45)`) dan cincin fokus cerah (`#38bdf8`), serta badge tombol navigasi `.bottom-nav-btn` ("Ubah Warna »" dan "« Berhenti Mengubah Warna") beraksen cyan kontras tinggi.
+- **Mesin Luminansi Terpersepsi Dinamis (`isColorLight`)**: Demi menjamin keterbacaan teks pada warna kustom maupun warna yang diimpor dari file pengguna, algoritma matematis luminansi relatif menghitung tingkat kecerahan warna latar:
+  $$\text{Luminansi} = 0.299 \times R + 0.587 \times G + 0.114 \times B$$
+  Baris dengan nilai luminansi $> 140$ secara dinamis ditandai dengan kelas `.has-light-bg`, memaksakan teks slate gelap (`#0f172a !important`) dan tautan jenuh (`#0369a1 !important`), sedangkan baris yang lebih gelap ditandai dengan `.has-dark-bg`, menjamin rasio kontras WCAG 2.2 AA di seluruh tema.
+
+### 9. Integrasi Suite Mega-Linter Terpadu & Infrastruktur Mutu Kode Bebas Galat
+
+Untuk memenuhi standar gerbang mutu tingkat perusahaan dan mencegah regresi pada pipeline CI/CD, konfigurasi `.mega-linter.yml` diperbarui dengan cakupan komprehensif di seluruh teknologi proyek:
+
+- **Deskriptor Linter Aktif**: Matriks linter lengkap diaktifkan untuk `MARKDOWN`, `JAVASCRIPT`, `TYPESCRIPT`, `CSS`, `HTML`, `JSON`, dan `YAML`.
+- **Linter yang Dijalankan**:
+  - Markdown: `MARKDOWN_MARKDOWNLINT` (hierarki heading ketat, bebas trailing whitespace, indentasi list konsisten).
+  - HTML: `HTML_HTMLHINT` dan `html-validate` (pemformatan atribut ketat, label tombol semantik, struktur dokumen bersih).
+  - CSS/SCSS: `CSS_STYLELINT` dengan aturan terarah `.stylelintrc.json` (format pseudo-class ketat, selektor terdeduplikasi, dukungan properti duplikat berurutan).
+  - JavaScript/TypeScript: `JAVASCRIPT_ESLINT` (konfigurasi flat `eslint.config.js` dengan browser globals, pemeriksaan sintaks ketat) dan `JAVASCRIPT_STANDARD`.
+- **Verifikasi Bebas Galat (Zero-Error)**: Seluruh alur kerja lokal maupun CI berhasil lolos verifikasi 100% bersih (0 galat, 0 peringatan) di seluruh repositori.
+
 ---
 
 ## Pertimbangan Keamanan

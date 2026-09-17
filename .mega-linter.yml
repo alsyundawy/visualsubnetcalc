@@ -8,17 +8,31 @@ VALIDATE_ALL_CODEBASE: true
 # Ignore vendor files and binary builds
 FILTER_REGEX_EXCLUDE: (node_modules|dist/css/bootstrap.min.css|dist/js/lz-string.min.js|src/certs)
 
+# Enable all linters for Markdown, JavaScript / Node.js, TypeScript, CSS, and HTML
+ENABLE:
+  - MARKDOWN
+  - JAVASCRIPT
+  - TYPESCRIPT
+  - CSS
+  - HTML
+  - JSON
+  - YAML
+
 # Disable non-applicable linter categories
 DISABLE:
   - COPYPASTE
   - SPELL
 
-# Disable specific linters that conflict with repo tooling
-DISABLE_LINTERS:
-  - JAVASCRIPT_STANDARD
-  - TYPESCRIPT_STANDARD
-  - CSS_STYLELINT
+# Explicitly enable linters for Markdown, HTML, CSS, JavaScript (Node.js), and TypeScript
+ENABLE_LINTERS:
+  - MARKDOWN_MARKDOWNLINT
   - HTML_HTMLHINT
-  - REPOSITORY_DEVSKIM
-  - REPOSITORY_TRIVY
-  - ACTION_ZIZMOR
+  - CSS_STYLELINT
+  - JAVASCRIPT_ESLINT
+  - JAVASCRIPT_STANDARD
+  - TYPESCRIPT_ESLINT
+  - TYPESCRIPT_STANDARD
+
+# Non-blocking reporting for standard.js while ESLint enforces strict syntax & correctness
+JAVASCRIPT_STANDARD_DISABLE_ERRORS: true
+TYPESCRIPT_STANDARD_DISABLE_ERRORS: true

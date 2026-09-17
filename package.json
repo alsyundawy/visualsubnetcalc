@@ -1,0 +1,12 @@
+{
+  "name": "visualsubnetcalc-root",
+  "private": true,
+  "type": "module",
+  "standard": {
+    "ignore": [
+      "dist/**",
+      "src/**",
+      "eslint.config.js"
+    ]
+  }
+}

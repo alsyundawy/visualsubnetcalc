@@ -9,17 +9,12 @@
 
     <script>
       (function () {
-        var t = "light";
+        var t = "dark";
         try {
           var s =
             localStorage.getItem("site-theme") || localStorage.getItem("theme");
           if (s === "dark" || s === "light") {
             t = s;
-          } else if (
-            window.matchMedia &&
-            window.matchMedia("(prefers-color-scheme: dark)").matches
-          ) {
-            t = "dark";
           }
         } catch (e) {}
         document.documentElement.setAttribute("data-theme", t);
@@ -266,8 +261,7 @@
                 aria-label="X (Twitter) Profile"
                 title="X (Twitter) Profile (@alsyundawy)"
               >
-                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i
-                ><span>X</span>
+                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
               </a>
               <a
                 href="https://t.me/alsyundawy"
@@ -316,8 +310,8 @@
                 class="footer-social-btn footer-btn btn-qris"
                 data-bs-toggle="modal"
                 data-bs-target="#qrisModal"
-                aria-label="Dukungan Donasi QRIS"
-                title="Dukungan Donasi QRIS (Scan QR)"
+                aria-label="QRIS Donation Support"
+                title="QRIS Donation Support (Scan QR)"
               >
                 <i class="fa-solid fa-qrcode" aria-hidden="true"></i
                 ><span>QRIS</span>
@@ -329,11 +323,11 @@
                 type="button"
                 class="footer-social-btn footer-btn btn-counter"
                 id="visitor_counter_btn"
-                aria-label="Jumlah Pengunjung"
-                title="Jumlah Pengunjung (Terkoneksi ke counter.txt)"
+                aria-label="Visitor Counter"
+                title="Visitor Counter (Synced with counter.txt)"
               >
                 <i class="fa-solid fa-users" aria-hidden="true"></i
-                ><span>Pengunjung: <strong id="visitor_count_val">1,248</strong></span>
+                ><span>Visitors: <strong id="visitor_count_val">1,248</strong></span>
               </button>
             </div>
           </div>
@@ -400,7 +394,7 @@
                   class="fa-solid fa-qrcode text-danger me-2"
                   aria-hidden="true"
                 ></i
-                >Dukungan Donasi QRIS
+                >QRIS Donation Support
               </h5>
               <button
                 type="button"
@@ -411,9 +405,7 @@
             </div>
             <div class="modal-body p-4">
               <p class="text-secondary small mb-3">
-                Scan kode QRIS berikut menggunakan aplikasi mobile banking (BCA,
-                Mandiri, BRI, BNI) atau e-wallet (GoPay, OVO, DANA, LinkAja).
-                Terima kasih atas apresiasi dan dukungannya! 🙏
+                Scan the following QRIS barcode using any supported mobile banking or digital wallet app (GoPay, OVO, DANA, LinkAja, BCA, Mandiri). Thank you for your support and appreciation! 🙏
               </p>
               <div
                 class="p-2 border rounded bg-light d-inline-block shadow-sm mb-3"
@@ -426,8 +418,8 @@
                 />
               </div>
               <div class="small text-muted">
-                <strong>Penerima:</strong> ALSYUNDAWY / HARRY DERTIN SUTISNA<br />
-                NMID: ID1020021153676 / QRIS Standar Pembayaran Nasional
+                <strong>Beneficiary:</strong> ALSYUNDAWY / HARRY DERTIN SUTISNA<br />
+                NMID: ID1020021153676 / QRIS National Payment Standard
               </div>
             </div>
             <div class="modal-footer border-0 pt-0 justify-content-center">
@@ -436,7 +428,7 @@
                 class="btn btn-secondary btn-sm rounded-pill px-4"
                 data-bs-dismiss="modal"
               >
-                Tutup
+                Close
               </button>
               <a
                 href="https://github.com/user-attachments/assets/a0126f28-6dde-43da-ba14-d7c9a27de0df"
@@ -448,12 +440,24 @@
                   class="fa-solid fa-arrow-up-right-from-square me-1"
                   aria-hidden="true"
                 ></i
-                >Buka Gambar Asli
+                >Open Original Image
               </a>
             </div>
           </div>
         </div>
       </div>
+
+      <!-- ═══ Back to Top Floating Button ══════════════════════════════════ -->
+      <button
+        type="button"
+        id="btn_scroll_top"
+        class="btn-scroll-top"
+        aria-label="Back to top"
+        title="Back to top"
+      >
+        <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+      </button>
+
       <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
@@ -461,7 +465,7 @@
       ></script>
       <script
         src="https://code.jquery.com/jquery-3.7.1.min.js"
-        integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegehu1MVsGrX5xXxAvs/HgeFs"
+        integrity="sha384-1H217gwSVyLSIfaLxHbE7dRb3v4mYCKbpQvzx0cegeju1MVsGrX5xXxAvs/HgeFs"
         crossorigin="anonymous"
       ></script>
       <script
@@ -477,16 +481,6 @@
       <script src="js/lz-string.min.js"></script>
       <script src="js/main.js"></script>
     </div>
-
-    <!-- ═══ Back to Top Floating Button ══════════════════════════════════ -->
-    <button
-      type="button"
-      id="btn_scroll_top"
-      class="btn-scroll-top"
-      aria-label="Kembali ke atas"
-      title="Kembali ke atas"
-    >
-      <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
-    </button>
   </body>
 </html>
+

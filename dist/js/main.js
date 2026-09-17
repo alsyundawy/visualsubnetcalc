@@ -611,6 +611,34 @@ $("#btn_go").on("click", function (e) {
   }
 });
 
+$("#btn_reset").on("click", function (e) {
+  if (e && typeof e.preventDefault === "function") {
+    e.preventDefault();
+  }
+  if (ipVersion === "IPv6") {
+    $("#network").val("2001:db8::");
+    $("#netsize").val("32");
+    updateActiveIpv6Preset("32");
+    subnetMap = { "2001:db8::/32": {} };
+    maxNetSize = 32;
+  } else {
+    $("#network").val("10.0.0.0");
+    $("#netsize").val("16");
+    updateActiveIpv4Preset("16");
+    subnetMap = { "10.0.0.0/16": {} };
+    maxNetSize = 16;
+  }
+  operatingMode = "Standard";
+  switchMode(operatingMode);
+  $("#input_form").removeClass("was-validated");
+  if ($("#input_form").data("validator")) {
+    $("#input_form").validate().resetForm();
+  }
+  updateRfc1918Indicator();
+  renderTable(operatingMode);
+  syncUrlState();
+});
+
 $("#dropdown_standard").click(function () {
   previousOperatingMode = operatingMode;
   operatingMode = "Standard";
@@ -743,7 +771,7 @@ async function copyTextToClipboard(text) {
 }
 
 $("#bottom_nav #copy_url").on("click", async function () {
-  const url = window.location.origin + getLiveUrl();
+  const url = window.location.origin + getConfigUrl();
   await copyTextToClipboard(url);
   $("#bottom_nav #copy_url span").text("Copied!");
   setTimeout(function () {
@@ -2070,6 +2098,37 @@ function show_warning_modal(messageHtml) {
 }
 
 $(document).ready(function () {
+  $(document).on("click", ".modal [data-bs-dismiss='modal']", function () {
+    const modalEl = $(this).closest(".modal")[0];
+    if (modalEl && typeof bootstrap !== "undefined" && bootstrap.Modal) {
+      const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      if (
+        modalInstance &&
+        modalInstance._isTransitioning &&
+        modalEl.classList.contains("show")
+      ) {
+        modalEl._pendingDismiss = true;
+      }
+    }
+  });
+
+  $(document).on("shown.bs.modal", ".modal", function () {
+    if (this._pendingDismiss) {
+      this._pendingDismiss = false;
+      const modalInstance =
+        typeof bootstrap !== "undefined" && bootstrap.Modal
+          ? bootstrap.Modal.getInstance(this)
+          : null;
+      if (modalInstance) {
+        modalInstance.hide();
+      }
+    }
+  });
+
+  $(document).on("hide.bs.modal hidden.bs.modal", ".modal", function () {
+    this._pendingDismiss = false;
+  });
+
   $("#input_form").validate({
     onfocusout: function (element) {
       $(element).valid();
@@ -2369,6 +2428,10 @@ function syncUrlState() {
       const fullUrl = window.location.origin + liveUrl;
       liveLink.href = fullUrl;
       liveLink.textContent = fullUrl;
+      liveLink.setAttribute(
+        "aria-label",
+        "Live Shareable Subnet Configuration URL",
+      );
     }
     if (typeof TemporaryCookieStore !== "undefined") {
       TemporaryCookieStore.set("vsc_draft_15m", liveUrl, 900);
@@ -2377,7 +2440,7 @@ function syncUrlState() {
         cookieBadge.style.display = "inline-flex";
         const badgeText = document.getElementById("cookie_session_badge_text");
         if (badgeText) {
-          badgeText.textContent = "Kuki Sesi: 15 Menit";
+          badgeText.textContent = "Session Cookie: 15 Mins";
         }
       }
     }
@@ -2809,7 +2872,7 @@ const rgba2hex = (rgba) => {
 
   function applyTheme(t, persist) {
     if (t !== "dark" && t !== "light") {
-      t = getSystemTheme();
+      t = "dark";
     }
     root.setAttribute("data-theme", t);
     root.setAttribute("data-bs-theme", t);
@@ -2833,7 +2896,7 @@ const rgba2hex = (rgba) => {
   }
 
   const storedTheme = getStoredTheme();
-  const initial = storedTheme || getSystemTheme();
+  const initial = storedTheme || "dark";
   applyTheme(initial, Boolean(storedTheme));
 
   if (toggle) {
@@ -2888,7 +2951,7 @@ const rgba2hex = (rgba) => {
   } catch (e) {}
 
   function formatCount(num) {
-    return Number(num).toLocaleString("id-ID");
+    return Number(num).toLocaleString("en-US");
   }
 
   function fetchCounter() {
@@ -2938,17 +3001,18 @@ const rgba2hex = (rgba) => {
 /* ═══════════════════════════════════════════════════════════════════════════
    Back to Top Floating Button Controller
    ═══════════════════════════════════════════════════════════════════════════ */
-(function initBackToTop() {
+function initBackToTop() {
   const btnScrollTop = document.getElementById("btn_scroll_top");
   if (!btnScrollTop) return;
 
   function handleScroll() {
     const scrollY =
       window.pageYOffset ||
+      window.scrollY ||
       document.documentElement.scrollTop ||
       document.body.scrollTop ||
       0;
-    if (scrollY > 220) {
+    if (scrollY > 120) {
       btnScrollTop.classList.add("show");
     } else {
       btnScrollTop.classList.remove("show");
@@ -2956,6 +3020,8 @@ const rgba2hex = (rgba) => {
   }
 
   window.addEventListener("scroll", handleScroll, { passive: true });
+  document.addEventListener("scroll", handleScroll, { passive: true });
+  window.addEventListener("resize", handleScroll, { passive: true });
   handleScroll();
 
   btnScrollTop.addEventListener("click", function (e) {
@@ -2969,5 +3035,11 @@ const rgba2hex = (rgba) => {
       window.scrollTo(0, 0);
     }
   });
-})();
+}
+
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initBackToTop);
+} else {
+  initBackToTop();
+}
 

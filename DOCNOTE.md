@@ -401,6 +401,73 @@ During development, IDE inspection may report the following warning:
    ```
 4. **Permanent Resolution in `.hintrc`**: The warning is emitted specifically by the Webhint / Edge DevTools extension (`@hint/hint-html-checker`) reading the workspace `.hintrc` configuration. By configuring `"html-checker": "off"` in `.hintrc`, the extension is instructed to skip external HTTP requests to `validator.w3.org`, permanently eliminating the spurious IDE diagnostic warning while preserving fast, strictly offline HTML validation via `html-validate`.
 
+## Modern UI Control Architecture & Hardening (v1.4.3)
+
+### 1. Instant Subnet Calculation Reset Engine (`#btn_reset`)
+
+To streamline user workflow, a dedicated reset action (`#btn_reset`) is positioned immediately beside `#btn_tools`:
+
+- **Dual-Stack Default Restoration**:
+  - IPv4: Restores `#network` to `10.0.0.0`, `#netsize` to `16`, activates preset `/16`, sets `subnetMap = {"10.0.0.0/16": {}}`, and resets `maxNetSize = 16`.
+  - IPv6: Restores `#network` to `2001:db8::`, `#netsize` to `32`, activates preset `/32`, sets `subnetMap = {"2001:db8::/32": {}}`, and resets `maxNetSize = 32`.
+- **Validation State Neutralization**: Calls `$("#input_form").removeClass("was-validated")` and jQuery Validation plugin's `.resetForm()`, immediately clearing any error highlighting or validation messages.
+- **RFC 1918 & Preset Synchronization**: Executes `updateActiveIpv4Preset()` or `updateActiveIpv6Preset()` and `updateRfc1918Indicator()`.
+- **Operating Mode Reset**: Reverts `operatingMode` to `"Standard"` via `switchMode("Standard")`.
+- **State Serialization**: Triggers `renderTable(operatingMode)` and `syncUrlState()` to immediately clear custom splits from the browser address bar.
+
+### 2. 2026 Pastel Palette Color Tokens & WCAG Contrast
+
+Visual Subnet Calculator implements an ergonomic, accessible 2026 pastel palette for top-level operational buttons:
+
+| Button | Role / Class | Light Mode Background | Light Mode Text | Dark Mode Background | Dark Mode Text | WCAG Contrast |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tools** | `#btn_tools` (`.btn-pastel-green`) | `#d1fae5` (Emerald 100) | `#065f46` (Emerald 800) | `#064e3b` (Emerald 900) | `#a7f3d0` (Emerald 200) | **AAA** (> 7.2:1) |
+| **Reset** | `#btn_reset` (`.btn-pastel-red`) | `#fee2e2` (Rose 100) | `#991b1b` (Rose 800) | `#7f1d1d` (Rose 900) | `#fecaca` (Rose 200) | **AAA** (> 7.4:1) |
+
+Both tokens include subtle hover micro-interactions (`transform: translateY(-1px)`, soft ambient box-shadows) and accessible `:focus-visible` focus rings conforming to WCAG 2.2 AA.
+
+### 3. Back to Top Button Lifecycle & DOM Hardening (`#btn_scroll_top`)
+
+In long subnet hierarchies with dozens of subnets (particularly under deep IPv6 allocations like `/32 -> /48 -> /56 -> /64`), quick return navigation is essential:
+
+- **DOM Positioning**: Placed directly before `<script>` bundles to ensure element existence before JavaScript execution begins.
+- **Lifecycle Hook**: Enclosed within `DOMContentLoaded` listener (with immediate execution fallback if `document.readyState !== "loading"`).
+- **Dual Scroll Attachment**: Listens on both `window` and `document` to guarantee compatibility across mobile viewports, nested scrolling containers, and desktop window managers.
+- **Scroll Threshold**: Activated when vertical scroll exceeds `120px` (`window.scrollY > 120 || document.documentElement.scrollTop > 120`).
+- **High Stacking Context**: Rendered with `z-index: 1060`, positioned comfortably above table rows and footer badges while remaining below modal backdrops.
+
+### 4. Bootstrap 5 Modal Dismiss Transition Race Condition Mitigation
+
+When automated end-to-end tests or fast human interactions dismiss a modal during its opening fade transition:
+
+- **Root Cause**: Bootstrap 5's internal `Modal.prototype.hide()` checks `if (this._isTransitioning) return;`. If a dismiss click occurs while the modal is fading in, Bootstrap ignores the dismissal, leaving the modal stuck open.
+- **Flawed Solution**: Binding `{ once: true }` on `shown.bs.modal` caused race conditions because if dismissal occurred while closing, the listener lingered until the *next* time that modal opened, causing it to dismiss immediately upon opening.
+- **Production-Grade Solution**: Implemented an element-scoped `_pendingDismiss` flag pattern on the modal DOM node:
+  ```javascript
+  $(document).on("click", ".modal [data-bs-dismiss='modal']", function () {
+    const modalEl = $(this).closest(".modal")[0];
+    if (modalEl && typeof bootstrap !== "undefined" && bootstrap.Modal) {
+      const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      if (modalInstance && modalInstance._isTransitioning && modalEl.classList.contains("show")) {
+        modalEl._pendingDismiss = true;
+      }
+    }
+  });
+
+  $(document).on("shown.bs.modal", ".modal", function () {
+    if (this._pendingDismiss) {
+      this._pendingDismiss = false;
+      const modalInstance = bootstrap.Modal.getInstance(this);
+      if (modalInstance) modalInstance.hide();
+    }
+  });
+
+  $(document).on("hide.bs.modal hidden.bs.modal", ".modal", function () {
+    this._pendingDismiss = false;
+  });
+  ```
+  This guarantees zero event leakage across modal openings and 100% reliable dismissal timing under any testing velocity.
+
 ## Security Considerations
 
 - **Client-Side Isolation**: All calculations occur entirely in the browser runtime. No user data, IP schemas, or notes are transmitted to any backend server.

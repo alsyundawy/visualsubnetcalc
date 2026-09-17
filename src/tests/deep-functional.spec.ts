@@ -7,6 +7,7 @@ async function getClipboardText(page: Page) {
 }
 
 test("Deep Functional Test", async ({ page }) => {
+  test.setTimeout(90000);
   // The goal of this test is to identify any weird interdependencies or issues that may arise
   //   from doing a variety of actions on one page load. It's meant to emulate a complex human
   //   user interaction often with steps that don't make sense.

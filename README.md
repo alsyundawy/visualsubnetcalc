@@ -5,7 +5,7 @@
 [![CodeQL Security](https://img.shields.io/badge/CodeQL-0%20Alerts%20%7C%20Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/alsyundawy/visualsubnetcalc/security/code-scanning)
 [![Trunk Linters](https://img.shields.io/badge/Trunk%20Check-14%20Linters%20Clean-brightgreen?style=for-the-badge&logo=checkmarx)](https://trunk.io)
 [![WCAG](https://img.shields.io/badge/WCAG%202.2-Level%20AA%20Compliant-blue?style=for-the-badge&logo=w3c)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![Tests](https://img.shields.io/badge/Playwright%20E2E-118%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
+[![Tests](https://img.shields.io/badge/Playwright%20E2E-162%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Responsive](https://img.shields.io/badge/Responsive-VGA%20to%202K-purple?style=for-the-badge)](https://github.com/alsyundawy/visualsubnetcalc)
 [![Donate PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
 
@@ -673,7 +673,7 @@ Every release of this modernized edition undergoes rigorous verification across 
 | :------------------------- | :------------------------------------- | :-------------------------------------------------------- | :----------------------------------------- |
 | **Comprehensive Linting**  | [`Trunk Check`](https://trunk.io)      | 14 Linters (`prettier`, `yamllint`, `markdownlint`, etc.) | **PASSED (68/68 files clean)**             |
 | **HTML5 Validation**       | `html-validate`                        | Native HTML standards, accessibility & semantic tags      | **PASSED (0 errors, 0 warnings)**          |
-| **Browser E2E Testing**    | [`Playwright`](https://playwright.dev) | Chromium & Firefox end-to-end user workflows              | **PASSED (118/118 tests)**                 |
+| **Browser E2E Testing**    | [`Playwright`](https://playwright.dev) | Chromium & Firefox end-to-end user workflows              | **PASSED (162/162 tests)**                 |
 | **Security Scanning**      | GitHub CodeQL                          | DOM XSS and source-to-sink vulnerability analysis         | **PASSED (0 alerts)**                      |
 | **IaC & Container Policy** | `checkov` & `hadolint`                 | Dockerfile & AWS CloudFormation best practices            | **PASSED (CIS & Best Practice Compliant)** |
 
@@ -768,11 +768,17 @@ Every notable release, security remediation, accessibility improvement, and fram
 ### Recent Release Highlights
 
 - **[`v1.4.3 (Latest Release)`](CHANGELOG.md#143---2026-09-17)**:
+  - 🔄 **Instant Subnet Calculation Reset (`#btn_reset`)**: One-click restoration back to pristine defaults (`10.0.0.0/16` for IPv4, `2001:db8::/32` for IPv6, Standard operating mode), neutralizing jQuery validation states, resetting presets and RFC 1918 indicator, re-rendering table, and updating URL state immediately.
+  - 🎨 **2026 Pastel Palette Standards**: Upgraded control button styling to modern 2026 pastel palette specifications: Pastel Green Tools (`.btn-pastel-green`) and Pastel Red Reset (`.btn-pastel-red`), engineered with WCAG AAA contrast in both light and dark themes.
+  - ⬆️ **Back to Top Floating Action Button (`#btn_scroll_top`)**: Responsive floating circular button with dual-listener scroll monitoring (> 120px) and smooth window scrolling, hardened for reliable lifecycle binding across both IPv4 and deep IPv6 subnet divisions.
+  - 🛡️ **Bootstrap 5 Modal Transition Race Hardening**: Solved dismissal dropouts during modal opening animation via an element-scoped `_pendingDismiss` flag pattern, preventing premature modal close on subsequent openings.
+  - 🌙 **Default Dark Mode on Initial Load**: Initialized to Dark Mode by default on first visit with zero flash of unstyled content (anti-FOUC).
+  - 🌐 **100% English Code & UI Localization**: Verified all production code, HTML, CSS, JavaScript, attributes, ARIA tags, labels, tooltips, modals, badges, and tests are strictly in English.
   - ☁️ **Google Cloud (GCP) VPC Subnet Reservation Mode**: Integrated GCP cloud reservation profile in Tools dropdown (`#dropdown_gcp`) reserving 4 IP addresses per subnet (`network + 0` Network ID, `network + 1` Default Gateway, `broadcast - 1` reserved for future use, and `broadcast - 0` Broadcast). Enforces minimum `/29` subnet boundary and computes deterministic usable range (`network + 2` to `last_address - 2`).
   - 🌐 **Hierarchical IPv6 Tier Progression & Safety Bounds**: Refined and optimized `getNextIpv6Tier()` and `splitIpv6Network()` to guarantee bounded $O(1)$ memory usage and strictly safe subnet splitting. Enforces clean nibble transitions (+4 bits) across enterprise, branch, and micro-segmentation tiers, preserves `/64` as an immutable SLAAC leaf boundary (RFC 4291 / RFC 7421), and enables granular point-to-point sub-delegation (`/112 -> /120 -> /124 -> /127 -> /128`).
   - 🔢 **IPv6 Capacity Arithmetic Bugfix**: Corrected quadrillion divisor in `getIpv6Capacity()` from `10^18` to `10^15`.
   - 🛡️ **CSS Injection & Type Hardening**: Strict regex validation on table row background colors via `sanitizeColor()`, and hardened type safety in `escapeHtml()`.
-  - 🧪 **E2E Test Suite Expansion**: 118 passing Playwright E2E tests across Chromium and Firefox.
+  - 🧪 **E2E Test Suite Expansion**: 162 passing Playwright E2E tests across Chromium and Firefox.
 - **[`v1.4.2`](CHANGELOG.md#142---2026-09-16)**:
   - 📦 **Multi-Format Import & Export Engine**: Full data interchange supporting RFC 4180 CSV spreadsheets, aligned Plain Text ASCII tables, and hierarchical JSON configurations with 1-click format switcher buttons (`#btn_format_json`, `#btn_format_csv`, `#btn_format_txt`).
   - 💾 **Client-Side File Upload & Download**: In-memory `Blob` generation triggering direct file downloads (`#btn_download_export`) and HTML5 `FileReader` loading (`#btn_upload_file`, `#importFileInput`) for `.json`, `.csv`, and `.txt` files.

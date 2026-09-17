@@ -171,17 +171,17 @@ test.describe("v1.4.3 Visual & Responsive Tests Across All Devices", () => {
     await expect(indicator).toContainText("RFC 1918 (24-bit block)");
   });
 
-  test("Dark Mode Toggle & Palette Contrast Verification", async ({ page }) => {
+  test("Dark Mode Default, Toggle & Palette Contrast Verification", async ({
+    page,
+  }) => {
     await page.goto("/");
 
-    // Initially light or system mode
-    const toggle = page.locator("#themeToggle");
-    await expect(toggle).toBeVisible();
-
-    // Toggle to dark mode
-    await toggle.click();
+    // Default appearance is dark mode
     await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
     await expect(page.locator("html")).toHaveAttribute("data-bs-theme", "dark");
+
+    const toggle = page.locator("#themeToggle");
+    await expect(toggle).toBeVisible();
 
     // Check footer contrast in dark mode
     const footer = page.locator("#app_footer");
@@ -197,7 +197,7 @@ test.describe("v1.4.3 Visual & Responsive Tests Across All Devices", () => {
       await expect(swatch).toBeVisible();
     }
 
-    // Toggle back to light mode
+    // Toggle to light mode
     await toggle.click();
     await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
     await expect(page.locator("html")).toHaveAttribute(
@@ -211,6 +211,11 @@ test.describe("v1.4.3 Visual & Responsive Tests Across All Devices", () => {
       (el) => window.getComputedStyle(el).color,
     );
     expect(lightFooterColor).toBeTruthy();
+
+    // Toggle back to dark mode
+    await toggle.click();
+    await expect(page.locator("html")).toHaveAttribute("data-theme", "dark");
+    await expect(page.locator("html")).toHaveAttribute("data-bs-theme", "dark");
   });
 
   test("Vertical Spacing Rhythm between Header, Alert, and Toolbar", async ({
@@ -281,4 +286,70 @@ test.describe("v1.4.3 Visual & Responsive Tests Across All Devices", () => {
     expect(subfolderUrl[1]).toBe("/network/planner/index.html");
     expect(subfolderUrl[2]).toBe("/app/v2/index.html");
   });
+
+  test("2026 Pastel Palette Buttons: Pastel Green Tools & Pastel Red Reset", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    const btnTools = page.getByRole("button", { name: "Tools" });
+    const btnReset = page.getByRole("button", { name: "Reset" });
+
+    await expect(btnTools).toBeVisible();
+    await expect(btnReset).toBeVisible();
+
+    await expect(btnTools).toHaveClass(/btn-pastel-green/);
+    await expect(btnReset).toHaveClass(/btn-pastel-red/);
+
+    // Split /16
+    await page.getByRole("cell", { name: "/16 Split" }).click();
+    await expect(page.locator("#calc").getByText("10.0.0.0/17")).toBeVisible();
+
+    // Click Reset
+    await btnReset.click();
+
+    // Verify reset to 10.0.0.0/16
+    await expect(page.locator("#network")).toHaveValue("10.0.0.0");
+    await expect(page.locator("#netsize")).toHaveValue("16");
+    await expect(page.locator("#calc").getByText("10.0.0.0/17")).toBeHidden();
+  });
+
+  test("Back to Top Button Lifecycle in IPv6 with Many Subnets", async ({
+    page,
+  }) => {
+    await page.goto("/");
+
+    // Switch to IPv6
+    await page.locator("#btn_ipv6").click();
+    await expect(page.locator("#network")).toHaveValue("2001:db8::");
+
+    const btnScrollTop = page.locator("#btn_scroll_top");
+    // Initially near top, so should not have .show
+    await expect(btnScrollTop).not.toHaveClass(/show/);
+
+    // Click /56 preset and split to generate multiple rows
+    await page.locator('.ipv6-preset-btn[data-prefix="56"]').click();
+    const row56 = page.locator("#calcbody tr").first();
+    await row56.locator("td.split").click();
+
+    const row60 = page.locator("#calcbody tr").first();
+    await row60.locator("td.split").click();
+
+    // Scroll down
+    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.waitForTimeout(300);
+
+    // Button should now have .show and be visible
+    await expect(btnScrollTop).toHaveClass(/show/);
+    await expect(btnScrollTop).toBeVisible();
+
+    // Click back to top button
+    await btnScrollTop.click();
+    await page.waitForTimeout(600);
+
+    // Window scrollY should return to top
+    const scrollY = await page.evaluate(() => window.scrollY);
+    expect(scrollY).toBeLessThan(100);
+  });
 });
+

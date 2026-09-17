@@ -5,7 +5,7 @@
 [![Keamanan CodeQL](https://img.shields.io/badge/CodeQL-0%20Alerts%20%7C%20Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/alsyundawy/visualsubnetcalc/security/code-scanning)
 [![Linter Trunk](https://img.shields.io/badge/Trunk%20Check-14%20Linters%20Clean-brightgreen?style=for-the-badge&logo=checkmarx)](https://trunk.io)
 [![WCAG](https://img.shields.io/badge/WCAG%202.2-Level%20AA%20Compliant-blue?style=for-the-badge&logo=w3c)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![Pengujian E2E](https://img.shields.io/badge/Playwright%20E2E-118%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
+[![Pengujian E2E](https://img.shields.io/badge/Playwright%20E2E-162%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Responsif](https://img.shields.io/badge/Responsive-VGA%20to%202K-purple?style=for-the-badge)](https://github.com/alsyundawy/visualsubnetcalc)
 [![Donasi PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
 
@@ -673,7 +673,7 @@ Setiap rilis edisi ini melewati pengujian bertingkat yang ketat pada pipeline ot
 | :------------------------- | :------------------------------------- | :------------------------------------------------------- | :------------------------------------------- |
 | **Linting Komprehensif**   | [`Trunk Check`](https://trunk.io)      | 14 Linter (`prettier`, `yamllint`, `markdownlint`, dll.) | **BERHASIL (68/68 berkas bersih)**           |
 | **Validasi Standar HTML5** | `html-validate`                        | Standar native HTML, aksesibilitas & tag semantik        | **BERHASIL (0 galat, 0 peringatan)**         |
-| **Pengujian Peramban E2E** | [`Playwright`](https://playwright.dev) | Alur pengguna menyeluruh pada Chromium & Firefox         | **BERHASIL (118/118 pengujian lulus)**       |
+| **Pengujian Peramban E2E** | [`Playwright`](https://playwright.dev) | Alur pengguna menyeluruh pada Chromium & Firefox         | **BERHASIL (162/162 pengujian lulus)**       |
 | **Pemindaian Keamanan**    | GitHub CodeQL                          | Analisis kerentanan DOM XSS dan alur source-to-sink      | **BERHASIL (0 peringatan keamanan)**         |
 | **Kebijakan Kontainer**    | `checkov` & `hadolint`                 | Best practice Dockerfile & konfigurasi CloudFormation    | **BERHASIL (Kepatuhan CIS & Best Practice)** |
 
@@ -760,11 +760,17 @@ Setiap rilis, perbaikan keamanan, peningkatan aksesibilitas, dan pembaruan keran
 ### Ringkasan Rilis Terkini
 
 - **[`v1.4.3 (Rilis Terkini)`](CHANGELOG-ID.md#143---2026-09-17)**:
+  - 🔄 **Tombol Reset Perhitungan Subnet Instan (`#btn_reset`)**: Pemulihan satu klik kembali ke kondisi default (`10.0.0.0/16` untuk IPv4, `2001:db8::/32` untuk IPv6, mode Standard), menetralisir status validasi formulir jQuery, mereset preset aktif dan indikator RFC 1918, merender ulang tabel, serta menyinkronkan parameter URL secara instan.
+  - 🎨 **Standar Palet Warna Pastel 2026**: Memperbarui tampilan tombol kontrol dengan standar palet pastel modern 2026: Tombol Tools Hijau Pastel (`.btn-pastel-green`) dan Tombol Reset Merah Pastel (`.btn-pastel-red`), direkayasa dengan kontras tinggi standar WCAG AAA pada mode terang maupun gelap.
+  - ⬆️ **Tombol Melayang Kembali ke Atas (`#btn_scroll_top`)**: Tombol navigasi melayang berbentuk sirkular dengan pemantauan scroll ganda (> 120px) dan smooth scrolling, diperkuat siklus hidup DOM-nya untuk menjamin kemunculan tombol baik pada IPv4 maupun pemecahan mendalam IPv6.
+  - 🛡️ **Pengerasan Kondisi Balapan Penutupan Modal Bootstrap 5**: Menghilangkan kegagalan penutupan modal saat animasi fade-in pembukaan berlangsung melalui flag `_pendingDismiss` berlingkup node DOM modal, mencegah penutupan prematur pada pembukaan modal selanjutnya.
+  - 🌙 **Default Mode Gelap (Dark Mode) saat Pertama Dibuka**: Mengatur tema awal menjadi Mode Gelap secara default pada kunjungan pertama dengan skrip anti-FOUC langsung di `<head>`.
+  - 🌐 **100% Lokalisasi Kode & UI Bahasa Inggris**: Memastikan seluruh kode produksi, HTML, CSS, JavaScript, atribut ARIA, label, tooltip, modal, badge, dan pengujian sepenuhnya berbahasa Inggris.
   - ☁️ **Mode Reservasi Subnet VPC Google Cloud (GCP)**: Integrasi profil reservasi cloud GCP pada menu Tools (`#dropdown_gcp`) yang mencadangkan 4 alamat IP per subnet (`network + 0` ID Jaringan, `network + 1` Gateway Default, `broadcast - 1` dicadangkan masa depan, dan `broadcast - 0` Broadcast Jaringan). Menegakkan batas ukuran subnet minimum `/29` serta rentang IP yang dapat digunakan secara deterministik (`network + 2` hingga `last_address - 2`).
   - 🌐 **Progresi Tingkatan IPv6 Hierarkis & Batas Keamanan**: Penyempurnaan dan optimasi fungsi `getNextIpv6Tier()` dan `splitIpv6Network()` dengan jaminan memori terbatas $O(1)$ dan pembagian subnet yang sepenuhnya aman. Menerapkan transisi nibble bersih (+4 bit) di seluruh tingkatan korporasi, cabang, dan mikro-segmentasi, menjaga `/64` sebagai batas daun SLAAC permanen (RFC 4291 / RFC 7421), serta mendukung sub-delegasi point-to-point granular (`/112 -> /120 -> /124 -> /127 -> /128`).
   - 🔢 **Perbaikan Aritmatika Kapasitas IPv6**: Memperbaiki pembagi kuadriliun pada `getIpv6Capacity()` dari `10^18` menjadi `10^15`.
   - 🛡️ **Pengerasan Injeksi CSS & Keamanan Tipe**: Validasi regex ketat warna latar tabel via `sanitizeColor()`, serta penguatan penanganan tipe pada `escapeHtml()`.
-  - 🧪 **Ekspansi Rangkaian Uji E2E**: 118 uji otomatis Playwright yang sepenuhnya lulus pada Chromium dan Firefox.
+  - 🧪 **Ekspansi Rangkaian Uji E2E**: 162 uji otomatis Playwright yang sepenuhnya lulus pada Chromium dan Firefox.
 - **[`v1.4.2`](CHANGELOG-ID.md#142---2026-09-16)**:
   - 📦 **Mesin Impor & Ekspor Multi-Format**: Dukungan pertukaran data untuk spreadsheet CSV standar RFC 4180, tabel Plain Text ASCII rata kolom, serta konfigurasi hierarkis JSON dengan tombol pengalih format satu-klik (`#btn_format_json`, `#btn_format_csv`, `#btn_format_txt`).
   - 💾 **Unduh & Unggah Berkas Sisi Klien**: Pembuatan objek `Blob` di memori untuk pengunduhan berkas langsung (`#btn_download_export`) dan pembacaan berkas lokal via HTML5 `FileReader` (`#btn_upload_file`, `#importFileInput`) untuk berkas `.json`, `.csv`, dan `.txt`.

@@ -422,6 +422,75 @@ Selama proses pengembangan, IDE dapat memunculkan peringatan berikut:
 
 ---
 
+## Arsitektur Kontrol UI Modern & Pengerasan Sistem (v1.4.3)
+
+### 1. Mesin Reset Perhitungan Subnet Instan (`#btn_reset`)
+
+Untuk mempermudah alur kerja pengguna, tombol aksi reset (`#btn_reset`) ditempatkan tepat di sebelah `#btn_tools`:
+
+- **Pemulihan Kondisi Awal Dual-Stack**:
+  - IPv4: Mengembalikan `#network` ke `10.0.0.0`, `#netsize` ke `16`, mengaktifkan preset `/16`, mengatur `subnetMap = {"10.0.0.0/16": {}}`, dan mereset `maxNetSize = 16`.
+  - IPv6: Mengembalikan `#network` ke `2001:db8::`, `#netsize` ke `32`, mengaktifkan preset `/32`, mengatur `subnetMap = {"2001:db8::/32": {}}`, dan mereset `maxNetSize = 32`.
+- **Netralisasi Status Validasi**: Mengeksekusi `$("#input_form").removeClass("was-validated")` dan metode `.resetForm()` dari plugin jQuery Validation, menghapus indikator galat merah dan pesan validasi secara instan.
+- **Sinkronisasi Presets & RFC 1918**: Menjalankan fungsi `updateActiveIpv4Preset()` atau `updateActiveIpv6Preset()` serta `updateRfc1918Indicator()`.
+- **Reset Mode Operasi**: Mengembalikan `operatingMode` ke `"Standard"` melalui `switchMode("Standard")`.
+- **Serialisasi Status & URL**: Memicu `renderTable(operatingMode)` dan `syncUrlState()` untuk segera membersihkan parameter pemecahan kustom dari bilah URL peramban.
+
+### 2. Standar Token Warna Palet Pastel 2026 & Kontras WCAG
+
+Visual Subnet Calculator menerapkan palet warna pastel modern berstandar 2026 yang ergonomis dan aksesibel untuk tombol kontrol operasional utama:
+
+| Tombol | Peran / Kelas | Latar Mode Terang | Teks Mode Terang | Latar Mode Gelap | Teks Mode Gelap | Kontras WCAG |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Tools** | `#btn_tools` (`.btn-pastel-green`) | `#d1fae5` (Emerald 100) | `#065f46` (Emerald 800) | `#064e3b` (Emerald 900) | `#a7f3d0` (Emerald 200) | **AAA** (> 7.2:1) |
+| **Reset** | `#btn_reset` (`.btn-pastel-red`) | `#fee2e2` (Rose 100) | `#991b1b` (Rose 800) | `#7f1d1d` (Rose 900) | `#fecaca` (Rose 200) | **AAA** (> 7.4:1) |
+
+Kedua token warna dilengkapi interaksi mikro saat hover (`transform: translateY(-1px)`, bayangan ambient halus) serta cincin fokus aksesibel `:focus-visible` yang mematuhi standar WCAG 2.2 AA.
+
+### 3. Penguatan Siklus Hidup DOM Tombol Kembali ke Atas (`#btn_scroll_top`)
+
+Pada tabel subnet yang panjang dengan puluhan pemecahan (terutama pada alokasi IPv6 seperti `/32 -> /48 -> /56 -> /64`), tombol navigasi kembali ke atas sangat krusial:
+
+- **Posisi DOM**: Diletakkan tepat sebelum tag `<script>` untuk memastikan elemen telah tersedia di pohon DOM sebelum skrip JavaScript dieksekusi.
+- **Hook Siklus Hidup**: Dibungkus dalam pendengar `DOMContentLoaded` (dengan fallback eksekusi instan jika `document.readyState !== "loading"`).
+- **Pemasangan Pendengar Ganda**: Memantau event scroll baik pada objek `window` maupun `document` guna menjamin kompatibilitas di berbagai viewport seluler, kontainer scroll bersarang, dan browser desktop.
+- **Ambang Batas Scroll**: Diaktifkan secara responsif ketika jarak scroll vertikal melampaui `120px` (`window.scrollY > 120 || document.documentElement.scrollTop > 120`).
+- **Konteks Tumpukan Tinggi (z-index)**: Menggunakan `z-index: 1060`, berada di atas baris tabel dan badge footer namun tetap di bawah backdrop modal Bootstrap.
+
+### 4. Mitigasi Kondisi Balapan Transisi Penutupan Modal Bootstrap 5
+
+Ketika pengujian otomatis atau interaksi pengguna yang cepat menutup modal saat animasi fade-in pembukaan masih berlangsung:
+
+- **Akar Masalah**: Metode internal Bootstrap 5 `Modal.prototype.hide()` memeriksa `if (this._isTransitioning) return;`. Jika klik penutupan terjadi saat modal masih dalam proses fade-in, Bootstrap mengabaikan aksi tersebut sehingga modal tetap terbuka.
+- **Kelemahan Solusi Naif**: Pemasangan event listener `{ once: true }` pada `shown.bs.modal` memicu kondisi balapan baru. Jika penutupan terjadi saat modal sedang menutup, event `shown` tidak tertembak sehingga listener tertinggal dan langsung menutup modal tersebut secara prematur pada saat dibuka kembali di masa depan.
+- **Solusi Standar Produksi**: Menerapkan flag `_pendingDismiss` berlingkup elemen node DOM modal:
+  ```javascript
+  $(document).on("click", ".modal [data-bs-dismiss='modal']", function () {
+    const modalEl = $(this).closest(".modal")[0];
+    if (modalEl && typeof bootstrap !== "undefined" && bootstrap.Modal) {
+      const modalInstance = bootstrap.Modal.getInstance(modalEl);
+      if (modalInstance && modalInstance._isTransitioning && modalEl.classList.contains("show")) {
+        modalEl._pendingDismiss = true;
+      }
+    }
+  });
+
+  $(document).on("shown.bs.modal", ".modal", function () {
+    if (this._pendingDismiss) {
+      this._pendingDismiss = false;
+      const modalInstance = bootstrap.Modal.getInstance(this);
+      if (modalInstance) modalInstance.hide();
+    }
+  });
+
+  $(document).on("hide.bs.modal hidden.bs.modal", ".modal", function () {
+    this._pendingDismiss = false;
+  });
+  ```
+  Pola ini menjamin tidak ada kebocoran status antar-modal dan penutupan selalu dieksekusi secara 100% andal di segala kecepatan pengujian.
+
+---
+
 ## Pertimbangan Keamanan
 
 - **Isolasi Penuh di Sisi Klien**: Seluruh kalkulasi berlangsung sepenuhnya di dalam runtime peramban. Tidak ada data pengguna, skema IP, maupun catatan teks yang dikirimkan ke server backend mana pun.

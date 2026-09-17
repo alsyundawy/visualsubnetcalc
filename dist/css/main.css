@@ -202,8 +202,9 @@ table,
 input,
 select,
 button {
-  text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -1191,9 +1192,7 @@ h1 {
     max-width: 100%;
     min-width: 0;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
     white-space: nowrap;
-    scrollbar-width: thin;
   }
 
   .rfc1918-preset-container {
@@ -2197,28 +2196,48 @@ h1 {
 #calc tbody tr.has-light-bg th,
 #calc tbody tr.has-light-bg .row_range,
 #calc tbody tr.has-light-bg .row_usable,
-#calc tbody tr.has-light-bg .row_hosts {
+#calc tbody tr.has-light-bg .row_hosts,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg td,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg th,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg .row_range,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg .row_usable,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg .row_hosts,
+[data-theme="dark"] #calc tbody tr.has-light-bg td,
+[data-theme="dark"] #calc tbody tr.has-light-bg th,
+[data-theme="dark"] #calc tbody tr.has-light-bg .row_range,
+[data-theme="dark"] #calc tbody tr.has-light-bg .row_usable,
+[data-theme="dark"] #calc tbody tr.has-light-bg .row_hosts {
   color: #0f172a !important;
 }
 
-#calc tbody tr.has-light-bg .row_address {
+#calc tbody tr.has-light-bg .row_address,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg .row_address,
+[data-theme="dark"] #calc tbody tr.has-light-bg .row_address {
   color: #0369a1 !important;
   font-weight: 700 !important;
 }
 
-#calc tbody tr.has-light-bg .note input {
+#calc tbody tr.has-light-bg .note input,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg .note input,
+[data-theme="dark"] #calc tbody tr.has-light-bg .note input {
   color: #0f172a !important;
 }
 
-#calc tbody tr.has-light-bg .note input::placeholder {
+#calc tbody tr.has-light-bg .note input::placeholder,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg .note input::placeholder,
+[data-theme="dark"] #calc tbody tr.has-light-bg .note input::placeholder {
   color: #64748b !important;
 }
 
-#calc tbody tr.has-light-bg:hover > td:not(.split):not(.join) {
+#calc tbody tr.has-light-bg:hover > td:not(.split):not(.join),
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg:hover > td:not(.split):not(.join),
+[data-theme="dark"] #calc tbody tr.has-light-bg:hover > td:not(.split):not(.join) {
   box-shadow: inset 0 0 0 9999px rgba(0, 0, 0, 0.08) !important;
 }
 
-#calc tbody tr.has-light-bg:hover > td.row_address {
+#calc tbody tr.has-light-bg:hover > td.row_address,
+[data-bs-theme="dark"] #calc tbody tr.has-light-bg:hover > td.row_address,
+[data-theme="dark"] #calc tbody tr.has-light-bg:hover > td.row_address {
   color: #0284c7 !important;
   text-shadow: none !important;
 }
@@ -2227,20 +2246,36 @@ h1 {
 #calc tbody tr.has-dark-bg th,
 #calc tbody tr.has-dark-bg .row_range,
 #calc tbody tr.has-dark-bg .row_usable,
-#calc tbody tr.has-dark-bg .row_hosts {
+#calc tbody tr.has-dark-bg .row_hosts,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg td,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg th,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg .row_range,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg .row_usable,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg .row_hosts,
+[data-theme="dark"] #calc tbody tr.has-dark-bg td,
+[data-theme="dark"] #calc tbody tr.has-dark-bg th,
+[data-theme="dark"] #calc tbody tr.has-dark-bg .row_range,
+[data-theme="dark"] #calc tbody tr.has-dark-bg .row_usable,
+[data-theme="dark"] #calc tbody tr.has-dark-bg .row_hosts {
   color: #f8fafc !important;
 }
 
-#calc tbody tr.has-dark-bg .row_address {
+#calc tbody tr.has-dark-bg .row_address,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg .row_address,
+[data-theme="dark"] #calc tbody tr.has-dark-bg .row_address {
   color: #38bdf8 !important;
   font-weight: 700 !important;
 }
 
-#calc tbody tr.has-dark-bg .note input {
+#calc tbody tr.has-dark-bg .note input,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg .note input,
+[data-theme="dark"] #calc tbody tr.has-dark-bg .note input {
   color: #f8fafc !important;
 }
 
-#calc tbody tr.has-dark-bg .note input::placeholder {
+#calc tbody tr.has-dark-bg .note input::placeholder,
+[data-bs-theme="dark"] #calc tbody tr.has-dark-bg .note input::placeholder,
+[data-theme="dark"] #calc tbody tr.has-dark-bg .note input::placeholder {
   color: #94a3b8 !important;
 }
 

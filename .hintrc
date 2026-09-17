@@ -11,7 +11,11 @@
     "compat-api/css": [
       "default",
       {
-        "ignore": ["text-size-adjust"]
+        "ignore": [
+          "-webkit-text-size-adjust",
+          "-moz-text-size-adjust",
+          "text-size-adjust"
+        ]
       }
     ]
   }

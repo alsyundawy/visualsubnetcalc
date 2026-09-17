@@ -7,10 +7,14 @@ All notable changes to Visual Subnet Calculator will be documented in this file.
 The format is based on [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
 
-## [1.4.3] - 2026-09-17
+## [1.4.3] - 2026-09-18
 
 ### Added
 
+- Instant Subnet Calculation Reset Engine (`#btn_reset`): Added a dedicated Reset button beside the Tools button in `#calc` controls. Restores dual-stack defaults (IPv4 to `10.0.0.0/16`, `/16` preset, `Standard` mode; IPv6 to `2001:db8::/32`, `/32` preset), resets active presets, clears `subnetMap`, neutralizes jQuery `.was-validated` error highlighting and messages, and clears custom division parameters from the browser address bar via `window.history.replaceState`.
+- 2026 Modern Pastel Palette Standards & WCAG AAA Contrast: Control action buttons modernized to curated 2026 pastel tokens: Go (Sapphire / Royal Blue `linear-gradient(135deg, #0284c7, #1d4ed8)`), Tools (Pastel Emerald Green `#d1fae5` / `#065f46`), and Reset (Pastel Rose / Crimson `#fee2e2` / `#991b1b`). Both light and dark mode variants strictly exceed 7.2:1 contrast ratio (**WCAG AAA**) for normal and large text.
+- Dark Mode Dynamic Contrast Engine (`isColorLight`): Engineered automated perceived brightness calculator in `dist/js/main.js` and dynamic classes (`.has-light-bg`, `.has-dark-bg`) that adapt row text, inputs, and addresses to high-contrast dark `#0f172a` on light colors and `#f8fafc` on dark colors, preventing invisible text in dark mode.
+- Bootstrap 5 Modal Dismiss Transition Race Condition Mitigation: Implemented an element-scoped `_pendingDismiss` flag pattern on modal DOM nodes. Dismissal is safely queued until `shown.bs.modal` fires and automatically cleared on `hide.bs.modal` or `hidden.bs.modal`, eliminating dropped dismiss events during rapid test clicks or quick user interactions.
 - Interactive IPv6 `/64` through `/127` Subnet Splitting: Unlocked interactive splitting for `/64` through `/127` prefixes into subsequent tiers (e.g. `/68`, `/72`, `/80`, `/84`, `/88`, `/92`, `/96`, `/112`, and `/127`), enabling granular micro-segmentation down to point-to-point links (RFC 6164) while returning an empty division tree for un-divided subnets to preserve clean canonical URLs.
 - RFC-Compliant IPv6 Presets (`/40` & `/52`): Added `/40` (RFC 6052 IPv4/IPv6 translation prefix) and `/52` (RFC 6177 multi-site campus allocation) to the IPv6 preset toolbar (`#ipv6_tier_info`), expanding standard tiers to 14 presets.
 - Clean IPv6 URL Serialization (Hyphenated Format): Replaced percent-encoded colons (`%3A`) in IPv6 query parameters with hyphens (`-`), producing clean, human-readable URLs (e.g. `?network=2508-6789--&mask=32`) with seamless bidirectional backward and forward parsing.
@@ -18,7 +22,6 @@ and this project adheres to [`Semantic Versioning`](https://semver.org/spec/v2.0
 - Standard Default IP Allocations: Configured default IPv4 to `172.16.0.0/16` (RFC 1918 20-bit block) and default IPv6 to `2508:6789::/32`.
 - Official GitHub Pages Live Demo Link: Published and linked live demonstration URL at `https://alsyundawy.github.io/visualsubnetcalc/` across all documentation, metadata, and headers.
 - Comprehensive DOCNOTE Metadata Headers: Integrated standardized, professional metadata comment headers across all production code files (`dist/index.html`, `dist/404.html`, `dist/css/main.css`, `dist/js/main.js`) documenting architecture, author credentials, contact channels, version 1.4.3, and date.
-- Equalized and Modernized Go, Tools, and Reset Action Buttons: Standardized `#btn_go`, `#btn_tools`, and `#btn_reset` with identical proportions, compact modern elegance, and harmonic spacing. Styled Go in vibrant luminous blue with dark contrast (`linear-gradient(135deg, #0284c7, #1d4ed8)`), Tools in emerald green (`#10b981`), and Reset in rose coral (`#f43f5e`).
 - Curated 8 Essential Social / Contact Channels: Streamlined footer contact channels to exactly 8 essential platforms (Telegram, WhatsApp, X, Website, Email, GitHub, QRIS, and PayPal) with brand-specific hover glows and clean circular box model.
 - Professional, Non-Hyperbolic Project Tagline: Replaced AI-sounding buzzwords with clear, professional terminology: "Interactive IPv4 & IPv6 Subnet Calculator and CIDR Network Design Tool".
 - Default Dark Mode on Initial Load: Initialized default theme to Dark Mode (`dark`) on first visit prior to user selection or OS preference overrides, supported by an inline anti-FOUC script.
@@ -38,14 +41,14 @@ and this project adheres to [`Semantic Versioning`](https://semver.org/spec/v2.0
 - Dual-Mode Theme (Light / Dark) Engine: Modern glassmorphic theme architecture styled with sleek dark mode aesthetics inspired by ns1.orion.net.id. Features an interactive Font Awesome header toggle (`#themeToggle`), `localStorage` persistence, anti-FOUC inline script in `<head>`, dynamic `<meta name="theme-color">` synchronization, and fluid theme switching.
 - Comprehensive Favicon Suite: Integrated consolidated favicon and application icon set directly from `alsyundawy.com` into `dist/icon/` (SVG, ICO, PNG 16x16 to 512x512, Apple touch icons, Android manifest, Windows mstile).
 - Distinctive Fork Badge: Added modern pill badge (`Fork`) across `dist/index.html` and `dist/404.html` with vibrant cyan gradient accent and clean padding.
-- Cross-Browser & Multi-Device Verification Suite: Automated Headless Chrome and Playwright test suites verifying responsive viewport profiles (VGA 640x480, Xiaomi Redmi A2 360x800, Redmi Note 13 392x872, POCO X6 Pro 412x915, iPhone 15 Pro, iPad Air, MacBook, Desktop FHD, and Desktop 2K QHD), automated vertical spacing checks, and URL path auto-detection with zero horizontal document overflow.
-
-- Dark Mode Dynamic Contrast Engine: Engineered automated perceived brightness calculator (`isColorLight`) in `dist/js/main.js` and dynamic classes (`.has-light-bg`, `.has-dark-bg`) that adapt row text, inputs, and addresses to high-contrast dark `#0f172a` on light colors and `#f8fafc` on dark colors, preventing invisible text in dark mode.
+- Updated High-Resolution Demonstration GIF: Re-recorded and updated `src/demo.gif` showcasing the full 1.4.3 visual interface, default dark theme, reset workflow, and real-time live shareable URLs.
 - Comprehensive MegaLinter Full Suite Inclusion: Configured `.mega-linter.yml` to enable all linters for Markdown, HTML, CSS, JavaScript (Node.js), and TypeScript (`MARKDOWN_MARKDOWNLINT`, `HTML_HTMLHINT`, `CSS_STYLELINT`, `JAVASCRIPT_ESLINT`, `JAVASCRIPT_STANDARD`, `TYPESCRIPT_ESLINT`, `TYPESCRIPT_STANDARD`).
 - Standard Linter Configuration Files: Added root `eslint.config.js` and `.stylelintrc.json` with strict rules, achieving 100% clean passes without errors or warnings across HTMLHint, HTML-Validate, Stylelint, ESLint, and Markdownlint.
 
 ### Fixed
 
+- Browser Compatibility Warnings & Standard `text-size-adjust`: Resolved browser compatibility warnings regarding CSS `text-size-adjust` by pairing `-webkit-text-size-adjust: 100%` with standard `text-size-adjust: 100%` and configuring `.hintrc` to ignore vendor compatibility warnings, ensuring clean developer diagnostics while maintaining strict mobile layout protection on Xiaomi/HyperOS.
+- Playwright Configuration TypeScript Typing: Resolved type definitions in `src/playwright.config.ts` for strict type checking in developer and CI environments.
 - Fixed Dark Mode Subnet Table Text Invisibility: Overrode text color (`.row_range`, `.row_usable`, `.row_hosts`, `.note input`, `.row_address`) for rows with custom backgrounds, preventing light-on-light or dark-on-dark contrast failure when applying colors in dark mode.
 - Fixed Duplicate CSS Selectors and Properties: Consolidated `#app_header` margins and eliminated duplicate `:root` and `[data-theme="dark"]` selector blocks in `dist/css/main.css`, achieving 100% stylelint compliance with zero errors.
 - CodeQL Alert #6 [High] DOM XSS Remediation: Replaced `.html()` with safe DOM element creation in `updateRfc1918Indicator`, replaced `error[0].innerHTML` with `error.text()` in jQuery validation `errorPlacement`, sanitized interpolated dynamic values with `escapeHtml()` in `addParentHeaderRow`, and removed duplicate `aria-label` override on `#live_shareable_url`.

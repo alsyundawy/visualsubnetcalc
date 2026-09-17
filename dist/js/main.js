@@ -1,3 +1,22 @@
+/**
+ * ╔══════════════════════════════════════════════════════════════════════════════╗
+ * ║ DOCNOTE & FILE METADATA                                                      ║
+ * ╠══════════════════════════════════════════════════════════════════════════════╣
+ * ║ File        : dist/js/main.js                                                ║
+ * ║ Application : Visual Subnet Calculator (v1.4.3)                              ║
+ * ║ Description : Core Logic, IPv4/IPv6 Bitwise Math, Tree Mutator & State Sync  ║
+ * ║ Author      : HARRY DERTIN SUTISNA ALSYUNDAWY (@alsyundawy)                  ║
+ * ║ Organization: ALSYUNDAWY IT SOLUTION (https://alsyundawy.com)                ║
+ * ║ Contact     : Email: alsyundawy@gmail.com | Telegram: https://t.me/alsyundawy║
+ * ║ Social / Dev: GitHub: https://github.com/alsyundawy | X: @alsyundawy         ║
+ * ║ Repository  : https://github.com/alsyundawy/visualsubnetcalc                 ║
+ * ║ Live Demo   : https://alsyundawy.github.io/visualsubnetcalc/                 ║
+ * ║ Version     : 1.4.3 (Hardened 2026 Release)                                  ║
+ * ║ Date        : September 18, 2026                                             ║
+ * ║ License     : MIT License                                                    ║
+ * ╚══════════════════════════════════════════════════════════════════════════════╝
+ */
+
 let subnetMap = {};
 let maxNetSize = 0;
 const infoColumnCount = 5;
@@ -103,8 +122,7 @@ const TemporaryCookieStore = {
           : this.DEFAULT_MAX_AGE;
       const encodedKey = encodeURIComponent(String(name).trim());
       const encodedVal = encodeURIComponent(String(value));
-      const isSecure =
-        window.location.protocol === "https:" ? "; Secure" : "";
+      const isSecure = window.location.protocol === "https:" ? "; Secure" : "";
       document.cookie = `${encodedKey}=${encodedVal}; max-age=${age}; path=/; SameSite=Lax${isSecure}`;
     } catch (e) {
       console.warn("TemporaryCookieStore.set failed:", e);
@@ -129,8 +147,7 @@ const TemporaryCookieStore = {
   remove: function (name) {
     try {
       const encodedKey = encodeURIComponent(String(name).trim());
-      const isSecure =
-        window.location.protocol === "https:" ? "; Secure" : "";
+      const isSecure = window.location.protocol === "https:" ? "; Secure" : "";
       document.cookie = `${encodedKey}=; max-age=0; path=/; SameSite=Lax${isSecure}`;
     } catch (e) {
       console.warn("TemporaryCookieStore.remove failed:", e);
@@ -210,7 +227,7 @@ function getNextIpv6Tier(prefix) {
   if (prefix === 56) return 60;
   if (prefix > 56 && prefix < 60) return 60;
   if (prefix === 60) return 64;
-  if (prefix >= 64 && prefix < 80) return prefix;
+  if (prefix >= 64 && prefix < 80) return Math.min(80, prefix + 4);
   if (prefix >= 80 && prefix < 96) return Math.min(96, prefix + 4);
   if (prefix >= 96 && prefix < 112) return Math.min(112, prefix + 4);
   if (prefix === 112) return 120;
@@ -265,7 +282,9 @@ function getIpv6Capacity(netSize) {
   }
   if (netSize === 60) return "16 × /64 subnets";
   if (netSize === 56) return "16 × /60 (256 × /64)";
+  if (netSize === 52) return "16 × /56 (4.1K × /64)";
   if (netSize === 48) return "256 × /56 (65.5K × /64)";
+  if (netSize === 40) return "256 × /48 (16.8M × /64)";
   if (netSize === 32) return "65.5K × /48 (4.29B × /64)";
 
   if (netSize < 64) {
@@ -308,7 +327,7 @@ function switchIpVersion(newVersion) {
     $("#ipv4_tier_info").addClass("d-none");
     $("#network_label").text("IPv6 Prefix / Network");
     $("#netsize_label").text("Prefix Length");
-    $("#network").val("2001:db8::");
+    $("#network").val("2508:6789::");
     $("#network").attr("pattern", ipv6Pattern);
     $("#netsize").val("32");
     $("#netsize").attr("pattern", ipv6NetsizePattern);
@@ -344,7 +363,7 @@ function switchIpVersion(newVersion) {
     $("#ipv4_tier_info").removeClass("d-none");
     $("#network_label").text("Network Address");
     $("#netsize_label").text("Network Size");
-    $("#network").val("10.0.0.0");
+    $("#network").val("172.16.0.0");
     $("#network").attr(
       "pattern",
       "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$",
@@ -446,18 +465,28 @@ function updateRfc1918Indicator() {
     indicator
       .removeClass("bg-secondary-subtle text-secondary border-secondary-subtle")
       .addClass("bg-success-subtle text-success border border-success-subtle")
-      .html(
-        `<i class="fa-solid fa-shield-halved me-1" aria-hidden="true"></i>${info.name}`,
-      );
+      .empty()
+      .append(
+        $("<i>", {
+          class: "fa-solid fa-shield-halved me-1",
+          "aria-hidden": "true",
+        }),
+      )
+      .append(document.createTextNode(info.name));
   } else {
     indicator
       .removeClass("bg-success-subtle text-success border-success-subtle")
       .addClass(
         "bg-secondary-subtle text-secondary border border-secondary-subtle",
       )
-      .html(
-        '<i class="fa-solid fa-globe me-1" aria-hidden="true"></i>Non-RFC 1918',
-      );
+      .empty()
+      .append(
+        $("<i>", {
+          class: "fa-solid fa-globe me-1",
+          "aria-hidden": "true",
+        }),
+      )
+      .append(document.createTextNode("Non-RFC 1918"));
   }
 
   $(".rfc1918-chip").removeClass("active");
@@ -616,27 +645,44 @@ $("#btn_reset").on("click", function (e) {
     e.preventDefault();
   }
   if (ipVersion === "IPv6") {
-    $("#network").val("2001:db8::");
-    $("#netsize").val("32");
-    updateActiveIpv6Preset("32");
-    subnetMap = { "2001:db8::/32": {} };
-    maxNetSize = 32;
-  } else {
-    $("#network").val("10.0.0.0");
-    $("#netsize").val("16");
-    updateActiveIpv4Preset("16");
-    subnetMap = { "10.0.0.0/16": {} };
-    maxNetSize = 16;
+    switchIpVersion("IPv4");
   }
+  $("#network").val("172.16.0.0");
+  $("#netsize").val("16");
+  updateActiveIpv4Preset("16");
+  subnetMap = { "172.16.0.0/16": {} };
+  maxNetSize = 16;
   operatingMode = "Standard";
   switchMode(operatingMode);
+  showParentHeaders = false;
+  $("#parent_headers_text").text("Show Parent Headers");
+  $("#toggle_parent_headers").removeClass("active");
   $("#input_form").removeClass("was-validated");
   if ($("#input_form").data("validator")) {
     $("#input_form").validate().resetForm();
   }
   updateRfc1918Indicator();
+
+  if (typeof TemporaryCookieStore !== "undefined") {
+    TemporaryCookieStore.remove("vsc_draft_15m");
+    const cookieBadge = document.getElementById("cookie_session_badge");
+    if (cookieBadge) {
+      cookieBadge.style.display = "none";
+    }
+  }
+
   renderTable(operatingMode);
-  syncUrlState();
+
+  const cleanPath = window.location.pathname || "/";
+  if (window.history && window.history.replaceState) {
+    window.history.replaceState(null, "", cleanPath);
+  }
+  const liveLink = document.getElementById("live_shareable_url");
+  if (liveLink) {
+    const fullCleanUrl = window.location.origin + cleanPath;
+    liveLink.href = fullCleanUrl;
+    liveLink.textContent = fullCleanUrl;
+  }
 });
 
 $("#dropdown_standard").click(function () {
@@ -1460,17 +1506,14 @@ function addRow(
       rangeCol = startStr + " - " + endStr;
       usableCol = startStr + " - " + endStr;
       isLeaf = false;
-    } else if (netSize >= 64 && netSize < 112) {
-      rangeCol = startStr + " - " + endStr;
-      usableCol = formatIpv6(netInt + 1n) + " - " + endStr;
-      isLeaf = true;
-    } else if (netSize >= 112) {
+    } else if (netSize >= 64) {
       rangeCol = startStr + " - " + endStr;
       usableCol = formatIpv6(netInt + 1n) + " - " + endStr;
       isLeaf = false;
     } else {
       rangeCol = startStr + " - " + endStr;
       usableCol = "Subnet IDs";
+      isLeaf = false;
     }
     hostCount = getIpv6Capacity(netSize);
   } else {
@@ -1824,7 +1867,7 @@ function mutate_subnet_map(verb, network, subnetTree, propValue = "") {
       const netSize = parseInt(netSplit[1], 10);
       if (verb === "split") {
         if (ipVersion === "IPv6") {
-          if (netSize < 64 || (netSize >= 80 && netSize <= 127)) {
+          if (netSize < 128) {
             const new_networks = splitIpv6Network(netSplit[0], netSize);
             for (const sub of new_networks) {
               subnetTree[mapKey][sub] = {};
@@ -1846,13 +1889,9 @@ function mutate_subnet_map(verb, network, subnetTree, propValue = "") {
               }
             }
             delete subnetTree[mapKey]["_color"];
-          } else if (netSize >= 128) {
-            show_warning_modal(
-              "<div><strong>Host / Loopback Boundary:</strong><br/><br/>An IPv6 <strong>/128</strong> prefix represents a single host or loopback address (RFC 4291) and cannot be split any further.</div>",
-            );
           } else {
             show_warning_modal(
-              "<div><strong>SLAAC Boundary Reached:</strong><br/><br/>IPv6 subnets should not be split smaller than <strong>/64</strong>.<br/>A /64 prefix is required by RFC 4291 and RFC 7421 for Stateless Address Autoconfiguration (SLAAC) and standard local network routing.<br/><br/><em>Note: For special sub-delegations (such as /80, /96, /112, /120, /124, or /127 point-to-point links), select the corresponding preset directly from the toolbar.</em></div>",
+              "<div><strong>Host / Loopback Boundary:</strong><br/><br/>An IPv6 <strong>/128</strong> prefix represents a single host or loopback address (RFC 4291) and cannot be split any further.</div>",
             );
           }
         } else if (netSize < minSubnetSizes[operatingMode]) {
@@ -2155,12 +2194,13 @@ $(document).ready(function () {
       },
     },
     errorPlacement: function (error, element) {
-      if (error[0].innerHTML !== "") {
+      const errorMsg = error.text();
+      if (errorMsg !== "") {
         if (!element.data("errorIsVisible")) {
           const tooltipInstance = bootstrap.Tooltip.getInstance(element[0]);
           if (tooltipInstance) {
             tooltipInstance.setContent({
-              ".tooltip-inner": error[0].innerHTML,
+              ".tooltip-inner": errorMsg,
             });
           }
           element.tooltip("show");
@@ -2313,6 +2353,10 @@ function decodeDivisionTree(baseNet, baseMask, divisionStr) {
 function encodeDivisionTree(map) {
   const rootKey = Object.keys(map)[0];
   if (!rootKey) return "";
+  const rootSubKeys = Object.keys(map[rootKey]).filter(
+    (k) => !k.startsWith("_") && k !== "n" && k !== "c",
+  );
+  if (rootSubKeys.length === 0) return "";
   let bin = "";
 
   function traverse(nodeObj) {
@@ -2385,15 +2429,30 @@ function applyNotesAndColors(map, meta) {
 
 function getLiveUrl() {
   const rootKey = Object.keys(subnetMap)[0];
-  if (!rootKey) return window.location.pathname;
+  if (!rootKey) return window.location.pathname || "/";
   const rootParts = rootKey.split("/");
   const params = new URLSearchParams();
 
   if (ipVersion === "IPv6") {
     params.set("ipv", "6");
+    params.set("network", rootParts[0].replace(/:/g, "-"));
+    params.set("mask", rootParts[1]);
+  } else {
+    const isDefaultIpv4 =
+      rootParts[0] === "172.16.0.0" &&
+      rootParts[1] === "16" &&
+      (!operatingMode || operatingMode === "Standard") &&
+      !showParentHeaders &&
+      !encodeDivisionTree(subnetMap) &&
+      Object.keys(extractNotesAndColors(subnetMap)).length === 0;
+
+    if (isDefaultIpv4) {
+      return window.location.pathname || "/";
+    }
+
+    params.set("network", rootParts[0]);
+    params.set("mask", rootParts[1]);
   }
-  params.set("network", rootParts[0]);
-  params.set("mask", rootParts[1]);
 
   const division = encodeDivisionTree(subnetMap);
   if (division) {
@@ -2414,7 +2473,7 @@ function getLiveUrl() {
   }
 
   const query = params.toString();
-  return window.location.pathname + (query ? "?" + query : "");
+  return (window.location.pathname || "/") + (query ? "?" + query : "");
 }
 
 function syncUrlState() {
@@ -2428,19 +2487,25 @@ function syncUrlState() {
       const fullUrl = window.location.origin + liveUrl;
       liveLink.href = fullUrl;
       liveLink.textContent = fullUrl;
-      liveLink.setAttribute(
-        "aria-label",
-        "Live Shareable Subnet Configuration URL",
-      );
     }
     if (typeof TemporaryCookieStore !== "undefined") {
-      TemporaryCookieStore.set("vsc_draft_15m", liveUrl, 900);
-      const cookieBadge = document.getElementById("cookie_session_badge");
-      if (cookieBadge) {
-        cookieBadge.style.display = "inline-flex";
-        const badgeText = document.getElementById("cookie_session_badge_text");
-        if (badgeText) {
-          badgeText.textContent = "Session Cookie: 15 Mins";
+      if (liveUrl.includes("?")) {
+        TemporaryCookieStore.set("vsc_draft_15m", liveUrl, 900);
+        const cookieBadge = document.getElementById("cookie_session_badge");
+        if (cookieBadge) {
+          cookieBadge.style.display = "inline-flex";
+          const badgeText = document.getElementById(
+            "cookie_session_badge_text",
+          );
+          if (badgeText) {
+            badgeText.textContent = "Session Cookie: 15 Mins";
+          }
+        }
+      } else {
+        TemporaryCookieStore.remove("vsc_draft_15m");
+        const cookieBadge = document.getElementById("cookie_session_badge");
+        if (cookieBadge) {
+          cookieBadge.style.display = "none";
         }
       }
     }
@@ -2468,20 +2533,23 @@ function addParentHeaderRow(cidr, depth, maxDepth) {
   }
 
   const indent = "&nbsp;".repeat(depth * 3);
+  const safeCidr = escapeHtml(cidr);
+  const safeRange = escapeHtml(rangeStr);
+  const safeHosts = escapeHtml(hostStr);
   const parentRow =
     '<tr class="parent-header-row" aria-label="Parent ' +
-    cidr +
+    safeCidr +
     '">\n' +
     '  <td class="row_address text-muted font-monospace"><span class="badge bg-secondary me-1"><i class="fa-solid fa-folder-tree me-1" aria-hidden="true"></i>Parent</span> ' +
     indent +
-    cidr +
+    safeCidr +
     "</td>\n" +
     '  <td class="row_range text-muted font-monospace">' +
-    rangeStr +
+    safeRange +
     "</td>\n" +
     '  <td class="row_usable text-muted fst-italic">Consolidated Parent</td>\n' +
     '  <td class="row_hosts text-muted">' +
-    hostStr +
+    safeHosts +
     "</td>\n" +
     '  <td class="note text-muted fst-italic">(Subnet Group Header)</td>\n' +
     '  <td colspan="' +
@@ -2557,10 +2625,17 @@ function processConfigUrl() {
   });
 
   if (params["network"] !== null && params["mask"] !== null) {
-    const net = params["network"].trim();
+    let net = params["network"].trim();
     const mask = parseInt(params["mask"].trim(), 10);
     if (!isNaN(mask)) {
-      if (params["ipv"] === "6" || net.includes(":")) {
+      if (
+        params["ipv"] === "6" ||
+        net.includes(":") ||
+        (net.includes("-") && !net.includes("."))
+      ) {
+        if (net.includes("-")) {
+          net = net.replace(/-/g, ":");
+        }
         switchIpVersion("IPv6");
       } else if (ipVersion !== "IPv4") {
         switchIpVersion("IPv4");
@@ -2721,7 +2796,7 @@ function renameKey(obj, oldKey, newKey) {
 }
 
 function importConfig(text) {
-  let subnetNet = "10.0.0.0";
+  let subnetNet = "172.16.0.0";
   let subnetSize = "16";
   if (text["config_version"] === "1") {
     [subnetNet, subnetSize] = Object.keys(text["subnets"])[0].split("/");
@@ -3042,4 +3117,3 @@ if (document.readyState === "loading") {
 } else {
   initBackToTop();
 }
-

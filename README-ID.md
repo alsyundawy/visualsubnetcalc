@@ -1,23 +1,33 @@
 # Visual Subnet Calculator — Edisi Modern & Diperkeras
 
 [![Rilis](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.3)
+[![Demo](https://img.shields.io/badge/Demo-alsyundawy.github.io%2Fvisualsubnetcalc-brightgreen?style=for-the-badge&logo=githubpages)](https://alsyundawy.github.io/visualsubnetcalc/)
 [![Lisensi: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![Keamanan CodeQL](https://img.shields.io/badge/CodeQL-0%20Alerts%20%7C%20Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/alsyundawy/visualsubnetcalc/security/code-scanning)
 [![Linter Trunk](https://img.shields.io/badge/Trunk%20Check-14%20Linters%20Clean-brightgreen?style=for-the-badge&logo=checkmarx)](https://trunk.io)
 [![WCAG](https://img.shields.io/badge/WCAG%202.2-Level%20AA%20Compliant-blue?style=for-the-badge&logo=w3c)](https://www.w3.org/WAI/standards-guidelines/wcag/)
-[![Pengujian E2E](https://img.shields.io/badge/Playwright%20E2E-162%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
+[![Pengujian E2E](https://img.shields.io/badge/Playwright%20E2E-172%20Passing-success?style=for-the-badge&logo=playwright)](https://playwright.dev)
 [![Responsif](https://img.shields.io/badge/Responsive-VGA%20to%202K-purple?style=for-the-badge)](https://github.com/alsyundawy/visualsubnetcalc)
 [![Donasi PayPal](https://img.shields.io/badge/Donate-PayPal-00457C?style=for-the-badge&logo=paypal&logoColor=white)](https://www.paypal.me/alsyundawy)
 
-> **Mesin perancangan dan kalkulator subnet CIDR visual IPv4 & IPv6 yang interaktif, aksesibel, dan berkinerja tinggi untuk insinyur jaringan, arsitek cloud, serta praktisi DevOps.**
-> Dioptimalkan dan dikelola oleh **[`HARRY DERTIN SUTISNA (@alsyundawy)`](https://github.com/alsyundawy)** — Dibangun atas karya perintis oleh **[`@ckabalan`](https://github.com/ckabalan)**, **[`@bl4ckfir3`](https://github.com/bl4ckfir3)**, dan **[`@davidc`](https://github.com/davidc)**.
+> **Kalkulator subnet IPv4 & IPv6 berbasis browser untuk insinyur jaringan, arsitek cloud, dan sysadmin. Rencanakan, bagi, dan bagikan topologi CIDR tanpa ketergantungan server apa pun.**
+> Dioptimalkan dan dikelola oleh **[`HARRY DERTIN SUTISNA ALSYUNDAWY (@alsyundawy)`](https://github.com/alsyundawy)** — Dibangun atas karya perintis oleh **[`@ckabalan`](https://github.com/ckabalan)**, **[`@bl4ckfir3`](https://github.com/bl4ckfir3)**, dan **[`@davidc`](https://github.com/davidc)**.
 >
-> 📖 **[`Catatan Arsitektur & Integrasi (DOCNOTE-ID.md)`](DOCNOTE-ID.md)** &nbsp;|&nbsp; 📜 **[`Catatan Perubahan Rilis (CHANGELOG-ID.md)`](CHANGELOG-ID.md)** &nbsp;|&nbsp; 💖 **[`Dukung via PayPal`](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[`Daftar Rilis`](https://github.com/alsyundawy/visualsubnetcalc/releases)**
+> 🌐 **[`Demo Interaktif Langsung`](https://alsyundawy.github.io/visualsubnetcalc/)** &nbsp;|&nbsp; 📖 **[`Catatan Arsitektur & Integrasi (DOCNOTE-ID.md)`](DOCNOTE-ID.md)** &nbsp;|&nbsp; 📜 **[`Catatan Perubahan Rilis (CHANGELOG-ID.md)`](CHANGELOG-ID.md)** &nbsp;|&nbsp; 💖 **[`Dukung via PayPal`](https://www.paypal.me/alsyundawy)** &nbsp;|&nbsp; 🚀 **[`Daftar Rilis`](https://github.com/alsyundawy/visualsubnetcalc/releases)**
+
+---
+
+## 🔗 Demo Langsung (Live Demo)
+
+Coba dan gunakan Visual Subnet Calculator langsung di peramban (browser) Anda tanpa perlu instalasi atau ketergantungan server:
+
+👉 **[https://alsyundawy.github.io/visualsubnetcalc/](https://alsyundawy.github.io/visualsubnetcalc/)**
 
 ---
 
 ## 🧭 Navigasi
 
+- [`🔗 Demo Langsung (Live Demo)`](#-demo-langsung-live-demo)
 - [`📸 Pratinjau Interaktif`](#-pratinjau-interaktif)
 - [`🌟 Mengapa Edisi Modern Ini?`](#-mengapa-edisi-modern-ini)
 - [`✨ Fitur Utama`](#-fitur-utama)
@@ -79,23 +89,24 @@ Edisi ini (**v1.4.3+**) menghadirkan perombakan menyeluruh pada aspek arsitektur
 
 - **Masker Bitwise Waktu-Konstan ($O(1)$)**: Mengoptimalkan fungsi perhitungan alamat jaringan dasar `get_network(networkInput, netSize)` dari perulangan iteratif menjadi satu operasi masker bitwise instan:
   $$\text{mask} = (0\text{xffffffff} \ll (32 - \text{netSize})) \ggg 0$$
-- **Matematika Presisi 128-Bit (`BigInt`)**: Perhitungan tanpa kehilangan presisi untuk alokasi IPv6 tanpa batasan _floating-point_ IEEE 754, dipadukan dengan format kanonikal IETF RFC 5952 (penekanan angka nol awal dan kompresi `::`).
 - **Basis Kode Idiomatik ES6+**: Menggunakan fungsi panah, iterator `for...of`, serta sintaks _spread_ yang bersih guna menggantikan pola lama ES5 di seluruh modul kalkulasi.
 
 ---
 
 ## ✨ Fitur Utama
 
-- **Mesin Subnetting Dual-Stack IPv4 & IPv6**: Beralih secara mulus antara blok CIDR IPv4 (`10.0.0.0/16`) dan hierarki prefiks IPv6 (`2001:db8::/32`) menggunakan bilah alat pemilih versi yang aksesibel (`#ip_version_toolbar`).
-- **Bilah Alat Preset Prefiks IPv4 Interaktif**: Pemilihan instan ukuran jaringan CIDR dari **/16** hingga **/32** (total 17 preset: `/16` sampai `/32`) dengan sinkronisasi dua arah secara _real-time_ antara tombol preset dan kolom input panjang prefiks, dikemas dalam toolbar responsif (`#ipv4_tier_info`). Default: `/16` (`10.0.0.0/16`).
-- **Bilah Alat Preset Prefiks IPv6 Interaktif**: Toolbar lengkap 12-preset dari **/32** hingga **/128** dengan pemilihan satu-klik:
+- **Mesin Subnetting Dual-Stack IPv4 & IPv6**: Beralih secara mulus antara blok CIDR IPv4 (`172.16.0.0/16`) dan hierarki prefiks IPv6 (`2508:6789::/32`) menggunakan bilah alat pemilih versi yang aksesibel (`#ip_version_toolbar`).
+- **Bilah Alat Preset Prefiks IPv4 Interaktif**: Pemilihan instan ukuran jaringan CIDR dari **/16** hingga **/32** (total 17 preset: `/16` sampai `/32`) dengan sinkronisasi dua arah secara _real-time_ antara tombol preset dan kolom input panjang prefiks, dikemas dalam toolbar responsif (`#ipv4_tier_info`). Default: `/16` (`172.16.0.0/16`).
+- **Bilah Alat Preset Prefiks IPv6 Interaktif**: Toolbar lengkap 14-preset dari **/32** hingga **/128** dengan pemilihan satu-klik:
   - **/32** _(Bawaan)_: Alokasi ISP / LIR ($65.536 \times /48$ atau $4{,}29\text{M} \times /64$)
+  - **/40**: Prefiks Translasi NAT64 & Alokasi Korporat Besar (Standar RFC 6052, $256 \times /48$ atau $16{,}7\text{M} \times /64$)
   - **/48**: Alokasi Situs Korporat ($65.536 \times /64$ SLAAC)
+  - **/52**: Alokasi Multi-Situs / Kampus Regional (Standar RFC 6177 batas nibble, $4.096 \times /64$)
   - **/56**: Alokasi Kantor Cabang / Multi-VPC ($256 \times /64$)
   - **/60**: Alokasi Kantor Kecil / Multi-Subnet ($16 \times /64$)
   - **/64**: Subnet Jaringan Lokal Standar / SLAAC ($18{,}4 \times 10^{18}$ IP host)
-  - **/80**: Batas Mikro-segmentasi / Layanan Cloud ($2{,}81 \times 10^{14}$ IP host)
-  - **/96**: Batas Translasi Alamat Tersemat IPv4 ($4{,}29\text{M}$ IP host)
+  - **/80**: Batas Mikro-segmentasi / Layanan Cloud ($2{,}81 \times 10^{14}$ IP host, pemecahan interaktif aktif)
+  - **/96**: Batas Translasi Alamat Tersemat IPv4 ($4{,}29\text{M} \times /112$, $4{,}29\text{M}$ IP host)
   - **/112**: Klaster Perangkat Terisolasi / Sub-delegasi Khusus ($65.536$ IP host)
   - **/120**: Sub-delegasi Jaringan Industri & Sensor ($256$ IP host)
   - **/124**: Sub-delegasi Kelompok Kecil Antar-Router ($16$ IP host)
@@ -118,24 +129,26 @@ Edisi ini (**v1.4.3+**) menghadirkan perombakan menyeluruh pada aspek arsitektur
 
 ## 🌐 Arsitektur IPv6 & Tingkatan Alokasi
 
-Pemisahan biner tradisional ala IPv4 ($/N \to /N+1$) tidak praktis untuk IPv6 karena ruang alamat $2^{128}$ yang sangat luas. Visual Subnet Calculator mengadopsi hierarki tingkatan rekayasa jaringan yang ditetapkan oleh IETF RFC 6177, RFC 4291, dan RFC 6164:
+Pemisahan biner tradisional ala IPv4 ($/N \to /N+1$) tidak praktis untuk IPv6 karena ruang alamat $2^{128}$ yang sangat luas. Visual Subnet Calculator mengadopsi hierarki tingkatan rekayasa jaringan yang ditetapkan oleh IETF RFC 6177, RFC 4291, RFC 6052, dan RFC 6164:
 
-$$\text{/32 (ISP/LIR)} \longrightarrow \text{/48 (Situs Korporat)} \longrightarrow \text{/56 (Kantor Cabang/VPC)} \longrightarrow \text{/60 (Departemen)} \longrightarrow \text{/64 (SLAAC)} \quad\Big|\quad \text{/127 (P2P)} \longrightarrow \text{/128 (Host)}$$
+$$\text{/32 (ISP/LIR)} \longrightarrow \text{/40 (NAT64)} \longrightarrow \text{/48 (Situs Korporat)} \longrightarrow \text{/52 (Multi-Situs)} \longrightarrow \text{/56 (Cabang)} \longrightarrow \text{/60 (Departemen)} \longrightarrow \text{/64 (SLAAC)} \quad\Big|\quad \text{/127 (P2P)} \longrightarrow \text{/128 (Host)}$$
 
-| Prefiks Tingkatan  | Langkah Bit | Faktor Pengali Subnet                  | Kapasitas Host / IP Tersedia    | Cakupan Operasional & Peran Arsitektur                              | Standar RFC         |
-| :----------------- | :---------- | :------------------------------------- | :------------------------------ | :------------------------------------------------------------------ | :------------------ |
-| **/32** _(Bawaan)_ | $+4$ bit    | $16 \times /36$ ($65.536 \times /48$)  | $4{,}29\text{M} \times /64$     | Alokasi Regional Internet Registry (RIR) ke ISP / Korporasi Raksasa | RFC 6177            |
-| **/48**            | $+8$ bit    | $256 \times /56$ ($65.536 \times /64$) | $65.536 \times /64$ subnet      | Alokasi ISP ke Situs Korporat / Pusat Data Perusahaan               | RFC 6177            |
-| **/56**            | $+4$ bit    | $16 \times /60$ ($256 \times /64$)     | $256 \times /64$ subnet         | Alokasi Korporat ke Kantor Cabang / Kampus / Multi-VPC              | RFC 6177            |
-| **/60**            | $+4$ bit    | $16 \times /64$ subnet                 | $16 \times /64$ subnet          | Alokasi Cabang ke Kantor Kecil / VLAN Departemen                    | RFC 6177            |
-| **/64**            | Daun / Sub  | Subnet Daun Standar                    | $18{,}4\text{Q}$ ($2^{64}$) IP  | Jaringan Lokal Standar / VLAN (Konfigurasi Otomatis SLAAC)          | RFC 4291 / RFC 7421 |
-| **/80**            | $+16$ bit   | $65.536 \times /96$ subnet             | $2{,}81 \times 10^{14}$ IP host | Batas Mikro-segmentasi / Layanan Cloud Terisolasi                   | RFC 4291            |
-| **/96**            | $+16$ bit   | $65.536 \times /112$ subnet            | $4{,}29\text{M}$ IP host        | Translasi IPv4-ke-IPv6 / Alamat Tersemat IPv4                       | RFC 6052            |
-| **/112**           | $+8$ bit    | $256 \times /120$ subnet               | $65.536$ IP host                | Klaster Perangkat Terisolasi / Sub-delegasi Khusus                  | RFC 4291            |
-| **/120**           | $+4$ bit    | $16 \times /124$ subnet                | $256$ IP host                   | Sub-delegasi Jaringan Industri & Sensor                             | RFC 4291            |
-| **/124**           | $+3$ bit    | $8 \times /127$ subnet                 | $16$ IP host                    | Sub-delegasi Kelompok Kecil Antar-Router                            | RFC 4291            |
-| **/127**           | $+1$ bit    | $2 \times /128$ subnet                 | 2 IP (Tautan P2P)               | Tautan Antar-Router Point-to-Point (Mencegah serangan ping-pong)    | RFC 6164            |
-| **/128**           | Daun        | Daun Host Tunggal / Loopback           | 1 IP (Host Tunggal)             | Antarmuka Loopback / Alamat Host Server Tunggal                     | RFC 4291            |
+| Prefiks Tingkatan  | Langkah Bit | Faktor Pengali Subnet                          | Kapasitas Host / IP Tersedia       | Cakupan Operasional & Peran Arsitektur                              | Standar RFC         |
+| :----------------- | :---------- | :--------------------------------------------- | :--------------------------------- | :------------------------------------------------------------------ | :------------------ |
+| **/32** _(Bawaan)_ | $+4$ bit    | $16 \times /36$ ($65.536 \times /48$)          | $4{,}29\text{M} \times /64$        | Alokasi Regional Internet Registry (RIR) ke ISP / Korporasi Raksasa | RFC 6177            |
+| **/40**            | $+8$ bit    | $256 \times /48$ ($16{,}7\text{M} \times /64$) | $16{,}7\text{M} \times /64$ subnet | Alokasi Prefiks Translasi NAT64 & Korporat Besar                    | RFC 6052            |
+| **/48**            | $+4$ bit    | $16 \times /52$ ($65.536 \times /64$)          | $65.536 \times /64$ subnet         | Alokasi ISP ke Situs Korporat / Pusat Data Perusahaan               | RFC 6177            |
+| **/52**            | $+4$ bit    | $16 \times /56$ ($4.096 \times /64$)           | $4.096 \times /64$ subnet          | Alokasi Kampus Regional / Multi-Situs (Batas Nibble)                | RFC 6177            |
+| **/56**            | $+4$ bit    | $16 \times /60$ ($256 \times /64$)             | $256 \times /64$ subnet            | Alokasi Korporat ke Kantor Cabang / Kampus / Multi-VPC              | RFC 6177            |
+| **/60**            | $+4$ bit    | $16 \times /64$ subnet                         | $16 \times /64$ subnet             | Alokasi Cabang ke Kantor Kecil / VLAN Departemen                    | RFC 6177            |
+| **/64**            | $+4$ bit    | $16 \times /68$ ($65.536 \times /80$)          | $18{,}4\text{Q}$ ($2^{64}$) IP     | Jaringan Lokal Standar / VLAN (SLAAC & Dapat Dipecah)               | RFC 4291 / RFC 7421 |
+| **/80**            | $+16$ bit   | $65.536 \times /96$ subnet                     | $2{,}81 \times 10^{14}$ IP host    | Batas Mikro-segmentasi / Layanan Cloud (Dapat Dipecah)              | RFC 4291            |
+| **/96**            | $+16$ bit   | $65.536 \times /112$ subnet                    | $4{,}29\text{M}$ IP host           | Translasi IPv4-ke-IPv6 / Alamat Tersemat IPv4                       | RFC 6052            |
+| **/112**           | $+8$ bit    | $256 \times /120$ subnet                       | $65.536$ IP host                   | Klaster Perangkat Terisolasi / Sub-delegasi Khusus                  | RFC 4291            |
+| **/120**           | $+4$ bit    | $16 \times /124$ subnet                        | $256$ IP host                      | Sub-delegasi Jaringan Industri & Sensor                             | RFC 4291            |
+| **/124**           | $+3$ bit    | $8 \times /127$ subnet                         | $16$ IP host                       | Sub-delegasi Kelompok Kecil Antar-Router                            | RFC 4291            |
+| **/127**           | $+1$ bit    | $2 \times /128$ subnet                         | 2 IP (Tautan P2P)                  | Tautan Antar-Router Point-to-Point (Mencegah serangan ping-pong)    | RFC 6164            |
+| **/128**           | Daun        | Daun Host Tunggal / Loopback                   | 1 IP (Host Tunggal)                | Antarmuka Loopback / Alamat Host Server Tunggal                     | RFC 4291            |
 
 ---
 

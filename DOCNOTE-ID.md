@@ -24,7 +24,7 @@ Visual Subnet Calculator adalah aplikasi visual kalkulator dan perancang subnet 
 Visual Subnet Calculator menyediakan bilah alat preset responsif dan aksesibel untuk pemilihan cepat ukuran jaringan IPv4 dari `/16` hingga `/32` (17 preset berbeda):
 
 - **Sinkronisasi Dua Arah**: Mengklik tombol preset mana pun akan secara instan memperbarui kolom input `#netsize`, menghitung ulang batas jaringan dasar bila diperlukan, me-render ulang pohon subnet visual, dan menandai tombol terpilih dengan kelas CSS `.active`. Sebaliknya, pengetikan manual atau penempelan teks (_paste_) pada `#netsize` secara otomatis mendeteksi ukuran prefiks dan menyinkronkan status tombol aktif.
-- **Status Bawaan**: Terinisialisasi pada `10.0.0.0/16` dengan tombol preset `/16` dalam kondisi aktif.
+- **Status Bawaan**: Terinisialisasi pada `172.16.0.0/16` dengan tombol preset `/16` dalam kondisi aktif (IPv6 terinisialisasi pada `2508:6789::/32`).
 - **Tata Letak Chip Responsif**: Tombol-tombol preset menggunakan `flex-wrap: wrap`, padding yang kompak (`py-0 px-2`), dan batas chip independen (`border-radius: 0.2rem !important;`), memastikan seluruh 17 tombol terbungkus rapi tanpa merusak batas tata letak pada layar sempit (VGA 640px, smartphone).
 
 ### 2. Presisi Matematika 128-Bit (`BigInt`)
@@ -50,31 +50,33 @@ Format keluaran IPv6 mematuhi rekomendasi standar IETF RFC 5952 secara ketat:
 
 ### 4. Arsitektur Tingkatan Hierarkis IPv6
 
-Pemisahan biner tradisional ala IPv4 (/N -> /N+1) tidak praktis untuk IPv6 karena luasnya ruang alamat $2^{128}$. Visual Subnet Calculator mematuhi tingkatan alokasi rekayasa jaringan standar:
+Pemisahan biner tradisional ala IPv4 (/N -> /N+1) tidak praktis untuk IPv6 karena luasnya ruang alamat $2^{128}$. Visual Subnet Calculator mematuhi tingkatan alokasi rekayasa jaringan standar yang didefinisikan dalam RFC 6177, RFC 4291, RFC 6052, dan RFC 6164:
 
-$$\text{/32 (ISP/LIR)} \longrightarrow \text{/48 (Situs Korporat)} \longrightarrow \text{/56 (Kantor Cabang/VPC)} \longrightarrow \text{/60 (Departemen)} \longrightarrow \text{/64 (SLAAC)} \quad\Big|\quad \text{/127 (P2P)} \longrightarrow \text{/128 (Host)}$$
+$$\text{/32 (ISP/LIR)} \longrightarrow \text{/40 (NAT64)} \longrightarrow \text{/48 (Situs Korporat)} \longrightarrow \text{/52 (Multi-Situs)} \longrightarrow \text{/56 (Cabang)} \longrightarrow \text{/60 (Dept)} \longrightarrow \text{/64 (SLAAC)} \quad\Big|\quad \text{/127 (P2P)} \longrightarrow \text{/128 (Host)}$$
 
-| Prefiks Tingkatan  | Langkah Bit | Faktor Pengali Subnet                  | Cakupan Tipikal & Peran Arsitektur                                  |
-| :----------------- | :---------- | :------------------------------------- | :------------------------------------------------------------------ |
-| **/32** _(Bawaan)_ | $+4$ bit    | $16 \times /36$ ($65.536 \times /48$)  | Alokasi Regional Internet Registry (RIR) ke ISP / Korporasi Besar   |
-| **/48**            | $+8$ bit    | $256 \times /56$ ($65.536 \times /64$) | Penugasan ISP ke Situs Korporat / Pusat Data Perusahaan             |
-| **/56**            | $+4$ bit    | $16 \times /60$ ($256 \times /64$)     | Penugasan Korporat ke Kantor Cabang / Kampus / Multi-VPC            |
-| **/60**            | $+4$ bit    | $16 \times /64$ subnet                 | Penugasan Cabang ke Kantor Kecil / VLAN Departemen                  |
-| **/64**            | Daun / Sub  | Subnet Daun Standar                    | Tautan Lokal / VLAN (SLAAC & Interface ID) — Modal Panduan Edukatif |
-| **/80**            | $+16$ bit   | $65.536 \times /96$ subnet             | Batas Mikro-segmentasi / Layanan Cloud                              |
-| **/96**            | $+16$ bit   | $65.536 \times /112$ subnet            | Translasi IPv4-ke-IPv6 / Alamat Tersemat IPv4 (RFC 6052)            |
-| **/112**           | $+8$ bit    | $256 \times /120$ subnet               | Klaster Perangkat Terisolasi / Sub-delegasi Khusus                  |
-| **/120**           | $+4$ bit    | $16 \times /124$ subnet                | Sub-delegasi Jaringan Industri & Sensor IoT                         |
-| **/124**           | $+3$ bit    | $8 \times /127$ subnet                 | Sub-delegasi Kelompok Kecil Antar-Router                            |
-| **/127**           | $+1$ bit    | $2 \times /128$ subnet                 | Tautan Antar-Router Point-to-Point (Standar RFC 6164)               |
-| **/128**           | Daun        | Daun Host Tunggal / Loopback           | Antarmuka Loopback / Alamat Host Tunggal (Standar RFC 4291)         |
+| Prefiks Tingkatan  | Langkah Bit | Faktor Pengali Subnet                        | Cakupan Tipikal & Peran Arsitektur                                  | Standar RFC         |
+| :----------------- | :---------- | :------------------------------------------- | :------------------------------------------------------------------ | :------------------ |
+| **/32** _(Bawaan)_ | $+4$ bit    | $16 \times /36$ ($65.536 \times /48$)        | Alokasi Regional Internet Registry (RIR) ke ISP / Korporasi Besar   | RFC 6177            |
+| **/40**            | $+8$ bit    | $256 \times /48$ ($16.8\text{M} \times /64$) | Prefiks Translasi NAT64 (RFC 6052) & Alokasi Provider Besar         | RFC 6052            |
+| **/48**            | $+4$ bit    | $16 \times /52$ ($65.536 \times /64$)        | Penugasan ISP ke Situs Korporat / Pusat Data Perusahaan             | RFC 6177            |
+| **/52**            | $+4$ bit    | $16 \times /56$ ($4.1\text{K} \times /64$)   | Tingkatan Kampus Multi-Situs Batas Nibble                           | RFC 6177            |
+| **/56**            | $+4$ bit    | $16 \times /60$ ($256 \times /64$)           | Penugasan Korporat ke Kantor Cabang / Kampus / Multi-VPC            | RFC 6177            |
+| **/60**            | $+4$ bit    | $16 \times /64$ subnet                       | Penugasan Cabang ke Kantor Kecil / VLAN Departemen                  | RFC 6177            |
+| **/64**            | $+4$ bit    | $16 \times /68$ ($65.536 \times /80$)        | Tautan Lokal / VLAN (SLAAC & Pemisahan Interaktif Aktif)            | RFC 4291 / RFC 7421 |
+| **/80**            | $+4$ bit    | $16 \times /84$ ($65.536 \times /96$)        | Batas Mikro-segmentasi / Layanan Cloud (Pemisahan Interaktif Aktif) | RFC 4291            |
+| **/96**            | $+16$ bit   | $65.536 \times /112$ subnet                  | Translasi IPv4-ke-IPv6 / Alamat Tersemat IPv4 (RFC 6052)            | RFC 6052            |
+| **/112**           | $+8$ bit    | $256 \times /120$ subnet                     | Klaster Perangkat Terisolasi / Sub-delegasi Khusus                  | RFC 4291            |
+| **/120**           | $+4$ bit    | $16 \times /124$ subnet                      | Sub-delegasi Jaringan Industri & Sensor IoT                         | RFC 4291            |
+| **/124**           | $+3$ bit    | $8 \times /127$ subnet                       | Sub-delegasi Kelompok Kecil Antar-Router                            | RFC 4291            |
+| **/127**           | $+1$ bit    | $2 \times /128$ subnet                       | Tautan Antar-Router Point-to-Point (Standar RFC 6164)               | RFC 6164            |
+| **/128**           | Daun        | Daun Host Tunggal / Loopback                 | Antarmuka Loopback / Alamat Host Tunggal (Standar RFC 4291)         | RFC 4291            |
 
-### 5. Perlindungan Batas SLAAC & Host (RFC 4291 / RFC 7421 / RFC 6164)
+### 5. Batas SLAAC, Pemisahan Subnet & Perlindungan Host (RFC 4291 / RFC 7421 / RFC 6164)
 
-Sesuai ketentuan RFC 4291 Bagian 2.5.4 dan RFC 7421, semua subnet unicast IPv6 standar dengan Stateless Address Autoconfiguration (SLAAC) memerlukan Interface Identifier (IID) sepanjang 64-bit. Subnet yang lebih kecil dari `/64` (misalnya `/65`, `/112`, `/127`) mematahkan mekanisme SLAAC dan umumnya hanya ditujukan bagi tautan point-to-point khusus:
+Sesuai RFC 4291 Bagian 2.5.4 dan RFC 7421, semua subnet unicast IPv6 standar dengan Stateless Address Autoconfiguration (SLAAC) memerlukan Interface Identifier (IID) 64-bit. Meskipun autokonfigurasi klien standar mengandalkan `/64`, praktisi jaringan sering kali perlu membagi blok `/64` untuk kebutuhan alokasi sub-delegasi:
 
-- **Perlindungan Batas SLAAC**: Visual Subnet Calculator menetapkan `/64` sebagai prefiks daun standar (`.split-disabled`). Mengklik daun `/64` akan memicu modal edukatif (`#notifyModal`) yang menjelaskan batasan arsitektur RFC 7421 dan RFC 4291 tanpa menimbulkan status galat pada aplikasi.
-- **Tautan Point-to-Point Antar-Router (RFC 6164)**: Pengguna dapat langsung memilih `/127` dari toolbar preset atau memasukkannya ke input. Subnet `/127` menyediakan 2 alamat IP dan terbagi secara bersih menjadi dua subnet host `/128`.
+- **Pemisahan Penuh Subnet `/64`**: Visual Subnet Calculator mengizinkan pemisahan blok `/64` menjadi 16 subnet `/68` ($2^4 = 16$), berlanjut ke `/72`, `/76`, `/80`, hingga tautan antar-router `/127`.
+- **Tautan Point-to-Point Antar-Router (RFC 6164)**: Pengguna dapat memilih langsung `/127` dari toolbar preset atau input teks. Subnet `/127` menyediakan 2 alamat IP usable dan terbagi rapi menjadi dua host `/128`.
 - **Perlindungan Batas Host / Loopback**: `/128` merepresentasikan alamat host tunggal atau antarmuka loopback (RFC 4291) dan ditetapkan sebagai simpul daun permanen (`.split-disabled`) yang mencegah pembagian lebih lanjut.
 
 ---
@@ -114,11 +116,9 @@ Sesuai ketentuan RFC 4291 Bagian 2.5.4 dan RFC 7421, semua subnet unicast IPv6 s
 - **Tampilan Tautan Hyperlink Subnet Langsung (Di Bawah Tabel Subnet)**: Selain tombol aksi "Copy Shareable URL", sebuah tautan hyperlink langsung (`#live_shareable_url`) kini ditampilkan secara permanen tepat di bawah tabel rincian subnet. Menggunakan tipografi kontras tinggi yang jelas pada mode terang (`#0284c7`) maupun mode gelap (`#38bdf8`), font tebal (`font-weight: 700`), ukuran optimal (`0.84rem`), serta penanganan wrapping teks `word-break: break-all; overflow-wrap: anywhere;` sehingga parameter query yang panjang tidak akan pernah menyebabkan tata letak terpotong di layar ponsel sempit. Tautan ini tersinkronisasi secara otomatis setiap kali tabel diperbarui.
 - **Fitur Sesi Kuki Sementara Maksimal 15 Menit (`vsc_draft_15m` & `vsc_visitor_15m_session`)**: Mengintegrasikan engine kuki sementara standar RFC 6265 (`TemporaryCookieStore`) dengan masa aktif tepat 15 menit (`max-age=900`, `SameSite=Lax`). Draft konfigurasi subnet tersimpan aman dalam kuki dan akan dipulihkan secara otomatis jika tab ditutup atau dibuka kembali dalam waktu 15 menit. Menghadirkan deduplikasi counter kunjungan berbasis sesi 15 menit serta badge status visual interaktif (`#cookie_session_badge`).
 - **Tombol Melayang Kembali ke Atas (Back to Top Button `#btn_scroll_top`)**: Menambahkan tombol navigasi melayang berbentuk sirkular di pojok kanan bawah dengan deteksi posisi scroll dinamis (> 220px), transisi opacity/transform halus, efek elevasi hover, serta fungsi scroll mulus hardware-accelerated ke posisi paling atas.
-- **Tombol Penghitung Pengunjung Dinamis (`#visitor_counter_btn`) & Integrasi `counter.txt`**: Menambahkan tombol penghitung pengunjung yang elegan dan seragam di bawah tombol PayPal dan QRIS pada footer. Membaca baseline angka pengunjung dari `dist/counter.txt` secara realtime dengan pencegahan cache browser, menghitung dan menambah kunjungan dinamis per sesi pengguna, mencoba menyimpan pembaruan ke server jika didukung, serta memberikan animasi putar (`fa-spin`) saat tombol diklik untuk menyegarkan data. Angka diformat rapi dengan pemisah ribuan standar Indonesia/internasional.
-- **Sinkronisasi URL Dinamis David C (`?network=...&mask=...&division=...`) & Kompatibilitas Statis Nginx**: Integrasi penuh format URL state David C dengan serialisasi bitstring pohon biner secara lossless (`binToAscii` dan `asciiToBin`). Setiap interaksi tabel (split, join, ganti mode, reset) memperbarui bilah URL peramban secara dinamis dan instan melalui `window.history.replaceState`. Menggunakan format query parameter murni tanpa mengubah `window.location.pathname`, sehingga 100% kompatibel langsung di hosting statis Nginx, Apache, Caddy, Cloudflare Pages, dan GitHub Pages tanpa membutuhkan aturan rewrite URL maupun direktif `try_files`. Mendukung interoperabilitas dua arah dengan format terkompresi lawas `?c=`.
-- **Fitur Header Induk Subnet (Integrasi GitHub Issue #5)**: Mengintegrasikan perender baris ringkasan hirarkis subnet induk opsional. Ketika diaktifkan melalui menu dropdown Tools (`#toggle_parent_headers`) atau parameter URL (`&parent_headers=1`), tabel rincian subnet menampilkan baris ringkasan induk yang elegan (`.parent-header-row`) lengkap dengan badge CIDR induk, kedalaman indentasi hirarkis, rentang IP penuh, batas alamat usable, dan jumlah host sebelum dibagi.
-- **Harmonisasi Tombol WhatsApp & QRIS serta Arsitektur Anti-Buram**: Menghilangkan anomali visual dan rendering kabur/buram ("buram sendirian") yang sebelumnya terjadi pada tombol WhatsApp dan QRIS di peramban Android dan desktop. Menstandarisasi seluruh aksi footer di bawah kelas `.footer-social-btn` dengan tinggi 32px (30px pada layar ponsel ringkas), border radius (9999px), pembungkusan flex yang seimbang, dan latar belakang solid dengan `transform: translateZ(0)` guna melenyapkan blur akibat subpixel GPU rasterization. Menyisipkan label `<span>X</span>` agar simetris dan mencegah tombol QRIS terisolasi sendirian di baris baru.
-- **Penyeragaman Gaya Tombol Footer & Ikon Reguler Bersahaja**: Menyeragamkan seluruh 9 tombol footer di bawah selektor `.footer-social-btn i` bernilai `#0284c7` (mode terang) dan `#38bdf8` (mode gelap), menuntaskan perbedaan warna ikon pada WhatsApp, QRIS, dan Pengunjung. Mengganti ikon tebal solid dengan varian reguler (`fa-regular fa-sun`, `fa-regular fa-moon`, `fa-regular fa-circle-question`, `fa-regular fa-envelope`, `fa-regular fa-clock`) dan mengaktifkan antialiasing font.
+- **Rombak Total Grup Ikon Media Sosial Sirkular (Di Bawah Tulisan "Zero cookies...")**: Merombak total seluruh tombol media sosial dan kontak menjadi tombol bulat sirkular monokrom berbasis ikon saja (`.footer-social-btn:not(.btn-counter)`, diameter `34px`, `border-radius: 50%`) yang tersusun rapi dalam satu baris tepat di bawah tulisan `Zero cookies • Zero tracking • Pure client-side computation`. Urutan ikon disesuaikan dengan profil aktif pengembang dan gambar referensi: GitHub, LinkedIn, X, Facebook, Instagram, YouTube, TikTok, Threads, Discord, Telegram, WhatsApp, disusul oleh Email, Website, PayPal, dan QRIS. Dikonfigurasi dengan latar belakang transparan gelap halus (`rgba(255, 255, 255, 0.08)`), garis tepi lembut (`rgba(255, 255, 255, 0.12)`), ikon putih/perak tajam, serta efek kilau warna brand dan micro-animasi hover (`transform: translateY(-2px) scale(1.12)`).
+- **Pemeliharaan Tombol Penghitung Pengunjung Dinamis (`#visitor_counter_btn`) & Integrasi `counter.txt`**: Mempertahankan tombol Penghitung Pengunjung sebagai bentuk pill interaktif dengan teks (`Visitors: 1,248`) di kolom footer, membaca baseline angka pengunjung dari `dist/counter.txt` secara realtime dengan pencegahan cache browser, menghitung dan menambah kunjungan dinamis per sesi pengguna, mencoba menyimpan pembaruan ke server jika didukung, serta memberikan animasi putar (`fa-spin`) saat tombol diklik untuk menyegarkan data. Angka diformat rapi dengan pemisah ribuan standar Indonesia/internasional.
+- **Konsistensi Geometri Tombol WhatsApp & QRIS**: Menstandarkan tinggi, font family, font size, dan border radius antara tombol WhatsApp dan QRIS sirkular sehingga 100% konsisten dan lolos pengujian geometri otomatis.
 - **Dukungan Resmi QRIS Nasional & Modal Donasi (`#qrisModal`)**: Mengintegrasikan modal donasi QRIS Standar Nasional (`ID1020021153676`) beresolusi tinggi yang mendukung transfer lintas bank dan dompet digital instan (BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, LinkAja).
 - **Pengerasan Responsif Khusus Xiaomi, Redmi & POCO**: Menjalankan riset mendalam terhadap perilaku render browser MIUI/HyperOS (inflasi ukuran teks sistem, rasio aspek 20:9, notch DotDisplay). Memperkuat tata letak dengan `-webkit-text-size-adjust: 100%; text-size-adjust: 100%;`, menghapus batasan kaku `min-width: 576px;` pada kontainer, serta mengganti aturan sembunyikan kolom (`display: none` pada Range/Usable IP) dengan kontainer `.table-responsive` yang fluid dan memiliki scrolling sentuh inersial (`-webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;`). Teruji mulus dari resolusi VGA (640x480), Redmi A2 (360x800), Redmi Note 13 (392x872), POCO X6 Pro (412x915), iPhone 15 Pro, iPad Air, hingga 2K tanpa pemotongan dokumen horizontal.
 - **Standardisasi IP Privat RFC 1918 & Indikator Status Real-Time**: Menstandarisasi alokasi subnet IPv4 seputar tiga blok IP privat resmi IETF RFC 1918: `10.0.0.0/8` (blok 24-bit), `172.16.0.0/12` (blok 20-bit), dan `192.168.0.0/16` (blok 16-bit), dengan preset default tetap pada `/16` (`10.0.0.0/16`). Mengintegrasikan lencana status dinamis (`#rfc1918_indicator`) yang memverifikasi alamat dasar jaringan aktif secara real-time disertai label kelas blok kontekstual.
@@ -369,9 +369,9 @@ Fungsi `getConfigUrl()` menghitung URL tautan berbagi secara dinamis dengan meme
 ### 12. Optimalisasi Tampilan Smartphone Xiaomi, Redmi & POCO serta Analisis Akar Masalah
 
 - **Hasil Riset Mendalam Mengenai Tampilan Terpotong di Smartphone Xiaomi/Redmi/POCO**:
-  1. *Inflasi Font Sistem MIUI/HyperOS*: Sistem antarmuka Xiaomi (MIUI dan HyperOS) memiliki fitur "Ukuran Teks" bawaan yang agresif (mulai dari S hingga XXL). Pada peramban berbasis WebKit/Blink tanpa pengaman inflasi font, teks dipaksa membesar melampaui batas sel tabel dan kontainer, sehingga mendorong elemen ke kanan dan memotong tampilan.
-  2. *Rasio Aspek Layar Sangat Panjang (20:9 & 20.5:9)*: Perangkat seperti Redmi Note 13 (392x872), POCO X6 Pro (412x915), dan Redmi A2 (360x800) memiliki rasio layar tinggi dengan lubang kamera DotDisplay. Satuan tinggi kaku (`100vh`) mengabaikan bilah alamat peramban dinamis dan navigasi gestur.
-  3. *Lebar Minimum Kontainer yang Kaku*: Versi sebelumnya memiliki aturan CSS desktop yang menetapkan batas lebar kaku sehingga pada layar di bawah 576px terjadi luapan (_overflow_) horizontal.
+  1. _Inflasi Font Sistem MIUI/HyperOS_: Sistem antarmuka Xiaomi (MIUI dan HyperOS) memiliki fitur "Ukuran Teks" bawaan yang agresif (mulai dari S hingga XXL). Pada peramban berbasis WebKit/Blink tanpa pengaman inflasi font, teks dipaksa membesar melampaui batas sel tabel dan kontainer, sehingga mendorong elemen ke kanan dan memotong tampilan.
+  2. _Rasio Aspek Layar Sangat Panjang (20:9 & 20.5:9)_: Perangkat seperti Redmi Note 13 (392x872), POCO X6 Pro (412x915), dan Redmi A2 (360x800) memiliki rasio layar tinggi dengan lubang kamera DotDisplay. Satuan tinggi kaku (`100vh`) mengabaikan bilah alamat peramban dinamis dan navigasi gestur.
+  3. _Lebar Minimum Kontainer yang Kaku_: Versi sebelumnya memiliki aturan CSS desktop yang menetapkan batas lebar kaku sehingga pada layar di bawah 576px terjadi luapan (_overflow_) horizontal.
 - **Solusi Arsitektural yang Diterapkan**:
   - Mengaktifkan `-webkit-text-size-adjust: 100%;` pada `html` dan `body` untuk menonaktifkan pembesaran teks otomatis peramban sembari tetap menghormati hierarki unit `rem`.
   - Menerapkan `overflow-x: hidden; max-width: 100%;` pada `body` serta mengunci scroll horizontal tabel hanya di dalam kontainer `.table-responsive` dengan `overflow-x: auto; overscroll-behavior-x: contain;`.
@@ -440,10 +440,10 @@ Untuk mempermudah alur kerja pengguna, tombol aksi reset (`#btn_reset`) ditempat
 
 Visual Subnet Calculator menerapkan palet warna pastel modern berstandar 2026 yang ergonomis dan aksesibel untuk tombol kontrol operasional utama:
 
-| Tombol | Peran / Kelas | Latar Mode Terang | Teks Mode Terang | Latar Mode Gelap | Teks Mode Gelap | Kontras WCAG |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Tombol    | Peran / Kelas                      | Latar Mode Terang       | Teks Mode Terang        | Latar Mode Gelap        | Teks Mode Gelap         | Kontras WCAG      |
+| :-------- | :--------------------------------- | :---------------------- | :---------------------- | :---------------------- | :---------------------- | :---------------- |
 | **Tools** | `#btn_tools` (`.btn-pastel-green`) | `#d1fae5` (Emerald 100) | `#065f46` (Emerald 800) | `#064e3b` (Emerald 900) | `#a7f3d0` (Emerald 200) | **AAA** (> 7.2:1) |
-| **Reset** | `#btn_reset` (`.btn-pastel-red`) | `#fee2e2` (Rose 100) | `#991b1b` (Rose 800) | `#7f1d1d` (Rose 900) | `#fecaca` (Rose 200) | **AAA** (> 7.4:1) |
+| **Reset** | `#btn_reset` (`.btn-pastel-red`)   | `#fee2e2` (Rose 100)    | `#991b1b` (Rose 800)    | `#7f1d1d` (Rose 900)    | `#fecaca` (Rose 200)    | **AAA** (> 7.4:1) |
 
 Kedua token warna dilengkapi interaksi mikro saat hover (`transform: translateY(-1px)`, bayangan ambient halus) serta cincin fokus aksesibel `:focus-visible` yang mematuhi standar WCAG 2.2 AA.
 
@@ -469,7 +469,11 @@ Ketika pengujian otomatis atau interaksi pengguna yang cepat menutup modal saat 
     const modalEl = $(this).closest(".modal")[0];
     if (modalEl && typeof bootstrap !== "undefined" && bootstrap.Modal) {
       const modalInstance = bootstrap.Modal.getInstance(modalEl);
-      if (modalInstance && modalInstance._isTransitioning && modalEl.classList.contains("show")) {
+      if (
+        modalInstance &&
+        modalInstance._isTransitioning &&
+        modalEl.classList.contains("show")
+      ) {
         modalEl._pendingDismiss = true;
       }
     }
@@ -489,13 +493,40 @@ Ketika pengujian otomatis atau interaksi pengguna yang cepat menutup modal saat 
   ```
   Pola ini menjamin tidak ada kebocoran status antar-modal dan penutupan selalu dieksekusi secara 100% andal di segala kecepatan pengujian.
 
+### 5. Remediasi DOM XSS Peringatan CodeQL #6 [Tingkat Tinggi]
+
+Peringatan keamanan GitHub CodeQL Alert #6 mengidentifikasi potensi celah DOM XSS tingkat tinggi pada `dist/js/main.js` di mana data dari masukan DOM diinterpretasikan ulang sebagai HTML:
+
+- **Badge Status RFC 1918 (`updateRfc1918Indicator`)**: Menggantikan interpolasi template string `.html(...)` dengan pembuatan node DOM terprogram yang aman (`$("<span>")`, `$("<i>")`) serta penugasan teks strictly `.text()`, sepenuhnya mencegah injeksi kode HTML ke dalam kontainer status.
+- **Penempatan Galat Formulir (`errorPlacement`)**: Menggantikan pembacaan langsung `error[0].innerHTML` dengan pembacaan teks bersih `error.text()` sebelum pesan tooltip ditampilkan.
+- **Baris Header Induk (`addParentHeaderRow`)**: Menegakkan penyandian entitas karakter (`escapeHtml()`) pada seluruh nilai dinamis seperti catatan subnet, rentang alamat, dan jumlah host sebelum diinterpolasi ke dalam tabel.
+- **Sanitasi Atribut Aksesibel**: Menghapus penugasan `aria-label` dinamis yang redundan pada `#live_shareable_url` guna menghindari peringatan linter HTML terhadap refleksi atribut DOM tanpa validasi.
+
+### 6. Arsitektur Pemecahan Subnet IPv6 /64
+
+Visual Subnet Calculator mendukung pemecahan interaktif tanpa hambatan pada seluruh spektrum prefiks IPv6:
+
+- **Evolusi Batas SLAAC**: Di samping subnet standar (`/32` hingga `/60`), prefiks `/64` kini dapat dipecah secara interaktif menjadi 16 subnet `/68`, yang kemudian dapat dipecah lebih lanjut ke `/72`, `/76`, `/80`, `/84`, `/88`, `/92`, `/96`, `/112`, `/120`, `/124`, dan `/127` (tautan point-to-point).
+- **Desain Node Daun**: Dalam fungsi `addRow()`, baris tabel ditetapkan sebagai non-daun (`isLeaf = false`) untuk seluruh prefiks `< 128`, mengaktifkan tombol kolom aksi pemecahan pada semua prefiks valid. Hanya prefiks `/128` (host/loopback) yang ditetapkan sebagai daun permanen.
+- **Integritas Serialisasi Pohon**: Ketika subnet akar belum pernah dipecah (`!hasDivided(rootAddress, rootNetSize)`), fungsi `encodeDivisionTree()` mengembalikan string kosong (`""`), menjaga format URL kanonikal tetap bersih dan rapi (`?network=2001-db8--&mask=64`).
+
+### 7. Optimasi Tata Letak Tampilan Seluler Xiaomi, Redmi, dan POCO
+
+Fitur inflasi ukuran font sistem yang agresif serta rasio aspek layar yang sangat tinggi (20:9 dan 20.5:9) pada lingkungan MIUI dan HyperOS dapat menyebabkan tampilan antarmuka terpotong dan menghasilkan luapan (_overflow_) horizontal:
+
+- **Netralisasi Inflasi Font**: Mengonfigurasi `text-size-adjust: 100%` dan `-webkit-text-size-adjust: 100%` pada `html, body, table, input, select, button` untuk mencegah algoritma pembesaran teks peramban merusak ukuran sel tabel dan kontrol formulir.
+- **Perbaikan Min-Width Flexbox**: Menambahkan aturan `min-width: 0` pada elemen-elemen turunan flex (`#ipv4_tier_info`, `#ipv6_tier_info`, `#input_form`, `.app-header-left`), menggantikan nilai bawaan `min-width: auto` yang memicu pemaksaan lebar minimum pada layar 360px–412px.
+- **Reklamasi Ruang Header**: Menghapus `padding-right: 6rem` dan `7rem` buatan pada judul `h1`, memungkinkan judul aplikasi dan tombol navigasi mengalir alami tanpa mendorong ikon aksi ke luar batas layar.
+- **Pembungkusan Formulir yang Mengalir (Fluid Wrapping)**: Merancang ulang `#input_form` pada layar `< 576px` menjadi dua baris rapi: alamat jaringan dan prefiks berada bersisian di baris 1, sementara tombol Go, Tools, dan Reset membentang di baris 2 dalam toolbar terpadu.
+- **Penanganan Safe Area Insets**: Menerapkan fungsi `env(safe-area-inset-*)` dengan fallback `max()` pada pembungkus halaman guna melindungi konten dari gangguan potongan kamera depan (_punch hole / DotDisplay_) dan bilah navigasi gestur.
+
 ---
 
 ## Pertimbangan Keamanan
 
 - **Isolasi Penuh di Sisi Klien**: Seluruh kalkulasi berlangsung sepenuhnya di dalam runtime peramban. Tidak ada data pengguna, skema IP, maupun catatan teks yang dikirimkan ke server backend mana pun.
 - **Pencegahan XSS**: Setiap nilai dinamis yang disisipkan ke dalam DOM (termasuk isi catatan yang dimuat dari file impor atau URL bersama) melewati penyandian entitas karakter sebelum proses interpolasi string.
-- **Pencegahan DOM XSS (CodeQL Alert #5)**: Masukan koreksi batas jaringan dari DOM diisolasi secara ketat dalam fungsi `show_boundary_warning_modal()` yang menggunakan pengikatan node `.text()` yang aman dari eksekusi skrip.
-- **Sanitasi Warna CSS (v1.4.3)**: Atribut `style="background-color: ..."` yang dihasilkan secara dinamis untuk baris tabel subnet kini divalidasi menggunakan fungsi `sanitizeColor(color)` dengan whitelist regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Hanya format heksadesimal CSS yang benar-benar valid (#RGB, #RGBA, #RRGGBB, #RRGGBBAA) yang diizinkan melewati validasi; nilai dengan panjang 5 atau 7 karakter yang tidak diakui oleh spesifikasi CSS Color Level 4 diblokir. Nilai tidak valid dikembalikan sebagai string kosong dan tidak pernah diinterpolasi ke dalam atribut DOM. Pendekatan ini lebih aman daripada `escapeHtml()` dalam konteks CSS karena mencegah injeksi ekspresi CSS seperti `url()`, `expression()`, atau sekuens _escape_ `\`.
+- **Pencegahan DOM XSS (CodeQL Alerts #5 & #6)**: Masukan koreksi batas jaringan dan badge status RFC 1918 diisolasi ke handler terdedikasi menggunakan pembuatan elemen DOM yang aman dan pengikatan `.text()`, meniadakan _sink_ interpretasi HTML mentah.
+- **Sanitasi Warna CSS (v1.4.3)**: Atribut `style="background-color: ..."` yang dihasilkan secara dinamis untuk baris tabel subnet divalidasi menggunakan regex whitelist CSS Color Level 4 `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`.
 - **Aksesibilitas & Kepatuhan Formulir**: Input file tersembunyi (`#importFileInput`) dipasangkan dengan label semantik (`<label for="importFileInput" class="visually-hidden">`) dan atribut judul, memenuhi standar pembaca layar WCAG 2.2 AA dan aturan linter HTML tanpa menghasilkan atribut ARIA yang redundan.
 - **Kebijakan Keamanan Konten (CSP)**: Aplikasi tidak memerlukan skrip eksternal di luar aset distribusi lokal, memungkinkan penerapan kebijakan `script-src 'self'` yang ketat pada _reverse proxy_ produksi.

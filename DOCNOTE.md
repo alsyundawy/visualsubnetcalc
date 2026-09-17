@@ -20,7 +20,7 @@ Visual Subnet Calculator is a client-side visual IP subnet design and calculatio
 Visual Subnet Calculator provides an accessible, responsive toolbar for rapid selection of IPv4 network sizes from `/16` to `/32` (17 distinct presets):
 
 - **Two-Way Synchronization**: Clicking any preset button immediately updates the `#netsize` input field, recalculates the base network boundary if necessary, re-renders the visual subnet tree, and marks the selected button with the `.active` CSS class. Conversely, manual keyboard entry or clipboard paste into `#netsize` automatically detects the prefix and synchronizes the active button state.
-- **Default State**: Initialized to `10.0.0.0/16` with preset button `/16` active.
+- **Default State**: Initialized to `172.16.0.0/16` with preset button `/16` active (IPv6 initialized to `2508:6789::/32`).
 - **Responsive Chip Layout**: Preset buttons use `flex-wrap: wrap`, compact padding (`py-0 px-2`), and independent chip borders (`border-radius: 0.2rem !important;`), ensuring that all 17 buttons wrap naturally without breaking horizontal bounds on narrow screens (VGA 640px, mobile phones).
 
 ### 2. 128-Bit Mathematical Precision (`BigInt`)
@@ -44,33 +44,36 @@ Formatted IPv6 output strictly follows IETF RFC 5952 recommendations:
 - Hexadecimal digits are rendered strictly in lowercase.
 - Single 16-bit zero fields are never compressed with `::` (e.g., `2001:db8:0:1::/64`).
 
-### 4. Hierarchical IPv6 Tier Architecture
+### 4. Hierarchical IPv6 Tier Architecture & Presets
 
-Standard IPv4 binary splitting (/N -> /N+1) is impractical for IPv6 due to astronomical address spaces. Visual Subnet Calculator adheres to standard network engineering tier allocations:
+Standard IPv4 binary splitting (/N -> /N+1) is impractical for IPv6 due to astronomical address spaces. Visual Subnet Calculator adheres to standard network engineering tier allocations defined across RFC 6177, RFC 4291, RFC 6052, and RFC 6164:
 
-$$\text{/32 (ISP/LIR)} \longrightarrow \text{/48 (Enterprise Site)} \longrightarrow \text{/56 (Branch/VPC)} \longrightarrow \text{/60 (Dept)} \longrightarrow \text{/64 (SLAAC)} \quad\Big|\quad \text{/127 (P2P)} \longrightarrow \text{/128 (Host)}$$
+$$\text{/32 (ISP/LIR)} \longrightarrow \text{/40 (NAT64)} \longrightarrow \text{/48 (Enterprise Site)} \longrightarrow \text{/52 (Multi-Site)} \longrightarrow \text{/56 (Branch)} \longrightarrow \text{/60 (Dept)} \longrightarrow \text{/64 (SLAAC)} \quad\Big|\quad \text{/127 (P2P)} \longrightarrow \text{/128 (Host)}$$
 
-| Tier Prefix         | Bit Step   | Subnet Multiplication Factor           | Typical Allocation Scope & Architectural Role                         |
-| :------------------ | :--------- | :------------------------------------- | :-------------------------------------------------------------------- |
-| **/32** _(Default)_ | $+4$ bits  | $16 \times /36$ ($65,536 \times /48$)  | Regional Internet Registry (RIR) allocation to ISP / Large Enterprise |
-| **/48**             | $+8$ bits  | $256 \times /56$ ($65,536 \times /64$) | ISP assignment to Enterprise / Corporate Data Center                  |
-| **/56**             | $+4$ bits  | $16 \times /60$ ($256 \times /64$)     | Enterprise assignment to Branch Office / Campus / Multi-VPC           |
-| **/60**             | $+4$ bits  | $16 \times /64$ subnets                | Branch assignment to Small Office / Departmental VLAN                 |
-| **/64**             | Leaf / Sub | Standard Leaf Subnet                   | Local Link / VLAN (SLAAC & Interface IDs) - Educational Warning Modal |
-| **/80**             | $+16$ bits | $65,536 \times /96$ subnets            | Micro-segmentation / Cloud Service Boundary                           |
-| **/96**             | $+16$ bits | $65,536 \times /112$ subnets           | IPv4-to-IPv6 Translation / IPv4-Embedded Addresses (RFC 6052)         |
-| **/112**            | $+8$ bits  | $256 \times /120$ subnets              | Isolated Device Cluster / Specialized Sub-delegation                  |
-| **/120**            | $+4$ bits  | $16 \times /124$ subnets               | Industrial / Sensor Network Sub-delegation                            |
-| **/124**            | $+3$ bits  | $8 \times /127$ subnets                | Inter-Router Small Group Sub-delegation                               |
-| **/127**            | $+1$ bit   | $2 \times /128$ subnets                | Point-to-Point Router Inter-Links (RFC 6164 standard)                 |
-| **/128**            | Leaf       | Single Host / Loopback Leaf            | Loopback Interface / Host Address (RFC 4291 standard)                 |
+| Tier Prefix         | Bit Step   | Subnet Multiplication Factor                 | Typical Allocation Scope & Architectural Role                          | RFC Standard        |
+| :------------------ | :--------- | :------------------------------------------- | :--------------------------------------------------------------------- | :------------------ |
+| **/32** _(Default)_ | $+4$ bits  | $16 \times /36$ ($65,536 \times /48$)        | Regional Internet Registry (RIR) allocation to ISP / Large Enterprise  | RFC 6177            |
+| **/40**             | $+8$ bits  | $256 \times /48$ ($16.8\text{M} \times /64$) | NAT64 / Translation Prefix (RFC 6052) & Large Provider Allocation      | RFC 6052            |
+| **/48**             | $+4$ bits  | $16 \times /52$ ($65,536 \times /64$)        | ISP assignment to Enterprise / Corporate Data Center                   | RFC 6177            |
+| **/52**             | $+4$ bits  | $16 \times /56$ ($4.1\text{K} \times /64$)   | Nibble-boundary Multi-Site Campus Tier                                 | RFC 6177            |
+| **/56**             | $+4$ bits  | $16 \times /60$ ($256 \times /64$)           | Enterprise assignment to Branch Office / Campus / Multi-VPC            | RFC 6177            |
+| **/60**             | $+4$ bits  | $16 \times /64$ subnets                      | Branch assignment to Small Office / Departmental VLAN                  | RFC 6177            |
+| **/64**             | $+4$ bits  | $16 \times /68$ ($65,536 \times /80$)        | Local Link / VLAN (SLAAC & Interactive Splitting Enabled)              | RFC 4291 / RFC 7421 |
+| **/80**             | $+4$ bits  | $16 \times /84$ ($65,536 \times /96$)        | Micro-segmentation / Cloud Service Boundary (Interactive Split Active) | RFC 4291            |
+| **/96**             | $+16$ bits | $65,536 \times /112$ subnets                 | IPv4-to-IPv6 Translation / IPv4-Embedded Addresses (RFC 6052)          | RFC 6052            |
+| **/112**            | $+8$ bits  | $256 \times /120$ subnets                    | Isolated Device Cluster / Specialized Sub-delegation                   | RFC 4291            |
+| **/120**            | $+4$ bits  | $16 \times /124$ subnets                     | Industrial / Sensor Network Sub-delegation                             | RFC 4291            |
+| **/124**            | $+3$ bits  | $8 \times /127$ subnets                      | Inter-Router Small Group Sub-delegation                                | RFC 4291            |
+| **/127**            | $+1$ bit   | $2 \times /128$ subnets                      | Point-to-Point Router Inter-Links (RFC 6164 standard)                  | RFC 6164            |
+| **/128**            | Leaf       | Single Host / Loopback Leaf                  | Loopback Interface / Host Address (RFC 4291 standard)                  | RFC 4291            |
 
-### 5. SLAAC & Host Boundary Protection (RFC 4291 / RFC 7421 / RFC 6164)
+### 5. SLAAC, Subnet Splitting & Host Boundary Protection (RFC 4291 / RFC 7421 / RFC 6164)
 
-According to RFC 4291 Section 2.5.4 and RFC 7421, all standard IPv6 unicast subnets with Stateless Address Autoconfiguration (SLAAC) require a 64-bit Interface Identifier (IID). Subnets smaller than `/64` (e.g., `/65`, `/112`, `/127`) break SLAAC and are generally reserved for specialized point-to-point links:
+According to RFC 4291 Section 2.5.4 and RFC 7421, all standard IPv6 unicast subnets with Stateless Address Autoconfiguration (SLAAC) require a 64-bit Interface Identifier (IID). While standard client autoconfiguration expects `/64`, network administrators and architects frequently need to subdivide `/64` prefixes into smaller sub-delegations:
 
-- **SLAAC Boundary Protection**: Visual Subnet Calculator designates `/64` as a standard leaf prefix (`.split-disabled`). Clicking on a `/64` leaf triggers an educational modal (`#notifyModal`) explaining RFC 7421 and RFC 4291 architectural standards rather than causing invalid states.
+- **Unrestricted `/64` Subnet Splitting**: Visual Subnet Calculator allows full splitting of `/64` subnets into sixteen `/68` subnets ($2^4 = 16$), followed by sub-delegations to `/72`, `/76`, `/80`, and down to `/127`.
 - **Point-to-Point Router Inter-Links (RFC 6164)**: Users can directly select `/127` from the preset toolbar or input field. A `/127` subnet provides 2 usable IP addresses and splits cleanly into two `/128` host subnets.
+- **Host / Loopback Boundary Protection (/128)**: An IPv6 `/128` prefix represents a single host or loopback address and cannot be split any further. Attempting to split a `/128` leaf triggers a clear informational modal.
 - **Host / Loopback Boundary Protection**: `/128` represents an individual host or loopback address (RFC 4291) and is designated as an immutable leaf node (`.split-disabled`) preventing further division.
 
 ## Dependency Matrix and SRI Hashes
@@ -105,11 +108,9 @@ According to RFC 4291 Section 2.5.4 and RFC 7421, all standard IPv6 unicast subn
 - **Live Shareable Subnet Hyperlink Display (Below Subnet Table)**: In addition to the "Copy Shareable URL" clipboard action, a live clickable hyperlink (`#live_shareable_url`) is rendered directly below the subnet breakdown table. Features high-contrast typography in both light (`#0284c7`) and dark (`#38bdf8`) modes, bold font weight (`700`), balanced size (`0.84rem`), and robust word-break handling (`word-break: break-all; overflow-wrap: anywhere;`) ensuring that long query parameter strings never cause horizontal page overflow on small mobile displays. Synchronizes automatically in real time on every table mutation.
 - **15-Minute Temporary Cookie Session Feature (`vsc_draft_15m` & `vsc_visitor_15m_session`)**: Implemented an RFC 6265 compliant cookie management engine (`TemporaryCookieStore`) with 15-minute TTL (`max-age=900`, `SameSite=Lax`). Caches active calculation drafts in a 15-minute cookie with auto-restore upon tab reopening, deduplicates visitor counting within 15 minutes, and displays dynamic session badge `#cookie_session_badge`.
 - **Back to Top Floating Action Button (`#btn_scroll_top`)**: Responsive floating circular action button positioned at the bottom-right corner with scroll monitoring (> 220px), smooth CSS opacity/transform transitions, hover micro-elevation, and hardware-accelerated smooth scrolling to top.
-- **Dynamic Visitor Counter Button (`#visitor_counter_btn`) & `counter.txt` Integration**: Added an elegant, unified visitor counter button positioned directly below PayPal and QRIS in the footer. Fetches baseline count metrics from `dist/counter.txt` with cache-busting, dynamically tracks and increments visit counts across sessions, attempts server-side updates when supported, and provides interactive refresh animations (`fa-spin`) on click. Formatted with Indonesian / international numeral grouping.
-- **David C Dynamic URL Synchronization (`?network=...&mask=...&division=...`) & Nginx Static Compatibility**: Full integration of David C's URL state format with lossless binary tree bitstring serialization (`binToAscii` and `asciiToBin`). Every table action (split, join, mode change, reset) updates the browser address bar dynamically in real time via `window.history.replaceState`. Uses standard query strings without changing `window.location.pathname`, providing 100% out-of-the-box compatibility on static Nginx, Apache, Caddy, Cloudflare Pages, and GitHub Pages without requiring URL rewriting or `try_files` directives. Supports bidirectional compatibility with legacy compressed `?c=` strings.
-- **Parent Subnet Headers Feature (GitHub Issue #5 Integration)**: Integrated an optional hierarchical parent subnet breakdown row renderer. When enabled via the Tools dropdown (`#toggle_parent_headers`) or URL parameter (`&parent_headers=1`), the breakdown table displays distinctive parent summary rows (`.parent-header-row`) detailing parent CIDR badges, hierarchical depth indentation, full IP ranges, usable address bounds, and host counts prior to division.
-- **WhatsApp & QRIS Button Harmonization & Anti-Blur Architecture**: Eliminated the visual anomalies and blurry rendering ("buram sendirian") affecting the WhatsApp and QRIS buttons on Android and desktop displays. Standardized all footer actions under `.footer-social-btn` with unified 32px height (30px on small mobile), border radius (9999px), balanced flex wrapping, and solid background fallbacks with `transform: translateZ(0)` to eliminate GPU subpixel rasterization blur. Symmetrized the X button with `<span>X</span>` to prevent single-button line orphaning.
-- **Unified Footer Button Styling & Crisp Regular Iconography**: Unified all 9 footer buttons under `.footer-social-btn i` with `#0284c7` (light) and `#38bdf8` (dark), resolving icon color discrepancies across WhatsApp, QRIS, and Pengunjung. Replaced heavy solid icons with regular weight icons (`fa-regular fa-sun`, `fa-regular fa-moon`, `fa-regular fa-circle-question`, `fa-regular fa-envelope`, `fa-regular fa-clock`) with antialiased font smoothing.
+- **Circular Social Media Icon Group Revamp (Under "Zero cookies..." Caption)**: Completely revamped all social media and contact buttons into sleek circular monochrome icon-only buttons (`.footer-social-btn:not(.btn-counter)`, `34px` diameter, `border-radius: 50%`) positioned in an elegant row directly below the `Zero cookies • Zero tracking • Pure client-side computation` caption. Features exact ordering: GitHub, LinkedIn, X, Facebook, Instagram, YouTube, TikTok, Threads, Discord, Telegram, WhatsApp, followed by Email, Website, PayPal, and QRIS. Configured with translucent dark mode background (`rgba(255, 255, 255, 0.08)`), subtle borders (`rgba(255, 255, 255, 0.12)`), crisp silver/white icons, and vibrant individual brand hover glows and scale micro-animations (`transform: translateY(-2px) scale(1.12)`).
+- **Preserved Dynamic Visitor Counter Pill (`#visitor_counter_btn`) & `counter.txt` Integration**: Preserved the Visitor Counter button as an interactive pill with text label (`Visitors: 1,248`) in the footer column, fetching baseline count metrics from `dist/counter.txt` with cache-busting, dynamically tracking and incrementing visit counts across sessions, attempting server-side updates when supported, and providing interactive refresh animations (`fa-spin`) on click. Formatted with Indonesian / international numeral grouping.
+- **WhatsApp & QRIS Geometry Consistency**: Standardized height, font family, font size, and border radius consistency between WhatsApp and QRIS circular buttons to pass all strict cross-browser geometry tests.
 - **Official QRIS Support & Donation Modal (`#qrisModal`)**: Integrated Indonesian National Standard QRIS donation modal (`ID1020021153676`) with high-resolution vector source, supporting instant cross-bank and e-wallet transfers (BCA, Mandiri, BRI, BNI, GoPay, OVO, DANA, LinkAja).
 - **Xiaomi, Redmi & POCO Mobile Responsive Hardening**: Conducted in-depth research on Xiaomi MIUI/HyperOS WebView behavior. Mitigated browser font-inflation cut-offs via `-webkit-text-size-adjust: 100%; text-size-adjust: 100%;`, removed rigid `min-width: 576px;` container constraints, and replaced column-hiding rules (`display: none` on Range/Usable IPs) with a fluid, accessible touch-inertial `.table-responsive` container (`-webkit-overflow-scrolling: touch; overscroll-behavior-x: contain;`). Tested across VGA (640x480), Redmi A2 (360x800), Redmi Note 13 (392x872), POCO X6 Pro (412x915), iPhone 15 Pro, iPad Air, and 2K desktop displays with zero horizontal document overflow.
 - **RFC 1918 Private Address Standardization & Live Indicator**: Standardized IPv4 network presets around the three authoritative IETF RFC 1918 private address ranges: `10.0.0.0/8` (24-bit block), `172.16.0.0/12` (20-bit block), and `192.168.0.0/16` (16-bit block), with default preset maintained at `/16` (`10.0.0.0/16`). Integrated a dynamic status badge (`#rfc1918_indicator`) that performs real-time verification of active network base addresses against RFC 1918 boundaries with contextual block class labeling.
@@ -352,9 +353,9 @@ The `getConfigUrl()` routine dynamically computes the shareable URL based on the
 ### 12. Xiaomi, Redmi & POCO Mobile Display Optimization & Root Cause Analysis
 
 - **Research Findings on Display Truncation / Cut-Off**:
-  1. *System Font Scaling / Text Inflation*: MIUI and HyperOS feature aggressive system-wide font scaling ("Text size" S to XXL). In WebKit/Blink browsers without explicit font inflation guards, text expands beyond table cells and container boundaries, pushing elements off-screen.
-  2. *Ultra-Tall Aspect Ratios (20:9 & 20.5:9)*: Devices such as Redmi Note 13 (392x872), POCO X6 Pro (412x915), and Redmi A2 (360x800) feature tall aspect ratios with DotDisplay camera cutouts. Fixed-height units (`100vh`) fail to account for dynamic address bars and virtual navigation bars.
-  3. *Rigid Container Minimum Widths*: Prior versions included container rules that enforced minimum desktop boundaries, causing mobile viewports under 576px to overflow.
+  1. _System Font Scaling / Text Inflation_: MIUI and HyperOS feature aggressive system-wide font scaling ("Text size" S to XXL). In WebKit/Blink browsers without explicit font inflation guards, text expands beyond table cells and container boundaries, pushing elements off-screen.
+  2. _Ultra-Tall Aspect Ratios (20:9 & 20.5:9)_: Devices such as Redmi Note 13 (392x872), POCO X6 Pro (412x915), and Redmi A2 (360x800) feature tall aspect ratios with DotDisplay camera cutouts. Fixed-height units (`100vh`) fail to account for dynamic address bars and virtual navigation bars.
+  3. _Rigid Container Minimum Widths_: Prior versions included container rules that enforced minimum desktop boundaries, causing mobile viewports under 576px to overflow.
 - **Architectural Solutions Implemented**:
   - Activated `-webkit-text-size-adjust: 100%;` on `html` and `body` to suppress browser font inflation while respecting CSS rem sizing.
   - Added `overflow-x: hidden; max-width: 100%;` to `body` and scoped table horizontal scrolling to `.table-responsive` with `overflow-x: auto; overscroll-behavior-x: contain;`.
@@ -419,10 +420,10 @@ To streamline user workflow, a dedicated reset action (`#btn_reset`) is position
 
 Visual Subnet Calculator implements an ergonomic, accessible 2026 pastel palette for top-level operational buttons:
 
-| Button | Role / Class | Light Mode Background | Light Mode Text | Dark Mode Background | Dark Mode Text | WCAG Contrast |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| Button    | Role / Class                       | Light Mode Background   | Light Mode Text         | Dark Mode Background    | Dark Mode Text          | WCAG Contrast     |
+| :-------- | :--------------------------------- | :---------------------- | :---------------------- | :---------------------- | :---------------------- | :---------------- |
 | **Tools** | `#btn_tools` (`.btn-pastel-green`) | `#d1fae5` (Emerald 100) | `#065f46` (Emerald 800) | `#064e3b` (Emerald 900) | `#a7f3d0` (Emerald 200) | **AAA** (> 7.2:1) |
-| **Reset** | `#btn_reset` (`.btn-pastel-red`) | `#fee2e2` (Rose 100) | `#991b1b` (Rose 800) | `#7f1d1d` (Rose 900) | `#fecaca` (Rose 200) | **AAA** (> 7.4:1) |
+| **Reset** | `#btn_reset` (`.btn-pastel-red`)   | `#fee2e2` (Rose 100)    | `#991b1b` (Rose 800)    | `#7f1d1d` (Rose 900)    | `#fecaca` (Rose 200)    | **AAA** (> 7.4:1) |
 
 Both tokens include subtle hover micro-interactions (`transform: translateY(-1px)`, soft ambient box-shadows) and accessible `:focus-visible` focus rings conforming to WCAG 2.2 AA.
 
@@ -441,14 +442,18 @@ In long subnet hierarchies with dozens of subnets (particularly under deep IPv6 
 When automated end-to-end tests or fast human interactions dismiss a modal during its opening fade transition:
 
 - **Root Cause**: Bootstrap 5's internal `Modal.prototype.hide()` checks `if (this._isTransitioning) return;`. If a dismiss click occurs while the modal is fading in, Bootstrap ignores the dismissal, leaving the modal stuck open.
-- **Flawed Solution**: Binding `{ once: true }` on `shown.bs.modal` caused race conditions because if dismissal occurred while closing, the listener lingered until the *next* time that modal opened, causing it to dismiss immediately upon opening.
+- **Flawed Solution**: Binding `{ once: true }` on `shown.bs.modal` caused race conditions because if dismissal occurred while closing, the listener lingered until the _next_ time that modal opened, causing it to dismiss immediately upon opening.
 - **Production-Grade Solution**: Implemented an element-scoped `_pendingDismiss` flag pattern on the modal DOM node:
   ```javascript
   $(document).on("click", ".modal [data-bs-dismiss='modal']", function () {
     const modalEl = $(this).closest(".modal")[0];
     if (modalEl && typeof bootstrap !== "undefined" && bootstrap.Modal) {
       const modalInstance = bootstrap.Modal.getInstance(modalEl);
-      if (modalInstance && modalInstance._isTransitioning && modalEl.classList.contains("show")) {
+      if (
+        modalInstance &&
+        modalInstance._isTransitioning &&
+        modalEl.classList.contains("show")
+      ) {
         modalEl._pendingDismiss = true;
       }
     }
@@ -468,11 +473,38 @@ When automated end-to-end tests or fast human interactions dismiss a modal durin
   ```
   This guarantees zero event leakage across modal openings and 100% reliable dismissal timing under any testing velocity.
 
+### 5. CodeQL Alert #6 [High] DOM XSS Remediation
+
+GitHub CodeQL Alert #6 identified a potential high-severity DOM XSS sink in `dist/js/main.js` where user or DOM-derived text was reinterpreted as HTML:
+
+- **RFC 1918 Status Badge (`updateRfc1918Indicator`)**: Replaced jQuery `.html(...)` string template interpolation with safe programmatic DOM node creation (`$("<span>")`, `$("<i>")`) and strict `.text()` textContent assignments, completely preventing HTML injection into the indicator container.
+- **Form Error Placement (`errorPlacement`)**: Replaced raw `error[0].innerHTML` reading with sanitized `error.text()` extraction before rendering tooltip messages.
+- **Parent Header Row (`addParentHeaderRow`)**: Enforced context-aware character entity escaping (`escapeHtml()`) across all dynamic subnet notes, address bounds, and host counts before interpolation into the DOM.
+- **Accessible Attributes Sanitation**: Removed redundant and dynamic `aria-label` overrides on `#live_shareable_url` that previously caused HTML linters to flag potential unvalidated DOM attribute reflection.
+
+### 6. IPv6 /64 Subnet Splitting Architecture
+
+Visual Subnet Calculator supports unrestricted, interactive splitting of IPv6 subnets across the entire prefix spectrum:
+
+- **SLAAC Boundary Evolution**: In addition to standard IPv6 subnets (`/32` through `/60`), `/64` subnets can now be interactively split into sixteen `/68` subnets, which in turn can be subdivided into `/72`, `/76`, `/80`, `/84`, `/88`, `/92`, `/96`, `/112`, `/120`, `/124`, and `/127` (point-to-point links).
+- **Leaf Node Design**: In `addRow()`, rows are designated as non-leaf (`isLeaf = false`) for all prefixes `< 128`, enabling the split action column across all valid prefixes. Only `/128` (host/loopback) is designated as an immutable leaf.
+- **Tree Serialization Integrity**: When a root subnet is undivided (`!hasDivided(rootAddress, rootNetSize)`), `encodeDivisionTree()` returns an empty string (`""`), preserving clean, uncluttered canonical URLs (`?network=2001-db8--&mask=64`).
+
+### 7. Xiaomi, Redmi, and POCO Mobile Display Layout Optimization
+
+Aggressive system font scaling and tall display aspect ratios (20:9 and 20.5:9) in Xiaomi's MIUI and HyperOS environments can cause layouts to clip and horizontally overflow:
+
+- **Font Inflation Neutralization**: Configured `text-size-adjust: 100%` and `-webkit-text-size-adjust: 100%` across `html, body, table, input, select, button` to prevent the browser inflation algorithm from magnifying table cells and form controls beyond viewport bounds.
+- **Flexbox Min-Width Fix**: Added `min-width: 0` to flex child containers (`#ipv4_tier_info`, `#ipv6_tier_info`, `#input_form`, `.app-header-left`), overriding the default `min-width: auto` that prevented items from shrinking on 360px–412px screens.
+- **Header Spacing Reclamation**: Eliminated artificial `padding-right: 6rem` and `7rem` from `h1` headings, allowing titles and navigation icons to flow naturally across narrow viewports without pushing action buttons off-screen.
+- **Fluid Input Wrapping**: Re-engineered `#input_form` on viewports `< 576px` to employ clean two-row wrapping: network address and prefix input sit side-by-side on row 1, while Go, Tools, and Reset buttons stretch across row 2 in a unified, wrapped toolbar.
+- **Safe Area Insets**: Implemented `env(safe-area-inset-*)` with `max()` fallbacks on page wrappers to protect content against punch-hole camera cutouts (DotDisplay) and gesture navigation bars.
+
 ## Security Considerations
 
 - **Client-Side Isolation**: All calculations occur entirely in the browser runtime. No user data, IP schemas, or notes are transmitted to any backend server.
 - **XSS Prevention**: All dynamic text values inserted into the DOM (including note contents loaded from imported configurations or shared URLs) are strictly sanitized using character entity encoding before string interpolation.
-- **DOM XSS Prevention (CodeQL Alert #5)**: Boundary correction inputs from the DOM are strictly isolated in a dedicated `show_boundary_warning_modal()` function utilizing safe `.text()` node bindings, preventing DOM values from flowing into `.html()` or `innerHTML` interpretation sinks.
-- **CSS Injection Prevention (v1.4.3)**: Dynamically generated `style="background-color: ..."` attributes on subnet table rows are validated by `sanitizeColor()` using a CSS Color Level 4 compliant whitelist regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Only valid hex formats are permitted; 5- and 7-character invalid lengths are explicitly blocked. Invalid values are returned as empty string and never interpolated into DOM attributes — stronger than `escapeHtml()` in CSS attribute contexts because it prevents `url()`, `expression()`, and `\` escape injection patterns.
+- **DOM XSS Prevention (CodeQL Alerts #5 & #6)**: Boundary correction inputs and RFC 1918 indicator badges are isolated into dedicated handlers utilizing safe DOM element construction and `.text()` node bindings, eliminating raw HTML interpretation sinks.
+- **CSS Injection Prevention (v1.4.3)**: Dynamically generated `style="background-color: ..."` attributes on subnet table rows are validated by `sanitizeColor()` using a CSS Color Level 4 compliant whitelist regex `^#([0-9a-fA-F]{3}|[0-9a-fA-F]{4}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$`. Only valid hex formats are permitted; 5- and 7-character invalid lengths are explicitly blocked.
 - **Form Accessibility & Compliance**: Hidden file inputs (`#importFileInput`) are paired with dedicated semantic labels (`<label for="importFileInput" class="visually-hidden">`) and title attributes, satisfying both WCAG 2.2 AA screen-reader standards and HTML linter rules without redundant ARIA attributes.
 - **Content Security Policy (CSP)**: The application requires no external script origins beyond local distribution assets, allowing strict `script-src 'self'` policy enforcement in production reverse proxies.

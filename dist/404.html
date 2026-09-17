@@ -1,4 +1,22 @@
 <!doctype html>
+<!--
+ ╔══════════════════════════════════════════════════════════════════════════════╗
+ ║ DOCNOTE & FILE METADATA                                                      ║
+ ╠══════════════════════════════════════════════════════════════════════════════╣
+ ║ File        : dist/404.html                                                  ║
+ ║ Application : Visual Subnet Calculator (v1.4.3)                              ║
+ ║ Description : 404 Not Found Page with Navigation & Quick Recovery Actions   ║
+ ║ Author      : HARRY DERTIN SUTISNA ALSYUNDAWY (@alsyundawy)                  ║
+ ║ Organization: ALSYUNDAWY IT SOLUTION (https://alsyundawy.com)                ║
+ ║ Contact     : Email: alsyundawy@gmail.com | Telegram: https://t.me/alsyundawy║
+ ║ Social / Dev: GitHub: https://github.com/alsyundawy | X: @alsyundawy         ║
+ ║ Repository  : https://github.com/alsyundawy/visualsubnetcalc                 ║
+ ║ Live Demo   : https://alsyundawy.github.io/visualsubnetcalc/                 ║
+ ║ Version     : 1.4.3 (Hardened 2026 Release)                                  ║
+ ║ Date        : September 18, 2026                                             ║
+ ║ License     : MIT License                                                    ║
+ ╚══════════════════════════════════════════════════════════════════════════════╝
+-->
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -199,8 +217,8 @@
               >
             </div>
             <p class="mb-0 text-secondary">
-              High-performance dual-stack IPv4/IPv6 visual design &amp; CIDR
-              hierarchy engine.
+              Visual IPv4 &amp; IPv6 subnet calculator with CIDR hierarchy,
+              split/join, and shareable URL.
             </p>
           </div>
           <div class="col-12 col-md-4 text-center">
@@ -228,97 +246,8 @@
                 </a>
               </div>
             </div>
-            <div
-              class="footer-social-group d-flex justify-content-center align-items-center gap-2 flex-wrap"
-            >
-              <a
-                href="https://alsyundawy.com"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-btn footer-btn btn-website"
-                aria-label="ALSYUNDAWY IT SOLUTION Website"
-                title="ALSYUNDAWY IT SOLUTION Official Website"
-              >
-                <i class="fa-solid fa-globe" aria-hidden="true"></i
-                ><span>alsyundawy.com</span>
-              </a>
-              <a
-                href="https://github.com/alsyundawy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-btn footer-btn btn-github"
-                aria-label="Maintainer Profile (@alsyundawy)"
-                title="GitHub Profile (@alsyundawy)"
-              >
-                <i class="fa-brands fa-github" aria-hidden="true"></i
-                ><span>GitHub</span>
-              </a>
-              <a
-                href="https://x.com/alsyundawy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-btn footer-btn btn-x"
-                aria-label="X (Twitter) Profile"
-                title="X (Twitter) Profile (@alsyundawy)"
-              >
-                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
-              </a>
-              <a
-                href="https://t.me/alsyundawy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-btn footer-btn btn-telegram"
-                aria-label="Telegram Profile"
-                title="Telegram Contact (@alsyundawy)"
-              >
-                <i class="fa-brands fa-telegram" aria-hidden="true"></i
-                ><span>Telegram</span>
-              </a>
-              <a
-                href="https://wa.me/6285658515212"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-btn footer-btn btn-whatsapp"
-                aria-label="WhatsApp Contact"
-                title="Direct WhatsApp Contact"
-              >
-                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i
-                ><span>WhatsApp</span>
-              </a>
-              <a
-                href="mailto:alsyundawy@gmail.com"
-                class="footer-social-btn footer-btn btn-email"
-                aria-label="Email Maintainer"
-                title="Send Email to Maintainer"
-              >
-                <i class="fa-regular fa-envelope" aria-hidden="true"></i
-                ><span>Email</span>
-              </a>
-              <a
-                href="https://paypal.me/alsyundawy"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="footer-social-btn footer-btn btn-paypal"
-                aria-label="Donate via PayPal"
-                title="Support via PayPal"
-              >
-                <i class="fa-brands fa-paypal" aria-hidden="true"></i
-                ><span>PayPal</span>
-              </a>
-              <button
-                type="button"
-                class="footer-social-btn footer-btn btn-qris"
-                data-bs-toggle="modal"
-                data-bs-target="#qrisModal"
-                aria-label="QRIS Donation Support"
-                title="QRIS Donation Support (Scan QR)"
-              >
-                <i class="fa-solid fa-qrcode" aria-hidden="true"></i
-                ><span>QRIS</span>
-              </button>
-            </div>
             <!-- ═══ Visitor Counter Button (Dynamic via counter.txt) ═════════ -->
-            <div class="footer-counter-wrap mt-2 d-flex justify-content-center">
+            <div class="footer-counter-wrap d-flex justify-content-center">
               <button
                 type="button"
                 class="footer-social-btn footer-btn btn-counter"
@@ -327,13 +256,15 @@
                 title="Visitor Counter (Synced with counter.txt)"
               >
                 <i class="fa-solid fa-users" aria-hidden="true"></i
-                ><span>Visitors: <strong id="visitor_count_val">1,248</strong></span>
+                ><span
+                  >Visitors: <strong id="visitor_count_val">1,248</strong></span
+                >
               </button>
             </div>
           </div>
           <div class="col-12 col-md-4 text-center text-md-end">
             <div
-              class="d-flex justify-content-center justify-content-md-end align-items-center gap-2 mb-1"
+              class="d-flex justify-content-center justify-content-md-end align-items-center gap-2 mb-1 flex-wrap"
             >
               <a
                 href="https://github.com/alsyundawy/visualsubnetcalc"
@@ -368,10 +299,169 @@
                 >MIT License
               </a>
             </div>
-            <p class="mb-0 text-secondary">
+          </div>
+
+          <!-- ═══ Circular Social Media Icons Row (Below Zero cookies text) ═══ -->
+          <div
+            class="col-12 text-center mt-2 pt-2 border-top border-secondary border-opacity-10"
+          >
+            <p class="mb-2 text-secondary small">
               Zero cookies &bull; Zero tracking &bull; Pure client-side
               computation
             </p>
+            <div
+              class="footer-social-group d-flex justify-content-center align-items-center gap-2 flex-wrap"
+              id="footer_social_links"
+            >
+              <a
+                href="https://github.com/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-github"
+                aria-label="Maintainer Profile (@alsyundawy)"
+                title="GitHub Profile (@alsyundawy)"
+              >
+                <i class="fa-brands fa-github" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://linkedin.com/in/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-linkedin"
+                aria-label="LinkedIn Profile (@alsyundawy)"
+                title="LinkedIn Profile (@alsyundawy)"
+              >
+                <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://x.com/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-x"
+                aria-label="X (Twitter) Profile"
+                title="X (Twitter) Profile (@alsyundawy)"
+              >
+                <i class="fa-brands fa-x-twitter" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://facebook.com/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-facebook"
+                aria-label="Facebook Profile (@alsyundawy)"
+                title="Facebook Profile (@alsyundawy)"
+              >
+                <i class="fa-brands fa-facebook-f" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://instagram.com/harry.ds.alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-instagram"
+                aria-label="Instagram Profile (@harry.ds.alsyundawy)"
+                title="Instagram Profile (@harry.ds.alsyundawy)"
+              >
+                <i class="fa-brands fa-instagram" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://youtube.com/@alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-youtube"
+                aria-label="YouTube Channel (@alsyundawy)"
+                title="YouTube Channel (@alsyundawy)"
+              >
+                <i class="fa-brands fa-youtube" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://tiktok.com/@alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-tiktok"
+                aria-label="TikTok Profile (@alsyundawy)"
+                title="TikTok Profile (@alsyundawy)"
+              >
+                <i class="fa-brands fa-tiktok" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://threads.net/@harry.ds.alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-threads"
+                aria-label="Threads Profile (@harry.ds.alsyundawy)"
+                title="Threads Profile (@harry.ds.alsyundawy)"
+              >
+                <i class="fa-brands fa-threads" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://discord.com/users/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-discord"
+                aria-label="Discord Profile (@alsyundawy)"
+                title="Discord Profile (@alsyundawy)"
+              >
+                <i class="fa-brands fa-discord" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://t.me/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-telegram"
+                aria-label="Telegram Profile"
+                title="Telegram Contact (@alsyundawy)"
+              >
+                <i class="fa-brands fa-telegram" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://wa.me/6285658515212"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-whatsapp"
+                aria-label="WhatsApp Contact"
+                title="Direct WhatsApp Contact"
+              >
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+              </a>
+              <a
+                href="mailto:alsyundawy@gmail.com"
+                class="footer-social-btn footer-btn btn-email"
+                aria-label="Email Maintainer"
+                title="Send Email to Maintainer"
+              >
+                <i class="fa-regular fa-envelope" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://alsyundawy.com"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-website"
+                aria-label="ALSYUNDAWY IT SOLUTION Website"
+                title="ALSYUNDAWY IT SOLUTION Official Website"
+              >
+                <i class="fa-solid fa-globe" aria-hidden="true"></i>
+              </a>
+              <a
+                href="https://paypal.me/alsyundawy"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="footer-social-btn footer-btn btn-paypal"
+                aria-label="Donate via PayPal"
+                title="Support via PayPal"
+              >
+                <i class="fa-brands fa-paypal" aria-hidden="true"></i>
+              </a>
+              <button
+                type="button"
+                class="footer-social-btn footer-btn btn-qris"
+                data-bs-toggle="modal"
+                data-bs-target="#qrisModal"
+                aria-label="QRIS Donation Support"
+                title="QRIS Donation Support (Scan QR)"
+              >
+                <i class="fa-solid fa-qrcode" aria-hidden="true"></i>
+              </button>
+            </div>
           </div>
         </div>
       </footer>
@@ -405,7 +495,9 @@
             </div>
             <div class="modal-body p-4">
               <p class="text-secondary small mb-3">
-                Scan the following QRIS barcode using any supported mobile banking or digital wallet app (GoPay, OVO, DANA, LinkAja, BCA, Mandiri). Thank you for your support and appreciation! 🙏
+                Scan the following QRIS barcode using any supported mobile
+                banking or digital wallet app (GoPay, OVO, DANA, LinkAja, BCA,
+                Mandiri). Thank you for your support and appreciation! 🙏
               </p>
               <div
                 class="p-2 border rounded bg-light d-inline-block shadow-sm mb-3"
@@ -418,7 +510,8 @@
                 />
               </div>
               <div class="small text-muted">
-                <strong>Beneficiary:</strong> ALSYUNDAWY / HARRY DERTIN SUTISNA<br />
+                <strong>Beneficiary:</strong> ALSYUNDAWY / HARRY DERTIN
+                SUTISNA<br />
                 NMID: ID1020021153676 / QRIS National Payment Standard
               </div>
             </div>
@@ -483,4 +576,3 @@
     </div>
   </body>
 </html>
-

@@ -5,14 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- ═══ Primary SEO ═══════════════════════════════════════════════════ -->
-    <title>Visual Subnet Calculator - IP Subnet &amp; CIDR Tool</title>
+    <title>Visual Subnet Calculator - IPv4 &amp; IPv6 Subnet Planner</title>
     <meta
       name="description"
-      content="Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes, and share designs via a custom link. Supports AWS, Azure, and OCI cloud IP reservations."
+      content="Free online visual subnet calculator (v1.4.3). Visually split and join IPv4 &amp; IPv6 subnets, plan CIDR network layouts, and share designs via custom URL with zero server-side storage. Supports AWS VPC, Azure VNet, GCP VPC, and OCI cloud IP reservations."
     />
     <meta
       name="keywords"
-      content="subnet calculator, CIDR calculator, IP subnet planner, network design tool, IPv4 subnetting, AWS VPC subnetting, Azure CIDR, OCI networking, visual subnetting, subnet split join"
+      content="subnet calculator, CIDR calculator, IP subnet planner, network design tool, IPv4 subnetting, IPv6 subnetting, AWS VPC subnetting, Azure CIDR, GCP VPC, OCI networking, visual subnetting, subnet split join, RFC 6164, WCAG accessible"
     />
     <meta name="author" content="HARRY DERTIN SUTISNA (@alsyundawy)" />
     <meta
@@ -30,11 +30,11 @@
     <meta property="og:url" content="__DEPLOY_URL__" />
     <meta
       property="og:title"
-      content="Visual Subnet Calculator - Free IP Subnet Planner & CIDR Tool"
+      content="Visual Subnet Calculator - Dual-Stack IPv4 &amp; IPv6 Subnet Planner &amp; CIDR Tool"
     />
     <meta
       property="og:description"
-      content="Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes, and share designs via a custom link. Supports AWS, Azure, and OCI cloud IP reservations."
+      content="Free online visual subnet calculator (v1.4.3). Visually split and join IPv4 &amp; IPv6 subnets, plan CIDR network layouts, and share designs via custom URL with zero server-side storage. Supports AWS VPC, Azure VNet, GCP VPC, and OCI cloud IP reservations."
     />
     <meta
       property="og:image"
@@ -54,11 +54,11 @@
     <meta name="twitter:url" content="__DEPLOY_URL__" />
     <meta
       name="twitter:title"
-      content="Visual Subnet Calculator - Free IP Subnet Planner & CIDR Tool"
+      content="Visual Subnet Calculator - Dual-Stack IPv4 &amp; IPv6 Subnet Planner &amp; CIDR Tool"
     />
     <meta
       name="twitter:description"
-      content="Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes. Supports AWS, Azure, OCI cloud IP reservations."
+      content="Free online visual subnet calculator (v1.4.3). Split and join IPv4 &amp; IPv6 subnets, plan CIDR layouts, and share designs. Supports AWS, Azure, GCP, and OCI cloud IP reservations."
     />
     <meta
       name="twitter:image"
@@ -76,7 +76,7 @@
         "@type": "WebApplication",
         "name": "Visual Subnet Calculator",
         "url": "__DEPLOY_URL__",
-        "description": "Free online visual subnet calculator. Split and join IPv4 subnets, plan CIDR network layouts, add color-coded notes, and share designs via a custom link.",
+        "description": "Free online visual subnet calculator (v1.4.3). Visually split and join IPv4 and IPv6 subnets, plan CIDR network layouts, color-code tiers, and share designs via compressed URL with zero server-side storage.",
         "applicationCategory": "NetworkingApplication",
         "operatingSystem": "Any",
         "browserRequirements": "Requires JavaScript. Works in all modern browsers.",
@@ -96,15 +96,22 @@
         "license": "https://github.com/alsyundawy/visualsubnetcalc/blob/main/LICENSE",
         "screenshot": "__DEPLOY_URL__/icon/social_1200x630.png",
         "featureList": [
-          "IPv4 subnet split and join",
-          "CIDR notation support",
-          "Color-coded subnet notes",
-          "Shareable URL state",
-          "AWS VPC IP reservation mode",
-          "Azure IP reservation mode",
-          "Google Cloud (GCP) IP reservation mode",
-          "Oracle Cloud (OCI) IP reservation mode",
-          "JSON import/export"
+          "Dual-stack IPv4 and IPv6 subnet split and join",
+          "Hierarchical IPv6 tier progression (/32 to /128)",
+          "128-bit lossless BigInt bitwise arithmetic",
+          "RFC 6164 point-to-point /127 router interconnects",
+          "RFC 4291 and RFC 7421 SLAAC bounds protection",
+          "CIDR notation and interactive prefix presets",
+          "Color-coded subnet notes and visual network tagging",
+          "Shareable URL state with client-side LZ-String compression",
+          "Multi-format import and export (JSON, RFC 4180 CSV, Plain Text)",
+          "Minimal supernet automatic tree reconstruction",
+          "AWS VPC IP reservation mode (5 reserved IPs)",
+          "Azure VNet IP reservation mode (5 reserved IPs)",
+          "Google Cloud (GCP) VPC IP reservation mode (4 reserved IPs)",
+          "Oracle Cloud (OCI) IP reservation mode (3 reserved IPs)",
+          "RFC 1918 standard subnetting mode",
+          "WCAG 2.2 Level AA accessibility compliance"
         ]
       }
     </script>

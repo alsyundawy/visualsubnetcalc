@@ -1677,7 +1677,12 @@ function addRow(
   }
   newRow += "            </tr>";
 
-  $("#calcbody").append(newRow);
+  const $newRow = $(newRow);
+  if (safeColor !== "") {
+    $newRow.removeAttr("style");
+    $newRow.css("background-color", safeColor);
+  }
+  $("#calcbody").append($newRow);
 }
 
 // Helper Functions

@@ -1,6 +1,6 @@
 # Catatan Rekayasa & Arsitektur — Visual Subnet Calculator
 
-Catatan desain teknis, spesifikasi algoritma, struktur data, dan mekanisme serialisasi untuk Visual Subnet Calculator v1.4.3.
+Catatan desain teknis, spesifikasi algoritma, struktur data, dan mekanisme serialisasi untuk Visual Subnet Calculator v1.4.4.
 
 ---
 

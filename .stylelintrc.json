@@ -13,6 +13,17 @@
   },
   "ignoreFiles": [
     "**/*.min.css",
-    "**/node_modules/**"
+    "**/node_modules/**",
+    "**/*.md",
+    "**/*.html",
+    "**/*.js",
+    "**/*.ts",
+    "**/*.json",
+    "**/*.yaml",
+    "**/*.yml",
+    "**/*.txt",
+    "**/*.svg",
+    "**/*.png",
+    "**/*.ico"
   ]
 }

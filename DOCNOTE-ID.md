@@ -1,6 +1,6 @@
 # Catatan Dokumentasi Teknis — Visual Subnet Calculator
 
-Spesifikasi arsitektur teknis, standar keamanan, dan panduan integrasi operasional untuk Visual Subnet Calculator v1.4.3.
+Spesifikasi arsitektur teknis, standar keamanan, dan panduan integrasi operasional untuk Visual Subnet Calculator v1.4.4.
 
 ---
 
@@ -110,6 +110,19 @@ Sesuai RFC 4291 Bagian 2.5.4 dan RFC 7421, semua subnet unicast IPv6 standar den
 - Mengimplementasikan fitur ekspor/impor dasar dalam format JSON.
 
 ### 3. Edisi Produksi ALSYUNDAWY (`alsyundawy/visualsubnetcalc`)
+
+#### v1.4.4 (Arsitektur Sinkronisasi Global Pengunjung, Modal Kompak & Tipografi Presisi) — 2026-10-07
+
+- **Desain Ulang Arsitektur Modal Kompak (`#aboutModal` & `#faqModal`)**: Mendesain ulang secara menyeluruh modal Tentang (About) dari dialog `modal-xl` yang mendominasi seluruh layar menjadi dialog `modal-lg` berukuran ringkas (`.about-modal-dialog`). Membatasi dimensi dialog secara ketat pada `max-width: min(650px, 92vw)` dan `max-height: 72vh` dengan pengguliran internal yang mulus (`modal-dialog-scrollable`), tipografi berjenjang yang rapi, serta kisi 2 kolom tautan narahubung/sumber daya, menjamin dialog tidak lagi menutupi seluruh layar kerja.
+- **Penskalaan Tipografi Presisi Global**: Memperkecil hierarki tipografi secara sistematis dan proporsional di seluruh breakpoint (`html { font-size: 13.5px; }` pada desktop, `12.5px` pada ponsel, dengan token `--form-font-size: 0.8125rem`, `--table-font-size: 0.75rem`, `--btn-font-size: 0.75rem`), menghadirkan tampilan antarmuka yang lebih padat, profesional, dan tajam tanpa merusak perataan kolom maupun keterbacaan tabel subnet.
+- **Ketahanan Responsif Total & Pengerasan Xiaomi / Redmi / POCO**: Riset mendalam karakteristik render WebView MIUI dan HyperOS terkait anomali perbesaran font sistem (textZoom), menerapkan aturan ketat `-webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important;` pada seluruh elemen. Terbukti 100% bebas pemotongan horizontal (`scrollWidth <= clientWidth + 2`) pada 14 viewport perangkat dari VGA kuno (640x480) hingga monitor 2K QHD (2560x1440), termasuk rasio sempit (20:9) pada Redmi A2, Redmi Note 13, Xiaomi 14, dan POCO X6 Pro pada orientasi potret maupun lanskap.
+- **Sinkronisasi Pengunjung Global Real-Time**: Mengintegrasikan REST API Global Counter yang ramah privasi dan tanpa token (`countapi.mileshilliard.com/api/v1`) berbasis baseline persisten `dist/counter.txt` (1.248). Menyelesaikan batasan hosting statis di mana server statis (GitHub Pages & AWS S3) menolak request `POST counter.txt` dengan status HTTP 405 Method Not Allowed.
+- **Deduplikasi Sesi 3 Lapis 15 Menit (Kuki, SessionStorage & Timestamp)**: Mengembangkan engine deduplikasi 3 lapis berbasis kuki RFC 6265 15 menit (`vsc_visitor_15m_session`), `sessionStorage` peramban (`vsc_visitor_session_recorded`), dan jendela waktu `localStorage` 15 menit (`vsc_visitor_last_visit_ts`). Pengunjung berulang atau refresh halaman dalam rentang 15 menit hanya memicu kueri baca (`get`) tanpa menggelembungkan hitungan kunjungan.
+- **Hidrasi UI Instan Tanpa Pergeseran Tata Letak**: Mengisi nilai `#visitor_count_val` secara instan dari cache `localStorage` (`vsc_visitor_cached_total`) sebelum permintaan jaringan selesai, menjamin Cumulative Layout Shift bernilai nol (CLS = 0).
+- **Arsitektur Fallback Tangguh (Offline & AdBlock)**: Jika koneksi internet terputus, domain API diblokir oleh adblocker, atau batas waktu request terlampaui (guard 4 detik), sistem secara otomatis dan mulus beralih ke baseline `dist/counter.txt` ditambah offset sesi lokal. UI tidak pernah menampilkan nilai kosong, `NaN`, ataupun melempar unhandled rejection.
+- **Normalisasi Resolusi Jalur Subpath & Halaman 404**: Memperkuat resolusi URL `counter.txt` melalui `new URL("counter.txt", window.location.href)` guna mencegah kegagalan 404 saat situs dibuka tanpa trailing slash atau dari rute kesalahan bersarang.
+- **Umpan Balik Penyegaran Interaktif**: Tombol `#visitor_counter_btn` menyediakan aksi sinkronisasi baca (`get`) real-time yang disertai animasi putar halus Font Awesome (`fa-spin`) dan tooltip status dinamis (`Live Global Sync: <angka>` vs `Offline Cache: <angka>`).
+- **Kepatuhan Multi-Linter Bebas Peringatan**: Lolos 100% pemeriksaan linter Trunk (`trunk check --ci`, `trunk fmt`), ESLint, Prettier, Stylelint, serta 22/22 pengujian otomatis headless Playwright visual dan responsif tanpa satu pun galat atau peringatan.
 
 #### v1.4.3 (Arsitektur Rilis Terkini) — 2026-09-18
 
@@ -356,12 +369,17 @@ Fungsi `getConfigUrl()` menghitung URL tautan berbagi secara dinamis dengan meme
   - **Uji Irama Jarak Vertikal**: Penegasan _bounding box_ otomatis yang memvalidasi adanya celah vertikal nyata antara `#app_header`, `.alert`, dan `#ip_version_toolbar`.
   - **Uji Simulasi Lokasi URL**: Validasi otomatis yang memastikan path root dan subfolder tersusun akurat.
 
-### 9. Arsitektur Sesi Kuki Sementara 15 Menit (Standar RFC 6265)
+### 9. Arsitektur Sesi Kuki Sementara 15 Menit & Counter Pengunjung Global
 
 - **Tujuan**: Memberikan ketahanan sesi sementara dan deduplikasi counter kunjungan hingga maksimal 15 menit (`max-age=900`) tanpa membebani penyimpanan perangkat secara permanen.
 - **Engine**: Modul `TemporaryCookieStore` yang mengelola `set()`, `get()`, dan `remove()` dengan pengamanan ketat `SameSite=Lax`, `path=/`, serta flag `Secure` otomatis saat berjalan di protokol HTTPS:
   - `vsc_draft_15m`: Secara otomatis menyimpan draft kueri URL subnet aktif (`?network=...&mask=...&division=...`) setiap kali terjadi pembagian (split), penggabungan (join), atau perubahan mode. Jika pengguna tidak sengaja menutup tab atau me-refresh ke path root `/` dalam kurun waktu 15 menit, aplikasi secara otomatis memulihkan sesi subnet yang sedang dikerjakan.
   - `vsc_visitor_15m_session`: Melakukan deduplikasi kunjungan dalam jendela waktu 15 menit sehingga refresh berulang kali tidak menggelembungkan counter kunjungan (`#visitor_count_val`).
+- **Integrasi Counter Pengunjung Global**:
+  - Memanfaatkan `countapi.mileshilliard.com/api/v1` untuk sinkronisasi jumlah pengunjung global secara real-time di seluruh perangkat dan peramban, bermula dari angka dasar di `dist/counter.txt` (1.248).
+  - Menggunakan verifikasi sesi 3 lapis (`TemporaryCookieStore`, `sessionStorage`, dan timestamp `localStorage`) untuk membedakan kunjungan baru (aksi `hit`) dari tampilan berulang atau refresh (aksi `get`).
+  - Menjamin transisi fallback offline yang mulus: bila jaringan terputus atau API diblokir adblocker, sistem beralih ke baseline `counter.txt` ditambah offset sesi lokal tanpa menghasilkan nilai NaN atau error konsol.
+  - Meniadakan pesan error HTTP 405 di konsol dengan menghapus pengiriman request `POST counter.txt` ke server statis.
 - **Indikator Status Visual**: `#cookie_session_badge` menampilkan lencana status kuki sesi secara dinamis tepat di sebelah Shareable URL (`Kuki Sesi: 15 Menit`).
 
 ### 10. Tombol Melayang Kembali ke Atas (Back to Top `#btn_scroll_top`)

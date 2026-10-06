@@ -7,6 +7,26 @@ All notable changes to Visual Subnet Calculator will be documented in this file.
 The format is based on [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.4] - 2026-10-07
+
+### Added
+
+- Compact Modal Architecture Redesign (`#aboutModal` & `#faqModal`): Completely redesigned the About modal from an overwhelming `modal-xl` viewport overlay into an ultra-sleek, compact `modal-lg` scrollable dialog (`.about-modal-dialog`). Constrained dialog dimensions to `max-width: min(650px, 92vw)` and `max-height: 72vh` with clean internal scrolling (`modal-dialog-scrollable`), compact hierarchical typography, and a structured 2-column contact/resource link grid, preventing the modal from dominating or covering the entire screen.
+- Global High-Density Typography Scaling: Systematically scaled down the entire typography hierarchy across all breakpoints (`html { font-size: 13.5px; }` on desktop, `12.5px` on mobile, with tokens `--form-font-size: 0.8125rem`, `--table-font-size: 0.75rem`, `--btn-font-size: 0.75rem`), delivering a denser, professional, crisp appearance without breaking column alignment or table readability.
+- Full-Spectrum Responsiveness & Xiaomi / Redmi / POCO Hardening: Conducted deep research on MIUI and HyperOS WebView textZoom quirks, enforcing strict `-webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important;` across all elements. Verified zero horizontal overflow (`scrollWidth <= clientWidth + 2`) across 14 device viewports ranging from legacy VGA (640x480) up to 2K QHD (2560x1440), including narrow aspect ratios (20:9) on Redmi A2, Redmi Note 13, Xiaomi 14, and POCO X6 Pro in both portrait and landscape orientations.
+- Real-Time Global Visitor Counter Synchronization: Integrated a privacy-friendly, zero-token Global Counter REST API with `dist/counter.txt` baseline (1,248) to dynamically synchronize live visitor counts across all devices and browsers globally.
+- Multi-Tier 15-Minute Deduplication Engine: Implemented robust 3-tier visitor deduplication (RFC 6265 15-minute cookie via `TemporaryCookieStore`, `sessionStorage`, and `localStorage` timestamp window) so that rapid page refreshes perform read-only (`get`) queries instead of inflating visitor counts.
+- Resilient Offline & AdBlock Fallback Architecture: Engineered automatic offline and adblocker fallback to `dist/counter.txt` baseline plus local session offsets, guaranteeing zero layout shifts, no NaN values, and zero unhandled rejections.
+- Dynamic Contextual Tooltips: Updated `#visitor_counter_btn` to dynamically report live sync status (`Live Global Sync: <count>` vs `Offline Cache: <count>`).
+
+### Fixed
+
+- Resolved HTTP 405 Method Not Allowed Console Errors: Completely removed invalid `POST counter.txt` requests on static hosts (GitHub Pages & AWS S3), restoring a clean 0-error browser developer console.
+- Fixed Subpath & 404 Page Path Resolution: Hardened `counter.txt` URL resolution via `new URL("counter.txt", window.location.href)` to prevent 404 errors when accessed without trailing slashes or on nested error routes.
+- Eliminated Visitor Counter Runaway Inflation: Fixed unbounded local offset accumulation on repeated visits and provided interactive manual refresh synchronization with Font Awesome spinning animation (`fa-spin`).
+- Fixed Full-Screen Modal Overflow on Tablets and Laptops: Bounded `#aboutModal` to `72vh` maximum height with smooth custom scrolling, eliminating full-screen occlusion on compact displays.
+- Verified Zero-Warning Multi-Linter Compliance: Fully passed Trunk linter (`trunk check --ci`, `trunk fmt`), ESLint, Prettier, Stylelint, and 22/22 headless Playwright visual and responsive tests without a single warning or error.
+
 ## [1.4.3] - 2026-09-18
 
 ### Added

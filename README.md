@@ -1,6 +1,6 @@
 # Visual Subnet Calculator — Modernized & Hardened Edition
 
-[![Release](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.3)
+[![Release](https://img.shields.io/github/v/release/alsyundawy/visualsubnetcalc?style=for-the-badge&color=007acc&logo=github)](https://github.com/alsyundawy/visualsubnetcalc/releases/tag/v1.4.4)
 [![Demo](https://img.shields.io/badge/Demo-alsyundawy.github.io%2Fvisualsubnetcalc-brightgreen?style=for-the-badge&logo=githubpages)](https://alsyundawy.github.io/visualsubnetcalc/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 [![CodeQL Security](https://img.shields.io/badge/CodeQL-0%20Alerts%20%7C%20Passing-success?style=for-the-badge&logo=githubactions)](https://github.com/alsyundawy/visualsubnetcalc/security/code-scanning)

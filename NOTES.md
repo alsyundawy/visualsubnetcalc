@@ -1,6 +1,6 @@
 # Engineering & Architecture Notes — Visual Subnet Calculator
 
-Technical design notes, algorithmic specifications, data structures, and serialization mechanics for Visual Subnet Calculator v1.4.3.
+Technical design notes, algorithmic specifications, data structures, and serialization mechanics for Visual Subnet Calculator v1.4.4.
 
 ---
 

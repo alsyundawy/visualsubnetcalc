@@ -1,5 +1,7 @@
 {
   "files.associations": {
+    "*.cce": "cpp",
+    "*.asc": "cpp",
     ".repomixignore": "ignore"
   },
   "php.linkedEditing.variables": true,
@@ -11,7 +13,9 @@
   "terminal.integrated.profiles.osx": {
     "bash": {
       "path": "/usr/local/bin/bash",
-      "args": ["-l"],
+      "args": [
+        "-l"
+      ],
       "icon": "terminal-bash"
     },
     "zsh": {
@@ -20,6 +24,11 @@
   },
   "terminal.integrated.automationProfile.osx": {
     "path": "/usr/local/bin/bash",
-    "args": ["-l"]
-  }
+    "args": [
+      "-l"
+    ]
+  },
+  "stylelint.validate": [
+    "css"
+  ]
 }

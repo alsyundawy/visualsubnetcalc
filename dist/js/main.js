@@ -3,7 +3,7 @@
  * ║ DOCNOTE & FILE METADATA                                                      ║
  * ╠══════════════════════════════════════════════════════════════════════════════╣
  * ║ File        : dist/js/main.js                                                ║
- * ║ Application : Visual Subnet Calculator (v1.4.3)                              ║
+ * ║ Application : Visual Subnet Calculator (v1.4.4)                              ║
  * ║ Description : Core Logic, IPv4/IPv6 Bitwise Math, Tree Mutator & State Sync  ║
  * ║ Author      : HARRY DERTIN SUTISNA ALSYUNDAWY (@alsyundawy)                  ║
  * ║ Organization: ALSYUNDAWY IT SOLUTION (https://alsyundawy.com)                ║
@@ -11,8 +11,8 @@
  * ║ Social / Dev: GitHub: https://github.com/alsyundawy | X: @alsyundawy         ║
  * ║ Repository  : https://github.com/alsyundawy/visualsubnetcalc                 ║
  * ║ Live Demo   : https://alsyundawy.github.io/visualsubnetcalc/                 ║
- * ║ Version     : 1.4.3 (Hardened 2026 Release)                                  ║
- * ║ Date        : September 18, 2026                                             ║
+ * ║ Version     : 1.4.4 (Live Global Visitor Sync Release)                       ║
+ * ║ Date        : October 07, 2026                                               ║
  * ║ License     : MIT License                                                    ║
  * ╚══════════════════════════════════════════════════════════════════════════════╝
  */
@@ -447,25 +447,6 @@ $("#btn_ipv6").on("click", function () {
   switchIpVersion("IPv6");
 });
 
-function isRfc1918(ip) {
-  if (!ip || typeof ip !== "string") return false;
-  const parts = ip.trim().split(".");
-  if (parts.length !== 4) return false;
-  const octets = parts.map(Number);
-  if (octets.some((o) => isNaN(o) || o < 0 || o > 255)) return false;
-
-  // 10.0.0.0/8 (10.0.0.0 to 10.255.255.255)
-  if (octets[0] === 10) return true;
-
-  // 172.16.0.0/12 (172.16.0.0 to 172.31.255.255)
-  if (octets[0] === 172 && octets[1] >= 16 && octets[1] <= 31) return true;
-
-  // 192.168.0.0/16 (192.168.0.0 to 192.168.255.255)
-  if (octets[0] === 192 && octets[1] === 168) return true;
-
-  return false;
-}
-
 function getRfc1918Info(ip) {
   if (!ip || typeof ip !== "string") return null;
   const parts = ip.trim().split(".");
@@ -648,7 +629,7 @@ $("#color_palette button").on("keydown", function (e) {
 $("#calcbody").on(
   "click",
   ".row_address, .row_range, .row_usable, .row_hosts, .note, input",
-  function (event) {
+  function (_event) {
     if (inflightColor !== "NONE") {
       mutate_subnet_map("color", this.dataset.subnet, "", inflightColor);
       const tr = $(this).closest("tr");
@@ -1718,7 +1699,7 @@ function fromBase36(str) {
  * Coordinate System for Subnet Representation
  */
 function getNthSubnet(baseNetwork, specificSubnet) {
-  const [baseIp, baseMask] = baseNetwork.split("/");
+  const [baseIp, _baseMask] = baseNetwork.split("/");
   const [specificIp, specificMask] = specificSubnet.split("/");
 
   if (baseIp.includes(":")) {
@@ -2950,7 +2931,6 @@ const rgba2hex = (rgba) => {
 (function initTheme() {
   const root = document.documentElement;
   const toggle = document.getElementById("themeToggle");
-  const icon = document.getElementById("themeIcon");
 
   function updateIcon(t) {
     const icon = document.getElementById("themeIcon");
@@ -2973,25 +2953,13 @@ const rgba2hex = (rgba) => {
     }
   }
 
-  function getSystemTheme() {
-    try {
-      if (
-        window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches
-      ) {
-        return "dark";
-      }
-    } catch (e) {}
-    return "light";
-  }
-
   function updateThemeColor(t) {
     try {
       const meta = document.querySelector('meta[name="theme-color"]');
       if (meta) {
         meta.setAttribute("content", t === "dark" ? "#0f172a" : "#ffffff");
       }
-    } catch (e) {}
+    } catch (_e) {}
   }
 
   function applyTheme(t, persist) {
@@ -3004,7 +2972,7 @@ const rgba2hex = (rgba) => {
       try {
         localStorage.setItem("site-theme", t);
         localStorage.setItem("theme", t);
-      } catch (e) {}
+      } catch (_e) {}
     }
     updateIcon(t);
     updateThemeColor(t);
@@ -3015,7 +2983,7 @@ const rgba2hex = (rgba) => {
       const s =
         localStorage.getItem("site-theme") || localStorage.getItem("theme");
       if (s === "dark" || s === "light") return s;
-    } catch (e) {}
+    } catch (_e) {}
     return null;
   }
 
@@ -3034,87 +3002,211 @@ const rgba2hex = (rgba) => {
 })();
 
 /**
- * Dynamic Visitor Counter connected to counter.txt
- * Tracks visits dynamically and synchronizes with counter.txt baseline
+ * Dynamic Global Visitor Counter (v1.4.4)
+ * Synchronizes real-time global visitors via lightweight REST API with
+ * resilient multi-tier deduplication (15m cookie/session) and offline counter.txt fallback.
  */
 (function initVisitorCounter() {
   const counterVal = document.getElementById("visitor_count_val");
   const counterBtn = document.getElementById("visitor_counter_btn");
   if (!counterVal) return;
 
+  const BASE_FALLBACK_COUNT = 1248;
   const COOKIE_VISIT_15M = "vsc_visitor_15m_session";
-  const LOCAL_VISIT_OFFSET_KEY = "vsc_visitor_local_offset";
+  const SESSION_VISIT_KEY = "vsc_visitor_session_recorded";
+  const LOCAL_VISIT_TS_KEY = "vsc_visitor_last_visit_ts";
+  const LOCAL_CACHED_COUNT_KEY = "vsc_visitor_cached_total";
+  const LOCAL_OFFSET_KEY = "vsc_visitor_local_offset";
+  const API_KEY = "alsyundawy-visualsubnetcalc";
+  const API_BASE = "https://countapi.mileshilliard.com/api/v1";
+  const SESSION_TTL_MS = 15 * 60 * 1000; // 15 minutes deduplication window
 
-  let isNewVisit = false;
-  try {
-    if (typeof TemporaryCookieStore !== "undefined") {
-      const existingSession = TemporaryCookieStore.get(COOKIE_VISIT_15M);
-      if (!existingSession) {
-        TemporaryCookieStore.set(COOKIE_VISIT_15M, Date.now().toString(), 900); // 15 mins (RFC 6265)
-        isNewVisit = true;
+  // Format count with standard numeral grouping
+  function formatCount(num) {
+    const validNum = Number(num);
+    return isNaN(validNum) ? String(num) : validNum.toLocaleString("en-US");
+  }
+
+  // Multi-tier Session Deduplication Check (Cookie, SessionStorage, LocalStorage TS)
+  function checkIsNewVisit() {
+    try {
+      // Tier 1: Check 15-minute cookie
+      if (typeof TemporaryCookieStore !== "undefined") {
+        const cookieSession = TemporaryCookieStore.get(COOKIE_VISIT_15M);
+        if (cookieSession) return false;
       }
-    } else {
-      if (!sessionStorage.getItem("vsc_visitor_session_recorded")) {
-        sessionStorage.setItem("vsc_visitor_session_recorded", "1");
-        isNewVisit = true;
+
+      // Tier 2: Check sessionStorage
+      if (sessionStorage.getItem(SESSION_VISIT_KEY)) {
+        return false;
       }
+
+      // Tier 3: Check timestamp in localStorage
+      const lastVisitTs = parseInt(
+        localStorage.getItem(LOCAL_VISIT_TS_KEY) || "0",
+        10,
+      );
+      if (!isNaN(lastVisitTs) && lastVisitTs > 0) {
+        if (Date.now() - lastVisitTs < SESSION_TTL_MS) {
+          return false;
+        }
+      }
+    } catch (_e) {
+      // In restricted storage environments, fallback safely
     }
-  } catch (e) {}
+    return true;
+  }
 
-  let localOffset = 0;
+  // Mark session across all available storage tiers
+  function markSessionRecorded() {
+    const nowStr = Date.now().toString();
+    try {
+      if (typeof TemporaryCookieStore !== "undefined") {
+        TemporaryCookieStore.set(COOKIE_VISIT_15M, nowStr, 900); // 15 mins (RFC 6265)
+      }
+    } catch (_e) {}
+
+    try {
+      sessionStorage.setItem(SESSION_VISIT_KEY, "1");
+    } catch (_e) {}
+
+    try {
+      localStorage.setItem(LOCAL_VISIT_TS_KEY, nowStr);
+    } catch (_e) {}
+  }
+
+  // Immediate UI Hydration from local cache to prevent layout shift
+  let cachedTotal = 0;
   try {
-    localOffset = parseInt(
-      localStorage.getItem(LOCAL_VISIT_OFFSET_KEY) || "0",
+    cachedTotal = parseInt(
+      localStorage.getItem(LOCAL_CACHED_COUNT_KEY) || "0",
       10,
     );
-    if (isNaN(localOffset)) localOffset = 0;
-    if (isNewVisit) {
-      localOffset += 1;
-      localStorage.setItem(LOCAL_VISIT_OFFSET_KEY, localOffset.toString());
+    if (!isNaN(cachedTotal) && cachedTotal >= BASE_FALLBACK_COUNT) {
+      counterVal.textContent = formatCount(cachedTotal);
     }
-  } catch (e) {}
+  } catch (_e) {}
 
-  function formatCount(num) {
-    return Number(num).toLocaleString("en-US");
+  let isNewVisit = checkIsNewVisit();
+  if (isNewVisit) {
+    markSessionRecorded();
   }
 
-  function fetchCounter() {
-    fetch("counter.txt?t=" + Date.now())
-      .then(function (res) {
-        if (!res.ok) throw new Error("counter.txt unavailable");
-        return res.text();
-      })
-      .then(function (text) {
-        const fileCount = parseInt(text.trim(), 10);
-        if (!isNaN(fileCount)) {
-          const total = fileCount + localOffset;
-          counterVal.textContent = formatCount(total);
-          // If server supports POST to counter.txt, update it
-          if (isNewVisit) {
-            try {
-              fetch("counter.txt", {
-                method: "POST",
-                headers: { "Content-Type": "text/plain" },
-                body: total.toString(),
-              }).catch(function () {});
-            } catch (e) {}
-          }
-        } else {
-          counterVal.textContent = formatCount(1248 + localOffset);
+  // Helper: Fetch baseline from counter.txt with safe path resolution and cache busting
+  function fetchBaseline() {
+    return new Promise(function (resolve) {
+      try {
+        let counterPath = "counter.txt";
+        if (window.location && window.location.href) {
+          counterPath = new URL("counter.txt", window.location.href).href;
         }
-      })
-      .catch(function () {
-        counterVal.textContent = formatCount(1248 + localOffset);
-      });
+        fetch(counterPath + "?t=" + Date.now())
+          .then(function (res) {
+            if (!res.ok) throw new Error("counter.txt unavailable");
+            return res.text();
+          })
+          .then(function (txt) {
+            const parsed = parseInt(String(txt).trim(), 10);
+            resolve(isNaN(parsed) ? BASE_FALLBACK_COUNT : parsed);
+          })
+          .catch(function () {
+            resolve(BASE_FALLBACK_COUNT);
+          });
+      } catch (_err) {
+        resolve(BASE_FALLBACK_COUNT);
+      }
+    });
   }
 
-  fetchCounter();
+  // Helper: Fetch from Global Counter API with timeout guard
+  function fetchGlobalCount(action) {
+    return new Promise(function (resolve, reject) {
+      const endpoint = `${API_BASE}/${action}/${API_KEY}`;
+      const timeoutId = setTimeout(function () {
+        reject(new Error("Global Counter API timeout"));
+      }, 4000);
+
+      fetch(endpoint)
+        .then(function (res) {
+          clearTimeout(timeoutId);
+          if (!res.ok) throw new Error("HTTP error " + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          if (data && typeof data.value === "number") {
+            resolve(data.value);
+          } else {
+            // New key on get returns error or 0
+            resolve(0);
+          }
+        })
+        .catch(function (err) {
+          clearTimeout(timeoutId);
+          reject(err);
+        });
+    });
+  }
+
+  // Main synchronization routine
+  function syncCounter(isManualRefresh) {
+    fetchBaseline().then(function (baseline) {
+      // Determine API action: 'hit' for new visit, 'get' for repeat visits/manual refresh
+      const action = isNewVisit && !isManualRefresh ? "hit" : "get";
+
+      fetchGlobalCount(action)
+        .then(function (remoteCount) {
+          const total = baseline + Math.max(0, remoteCount);
+          counterVal.textContent = formatCount(total);
+          try {
+            localStorage.setItem(LOCAL_CACHED_COUNT_KEY, total.toString());
+          } catch (_e) {}
+          if (counterBtn) {
+            counterBtn.setAttribute(
+              "title",
+              `Visitor Counter (Live Global Sync: ${formatCount(total)})`,
+            );
+          }
+          // Once incremented, subsequent syncs in this lifecycle should read (get)
+          isNewVisit = false;
+        })
+        .catch(function () {
+          // Offline / AdBlock / Network Failure Fallback
+          let localOffset = 0;
+          try {
+            localOffset = parseInt(
+              localStorage.getItem(LOCAL_OFFSET_KEY) || "0",
+              10,
+            );
+            if (isNaN(localOffset)) localOffset = 0;
+            if (isNewVisit && !isManualRefresh) {
+              localOffset += 1;
+              localStorage.setItem(LOCAL_OFFSET_KEY, localOffset.toString());
+            }
+          } catch (_e) {}
+
+          let fallbackTotal = baseline + localOffset;
+          if (cachedTotal && cachedTotal > fallbackTotal) {
+            fallbackTotal = cachedTotal;
+          }
+          counterVal.textContent = formatCount(fallbackTotal);
+          if (counterBtn) {
+            counterBtn.setAttribute(
+              "title",
+              `Visitor Counter (Offline Cache: ${formatCount(fallbackTotal)})`,
+            );
+          }
+        });
+    });
+  }
+
+  // Initialize sync
+  syncCounter(false);
 
   if (counterBtn) {
     counterBtn.addEventListener("click", function () {
       const icon = counterBtn.querySelector("i");
       if (icon) icon.classList.add("fa-spin");
-      fetchCounter();
+      syncCounter(true);
       setTimeout(function () {
         if (icon) icon.classList.remove("fa-spin");
       }, 600);
@@ -3155,7 +3247,7 @@ function initBackToTop() {
         top: 0,
         behavior: "smooth",
       });
-    } catch (err) {
+    } catch (_err) {
       window.scrollTo(0, 0);
     }
   });

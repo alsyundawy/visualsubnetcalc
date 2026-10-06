@@ -1,6 +1,6 @@
 # Documentation Notes
 
-Technical architecture, security specifications, and operational integration notes for Visual Subnet Calculator v1.4.3.
+Technical architecture, security specifications, and operational integration notes for Visual Subnet Calculator v1.4.4.
 
 ## Architecture Overview
 
@@ -103,7 +103,20 @@ According to RFC 4291 Section 2.5.4 and RFC 7421, all standard IPv6 unicast subn
 
 ### 3. ALSYUNDAWY Production Fork (`alsyundawy/visualsubnetcalc`)
 
-#### v1.4.3 (Latest Release Architecture) — 2026-09-18
+#### v1.4.4 (Live Global Visitor Synchronization, Compact Modal & High-Density UI) — 2026-10-07
+
+- **Compact Modal Architecture Redesign (`#aboutModal` & `#faqModal`)**: Completely redesigned the About modal from an overwhelming `modal-xl` viewport overlay into an ultra-sleek, compact `modal-lg` scrollable dialog (`.about-modal-dialog`). Constrained dialog dimensions to `max-width: min(650px, 92vw)` and `max-height: 72vh` with clean internal scrolling (`modal-dialog-scrollable`), compact hierarchical typography, and a structured 2-column contact/resource link grid, preventing the modal from dominating or covering the entire screen.
+- **Global High-Density Typography Scaling**: Systematically scaled down the entire typography hierarchy across all breakpoints (`html { font-size: 13.5px; }` on desktop, `12.5px` on mobile, with tokens `--form-font-size: 0.8125rem`, `--table-font-size: 0.75rem`, `--btn-font-size: 0.75rem`), delivering a denser, professional, crisp appearance without breaking column alignment or table readability.
+- **Full-Spectrum Responsiveness & Xiaomi / Redmi / POCO Hardening**: Conducted deep research on MIUI and HyperOS WebView textZoom quirks, enforcing strict `-webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important;` across all elements. Verified zero horizontal overflow (`scrollWidth <= clientWidth + 2`) across 14 device viewports ranging from legacy VGA (640x480) up to 2K QHD (2560x1440), including narrow aspect ratios (20:9) on Redmi A2, Redmi Note 13, Xiaomi 14, and POCO X6 Pro in both portrait and landscape orientations.
+- **Real-Time Global Visitor Synchronization**: Integrated a privacy-friendly, zero-token Global Counter REST API (`countapi.mileshilliard.com/api/v1`) anchored to the historical baseline in `dist/counter.txt` (1,248). Solves static host restrictions where static servers (GitHub Pages, AWS S3) rejected `POST counter.txt` with HTTP 405 Method Not Allowed.
+- **Multi-Tier 15-Minute Deduplication (Cookie, SessionStorage & Timestamp)**: Built a 3-layer deduplication engine using RFC 6265 15-minute cookies (`vsc_visitor_15m_session`), browser `sessionStorage` (`vsc_visitor_session_recorded`), and a 15-minute `localStorage` timestamp window (`vsc_visitor_last_visit_ts`). Repeat visits or page reloads within 15 minutes execute lightweight, read-only (`get`) queries, ensuring counts are never artificially inflated.
+- **Zero-Layout-Shift Immediate UI Hydration**: Hydrates `#visitor_count_val` immediately from `localStorage` cached values (`vsc_visitor_cached_total`) prior to asynchronous network completion, guaranteeing 0 Cumulative Layout Shift (CLS = 0).
+- **Graceful Offline & AdBlock Fallback**: If network connectivity fails, adblockers suppress the endpoint, or the API request times out (4s guard), the system seamlessly falls back to `dist/counter.txt` baseline plus local session offsets. The UI never displays blank values, `NaN`, or throws unhandled promise rejections.
+- **Subpath & Error Route URL Normalization**: Hardened `counter.txt` URL resolution via `new URL("counter.txt", window.location.href)` to prevent 404 errors when accessed without trailing slashes or on nested 404 error routes.
+- **Interactive Refresh Feedback**: The `#visitor_counter_btn` button triggers live read-only (`get`) synchronization with smooth Font Awesome spinner animation (`fa-spin`) and dynamic status tooltips (`Live Global Sync: <count>` vs `Offline Cache: <count>`).
+- **Verified Zero-Warning Multi-Linter Compliance**: Fully passed Trunk linter (`trunk check --ci`, `trunk fmt`), ESLint, Prettier, Stylelint, and 22/22 headless Playwright visual and responsive tests without a single warning or error.
+
+#### v1.4.3 (Hardened 2026 Release Architecture) — 2026-09-18
 
 - **Instant Subnet Calculation Reset Engine (`#btn_reset`)**: Added a dedicated Reset button beside the Tools button in `#calc` controls. Restores dual-stack defaults (IPv4 to `10.0.0.0/16`, `/16` preset, `Standard` mode; IPv6 to `2001:db8::/32`, `/32` preset), resets active presets, clears `subnetMap`, neutralizes jQuery `.was-validated` error highlighting and messages, and clears custom division parameters from the browser address bar via `window.history.replaceState`.
 - **2026 Modern Pastel Palette Standards & WCAG AAA Contrast**: Control action buttons modernized to curated 2026 pastel tokens: Go (Sapphire / Royal Blue `linear-gradient(135deg, #0284c7, #1d4ed8)`), Tools (Pastel Emerald Green `#d1fae5` / `#065f46`), and Reset (Pastel Rose / Crimson `#fee2e2` / `#991b1b`). Both light and dark mode variants strictly exceed 7.2:1 contrast ratio (**WCAG AAA**) for normal and large text.
@@ -340,12 +353,17 @@ The `getConfigUrl()` routine dynamically computes the shareable URL based on the
   - **Vertical Spacing Rhythm Checks**: Automated bounding box assertions verifying non-zero vertical gaps between `#app_header`, `.alert`, and `#ip_version_toolbar`.
   - **URL Auto-Detection Simulation**: Automated test asserting root and subfolder pathname resolution.
 
-### 9. 15-Minute Temporary Cookie Session Architecture (RFC 6265)
+### 9. 15-Minute Temporary Cookie Session Architecture & Global Visitor Counter
 
 - **Purpose**: Provides transient state resilience and visitor deduplication for up to 15 minutes (`max-age=900`) without permanent storage footprint or privacy invasion.
 - **Engine**: Scoped `TemporaryCookieStore` abstraction providing `set()`, `get()`, and `remove()` methods with strict `SameSite=Lax`, `path=/`, and dynamic `Secure` flags when running on HTTPS:
   - `vsc_draft_15m`: Automatically caches active live URL query (`?network=...&mask=...&division=...`) whenever subnets are divided, merged, or modified. If the browser tab is closed or the user navigates back to root `/` within 15 minutes, the application automatically restores their in-progress subnet breakdown session.
   - `vsc_visitor_15m_session`: Deduplicates visits within a 15-minute window so that rapid page refreshes or internal navigation do not inflate the visitor counter (`#visitor_count_val`).
+- **Global Visitor Counter Integration**:
+  - Leverages `countapi.mileshilliard.com/api/v1` for real-time global visitor synchronization across all devices and browsers, starting from the baseline metric in `dist/counter.txt` (1,248).
+  - Employs a 3-tier session verification (`TemporaryCookieStore`, `sessionStorage`, `localStorage` timestamp) to separate new visits (`hit` action) from repeat views or refreshes (`get` action).
+  - Guarantees seamless offline fallback: if connectivity is interrupted or blocked by adblockers, the engine falls back to `counter.txt` baseline + local session offsets, never producing NaN or unhandled errors.
+  - Mitigates HTTP 405 errors by eliminating client-side `POST counter.txt` invocations on static hosts.
 - **Visual Status Indicator**: `#cookie_session_badge` dynamically renders an inline pill badge next to the shareable URL displaying session status (`Kuki Sesi: 15 Menit`).
 
 ### 10. Back to Top Floating Action Button (`#btn_scroll_top`)

@@ -7,6 +7,26 @@ Seluruh perubahan penting pada proyek Visual Subnet Calculator akan didokumentas
 Format pencatatan mengacu pada [`Keep a Changelog`](https://keepachangelog.com/en/1.1.0/),
 dan proyek ini mematuhi standar [`Semantic Versioning`](https://semver.org/spec/v2.0.0.html).
 
+## [1.4.4] - 2026-10-07
+
+### Ditambahkan
+
+- Desain Ulang Arsitektur Modal Kompak (`#aboutModal` & `#faqModal`): Mendesain ulang secara menyeluruh modal Tentang (About) dari dialog `modal-xl` yang mendominasi seluruh layar menjadi dialog `modal-lg` berukuran ringkas (`.about-modal-dialog`). Membatasi dimensi dialog secara ketat pada `max-width: min(650px, 92vw)` dan `max-height: 72vh` dengan pengguliran internal yang mulus (`modal-dialog-scrollable`), tipografi berjenjang yang rapi, serta kisi 2 kolom tautan narahubung/sumber daya, menjamin dialog tidak lagi menutupi seluruh layar.
+- Penskalaan Tipografi Presisi Global: Memperkecil hierarki tipografi secara sistematis dan proporsional di seluruh breakpoint (`html { font-size: 13.5px; }` pada desktop, `12.5px` pada ponsel, dengan token `--form-font-size: 0.8125rem`, `--table-font-size: 0.75rem`, `--btn-font-size: 0.75rem`), menghadirkan tampilan antarmuka yang lebih padat, profesional, dan tajam tanpa merusak perataan kolom maupun keterbacaan tabel subnet.
+- Ketahanan Responsif Total & Pengerasan Xiaomi / Redmi / POCO: Riset mendalam karakteristik render WebView MIUI dan HyperOS terkait anomali perbesaran font sistem (textZoom), menerapkan aturan ketat `-webkit-text-size-adjust: 100% !important; text-size-adjust: 100% !important;` pada seluruh elemen. Terbukti 100% bebas pemotongan horizontal (`scrollWidth <= clientWidth + 2`) pada 14 viewport perangkat dari VGA kuno (640x480) hingga monitor 2K QHD (2560x1440), termasuk rasio sempit (20:9) pada Redmi A2, Redmi Note 13, Xiaomi 14, dan POCO X6 Pro pada orientasi potret maupun lanskap.
+- Sinkronisasi Counter Pengunjung Global Real-Time: Mengintegrasikan REST API Global Counter yang ramah privasi dan tanpa token dengan baseline `dist/counter.txt` (1.248) untuk menyelaraskan jumlah pengunjung nyata secara dinamis di seluruh perangkat dan peramban di seluruh dunia.
+- Mesin Deduplikasi 3 Lapis 15 Menit: Menerapkan sistem deduplikasi kunjungan 3 lapis (kuki RFC 6265 15 menit via `TemporaryCookieStore`, `sessionStorage`, dan jendela timestamp `localStorage`) sehingga refresh halaman dalam jendela 15 menit hanya melakukan kueri baca (`get`) tanpa menggelembungkan angka kunjungan.
+- Arsitektur Fallback Tangguh (Offline & AdBlock): Mengembangkan sistem fallback otomatis ke baseline `dist/counter.txt` ditambah offset lokal saat perangkat offline atau terblokir ekstensi adblock, menjamin zero layout shift, bebas nilai NaN, dan tanpa unhandled rejection.
+- Tooltip Status Kontekstual Dinamis: Memperbarui tombol `#visitor_counter_btn` dengan indikator status live (`Live Global Sync: <angka>` atau `Offline Cache: <angka>`).
+
+### Diperbaiki
+
+- Remediasi Error Konsol HTTP 405 Method Not Allowed: Menghapus panggilan request `POST counter.txt` yang tidak valid pada hosting statis (GitHub Pages & AWS S3), mengembalikan konsol peramban menjadi bersih (0 error).
+- Perbaikan Resolusi Jalur Subpath & Halaman 404: Memperkuat resolusi URL `counter.txt` menggunakan `new URL("counter.txt", window.location.href)` guna mencegah error 404 saat situs diakses tanpa trailing slash atau dari rute bersarang.
+- Penanganan Inflasi Angka Kunjungan Berlebih: Mengatasi akumulasi offset lokal yang bertambah tak terbatas pada kunjungan berulang serta menyediakan penyegaran manual interaktif dengan animasi putar Font Awesome (`fa-spin`).
+- Mengatasi Masalah Modal Memenuhi Layar Penuh pada Tablet & Laptop: Membatasi tinggi maksimal `#aboutModal` hingga `72vh` dengan bilah scroll khusus, mengeliminasi fenomena modal menutupi seluruh layar kerja.
+- Kepatuhan Multi-Linter Bebas Peringatan: Lolos 100% pemeriksaan linter Trunk (`trunk check --ci`, `trunk fmt`), ESLint, Prettier, Stylelint, serta 22/22 pengujian otomatis headless Playwright visual dan responsif tanpa satu pun galat atau peringatan.
+
 ## [1.4.3] - 2026-09-18
 
 ### Ditambahkan

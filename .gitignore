@@ -13,3 +13,7 @@ tests/
 src/tests/
 src/bin/
 src/lib/
+.env
+.vscode/devtool_config.json
+.vscode/launch.json
+.vscode/op_devtools/

@@ -1,6 +1,13 @@
 {
   "name": "Visual Subnet Calculator",
   "short_name": "SubnetCalc",
+  "description": "Visual dual-stack IPv4 & IPv6 subnet calculator, CIDR planner, and multi-cloud IP reservation tool.",
+  "categories": [
+    "utilities",
+    "networking",
+    "productivity",
+    "developer tools"
+  ],
   "icons": [
     {
       "src": "android-chrome-192x192.png",

@@ -401,21 +401,21 @@ Resources:
         function handler(event) {
           var request = event.request;
           var headers = request.headers;
-          
+
           // Retrieve the Host header value.
           var hostHeader = headers.host ? headers.host.value : "";
-          
+
           // Check if the host starts with "www."
           if (hostHeader.startsWith("www.")) {
             // Remove the "www." prefix
             var newHost = hostHeader.slice(4);
-            
+
             // Construct the new URL preserving the URI and query string (if any)
             var redirectUrl = "https://" + newHost + request.uri;
             if (request.querystring && request.querystring.length > 0) {
               redirectUrl += "?" + request.querystring;
             }
-            
+
             // Return a 301 redirect response
             return {
               statusCode: 301,
@@ -426,7 +426,7 @@ Resources:
               }
             };
           }
-          
+
           // If no redirection is required, continue processing the request as normal.
           return request;
         }

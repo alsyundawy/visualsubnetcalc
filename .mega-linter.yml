@@ -28,11 +28,14 @@ ENABLE_LINTERS:
   - MARKDOWN_MARKDOWNLINT
   - HTML_HTMLHINT
   - CSS_STYLELINT
-  - JAVASCRIPT_ESLINT
+  - JAVASCRIPT_ES
   - JAVASCRIPT_STANDARD
-  - TYPESCRIPT_ESLINT
+  - TYPESCRIPT_ES
   - TYPESCRIPT_STANDARD
 
 # Non-blocking reporting for standard.js while ESLint enforces strict syntax & correctness
 JAVASCRIPT_STANDARD_DISABLE_ERRORS: true
 TYPESCRIPT_STANDARD_DISABLE_ERRORS: true
+
+# CloudFormation templates use AWS intrinsic tags (!Ref, !Sub, etc.) which are not standard JSON schemas
+YAML_V8R_FILTER_REGEX_EXCLUDE: (src/cloudformation.yaml)
